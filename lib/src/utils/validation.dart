@@ -36,7 +36,7 @@ class SignUpWithPhoneNumberValidation extends LoginValidation {
   @override
   bool hasError() {
 
-      return phoneNumberError != null || passwordError != null || passwordError != null;
+      return phoneNumberError != null || passwordError != null || fullNameError != null;
 
   }
 }

@@ -4,6 +4,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:restaurant_rlutter_ui/config/app_config.dart' as config;
 import 'package:restaurant_rlutter_ui/src/elements/BlockButtonWidget.dart';
+import 'package:restaurant_rlutter_ui/src/elements/common/loading.dart';
 import 'package:restaurant_rlutter_ui/src/features/Auth/login/bloc/login_bloc.dart';
 import 'package:restaurant_rlutter_ui/src/features/Auth/login/bloc/login_event.dart';
 import 'package:restaurant_rlutter_ui/src/features/Auth/login/bloc/login_state.dart';
@@ -195,32 +196,7 @@ class InputError extends StatelessWidget {
   }
 }
 
-class LoadingIndicator extends StatelessWidget {
-  final String loadingText;
 
-  LoadingIndicator({@required this.loadingText});
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        CircularProgressIndicator(),
-        Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Text(
-            this.loadingText,
-            style: Theme.of(context)
-                .textTheme
-                .bodyText1
-                .merge(TextStyle(color: Theme.of(context).accentColor)),
-          ),
-        ),
-      ],
-    );
-  }
-}
 
 class LoginWidget extends StatefulWidget {
   @override

@@ -4,9 +4,15 @@ import 'package:restaurant_rlutter_ui/config/app_config.dart' as config;
 import 'package:restaurant_rlutter_ui/route_generator.dart';
 import 'package:restaurant_rlutter_ui/src/utils/navigation.dart';
 
-void main() => runApp(MyApp());
+void main(){
+  //TODO get boolean from shared prefs and check if its first
+  runApp(DmaklaApp());
+}
 
-class MyApp extends StatelessWidget {
+class DmaklaApp extends StatelessWidget {
+
+  DmaklaApp();
+
   final GlobalKey<NavigatorState> _navigatorKey = GlobalKey();
   // This widget is the root of your application.
   @override
