@@ -1,6 +1,7 @@
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_rlutter_ui/config/app_config.dart' as config;
+import 'package:restaurant_rlutter_ui/src/core/constants/wilaya.dart';
 import 'package:restaurant_rlutter_ui/src/elements/BlockButtonWidget.dart';
 
 class SignUpWidget extends StatefulWidget {
@@ -40,7 +41,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
   }
   void _resetValues(){
     showPassword = false;
-    _selectedWilaya ='Alger';
+    _selectedWilaya =DEFAULT_WILAYA_DROPDOWN;
     _userFullName = '';
     _selectedCountryCode = '';
     _mobileNumber = '';
@@ -85,7 +86,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                 ),
               ),
               Positioned(
-                top: config.App(context).appHeight(29.5) - 50,
+                top: config.App(context).appHeight(29.5) - 80,
                 child: Container(
                   decoration: BoxDecoration(
                       color: Theme.of(context).primaryColor,
@@ -156,7 +157,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                             _selectedWilaya = newValue;
                           });
                         },
-                        items: <String>['Alger', 'Tizi', 'Bejaia', 'Adrar']
+                        items: WILAYAS_STRINGS
                             .map<DropdownMenuItem<String>>((String value) {
                           return DropdownMenuItem<String>(
                             value: value,
@@ -228,28 +229,26 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                       SizedBox(height: 30),
                       BlockButtonWidget(
                         text: Text(
-                          'Register',
+                          'Sign up',
                           style: TextStyle(color: Theme.of(context).primaryColor),
                         ),
                         color: Theme.of(context).accentColor,
                         onPressed: dispatchSignup,
                       ),
-                      SizedBox(height: 25),
+                      SizedBox(height: 10),
+                      FlatButton(
+                        onPressed: () {
+                          if(Navigator.canPop(context)) Navigator.of(context).pop();
+                          else Navigator.of(context).pushNamed('/Login');
+                        },
+                        textColor: Theme.of(context).hintColor,
+                        child: Text('I have account? Back to login'),
+                      ),
                     ],
                   ),
                 ),
               ),
-              Positioned(
-                bottom: 10,
-                child: FlatButton(
-                  onPressed: () {
-                    if(Navigator.canPop(context)) Navigator.of(context).pop();
-                    else Navigator.of(context).pushNamed('/Login');
-                  },
-                  textColor: Theme.of(context).hintColor,
-                  child: Text('I have account? Back to login'),
-                ),
-              )
+
             ],
           ),
         ),

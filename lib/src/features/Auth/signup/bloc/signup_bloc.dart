@@ -1,9 +1,8 @@
 import 'package:bloc/bloc.dart';
-import 'package:d_makla/core/errors/exceptions.dart';
-import 'package:d_makla/core/utils/validation.dart';
-import 'package:d_makla/features/signup/domain/usecases/signup_with_phone_usecase.dart';
-import 'package:d_makla/features/signup/presentation/bloc/signup_event.dart';
-import 'package:d_makla/features/signup/presentation/bloc/signup_state.dart';
+import 'package:restaurant_rlutter_ui/src/features/Auth/signup/bloc/signup_event.dart';
+import 'package:restaurant_rlutter_ui/src/features/Auth/signup/bloc/signup_state.dart';
+import 'package:restaurant_rlutter_ui/src/features/Auth/signup/domain/signup.dart';
+import 'package:restaurant_rlutter_ui/src/utils/validation.dart';
 
 class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
   SignUpBloc() : super(IdleState());
@@ -25,15 +24,16 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
       yield SigningUpState();
 
       try {
-        var value = await (SignUpWithPhoneUseCase())(SignupParams(
-            phoneNumber: event.phoneNumber,
-            password: event.password,
-            countryCode: event.countryCode,
-            wilaya: event.wilaya,
-            fullName: event.fullName));
-        if (value.isLeft()) {
+        bool value = await (SignUpManager()).signUpUserWithPhoneNumber(
+          phoneNumber: event.phoneNumber,
+          password: event.password,
+          fullName: event.fullName,
+          countryCode: event.countryCode,
+          wilaya: event.wilaya
+        );
+        if (!value) {
           print('error in signup');
-          throw ServerException();
+          throw Exception('Could not SignUp');
         }
         print('signed in');
         yield SignedUpState();

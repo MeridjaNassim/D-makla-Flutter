@@ -1,8 +1,8 @@
-class LoginManager {
+class SignUpManager {
 
-  LoginManager();
+  SignUpManager();
 
-  Future<bool> loginUserWithPhoneNumber(String phoneNumber, String password) async{
+  Future<bool> signUpUserWithPhoneNumber({String phoneNumber, String password,String fullName,String countryCode,String wilaya}) async{
     return Future.delayed(Duration(seconds: 3), ()=>true);
   }
 
