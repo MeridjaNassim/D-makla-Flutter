@@ -1,7 +1,9 @@
 import 'package:bloc/bloc.dart';
 import 'package:restaurant_rlutter_ui/src/features/Auth/login/domain/login.dart';
+import 'package:restaurant_rlutter_ui/src/utils/conversion.dart';
 import 'package:restaurant_rlutter_ui/src/utils/validation.dart';
 
+import '../../auth.dart';
 import 'login_event.dart';
 import 'login_state.dart';
 
@@ -21,18 +23,21 @@ class LoginBloc extends Bloc<LoginEvent,LoginState>{
       yield LoggingInState();
       print('logging in ....');
       try{
-        bool value = await (LoginManager()).loginUserWithPhoneNumber(event.phoneNumber,event.password);
-        if(!value) {
+        //TODO add better error handling
+        
+        User user = await (LoginManager()).loginUserWithPhoneNumber(formatPhoneNumberToLocal(event.phoneNumber),event.password);
+        if(user == null) {
           print('error in loggin');
           throw Exception('Cannot log in... try later');
         }
-        //TODO: store user data in the shared prefs local storage
-        /// TODO: pass user data to loggedin state
-        yield LoggedInState();
+        await AuthManager().setCurrentUser(user);
+        User _user = await AuthManager().getCurrentLoggedUser();
+        print("user persisted : " + _user.toString());
+        yield LoggedInState(user: user);
         print('logged in');
         return;
       }catch(e){
-        yield LoginServerErrorState(message: 'Could not log you in');
+        yield LoginServerErrorState(message: e.message);
         return;
       }
     }

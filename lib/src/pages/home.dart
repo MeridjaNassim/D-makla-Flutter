@@ -5,8 +5,52 @@ import 'package:restaurant_rlutter_ui/src/elements/FoodsCarouselWidget.dart';
 import 'package:restaurant_rlutter_ui/src/elements/GridWidget.dart';
 import 'package:restaurant_rlutter_ui/src/elements/ReviewsListWidget.dart';
 import 'package:restaurant_rlutter_ui/src/elements/SearchBarWidget.dart';
+import 'package:http/http.dart' as http;
+import "dart:convert";
 
-class HomeWidget extends StatelessWidget {
+import 'package:restaurant_rlutter_ui/src/features/Auth/auth.dart';
+
+/// Get all data of HomeScreen
+Future<Map<String,dynamic>> getHomeData({String userId, String cityId}) async {
+  final String repository_url = "https://www.d-makla.com/nassim_api/AppAndroid_all_apiBis.php?app_home_list";
+  final formData = {
+    "user_id" : userId,
+    "city_id"  : cityId
+  };
+
+  final http.Response response = await http.post(repository_url,body: formData);
+  final jsonData = json.decode(response.body)["APP_HOME_LIST"];
+  final Map<String,dynamic> data = {
+    "Search" : jsonData[0],
+    "Trending" : jsonData[1],
+    "Restaurant" : jsonData[2],
+    "Category" : jsonData[3],
+  };
+  return data;
+}
+
+class HomeWidget extends StatefulWidget {
+
+  @override
+  _HomeWidgetState createState() => _HomeWidgetState();
+}
+
+
+
+class _HomeWidgetState extends State<HomeWidget> {
+  Map<String,dynamic> homeData;
+  @override
+  void initState() {
+    super.initState();
+    getHomeDataAsync();
+  }
+  Future<void> getHomeDataAsync() async {
+    User user = await AuthManager().getCurrentLoggedUser();
+    final data = await getHomeData(userId: user.id,cityId: user.city_id ?? "15");
+    setState(() {
+      homeData = data;
+    });
+  }
   @override
   Widget build(BuildContext context) {
     // TODO: implement build

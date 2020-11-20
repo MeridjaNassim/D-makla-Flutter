@@ -1,5 +1,7 @@
 import 'package:equatable/equatable.dart';
 
+import '../../auth.dart';
+
 abstract class SignUpState extends Equatable{
 
 }
@@ -19,6 +21,9 @@ class SigningUpState extends SignUpState{
   }
 }
 class SignedUpState extends SignUpState{
+  final User user;
+
+  SignedUpState({this.user});
 
   @override
   List<Object> get props {

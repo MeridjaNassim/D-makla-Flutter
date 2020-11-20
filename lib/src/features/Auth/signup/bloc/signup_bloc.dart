@@ -2,7 +2,10 @@ import 'package:bloc/bloc.dart';
 import 'package:restaurant_rlutter_ui/src/features/Auth/signup/bloc/signup_event.dart';
 import 'package:restaurant_rlutter_ui/src/features/Auth/signup/bloc/signup_state.dart';
 import 'package:restaurant_rlutter_ui/src/features/Auth/signup/domain/signup.dart';
+import 'package:restaurant_rlutter_ui/src/utils/conversion.dart';
 import 'package:restaurant_rlutter_ui/src/utils/validation.dart';
+
+import '../../auth.dart';
 
 class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
   SignUpBloc() : super(IdleState());
@@ -24,22 +27,28 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
       yield SigningUpState();
 
       try {
-        bool value = await (SignUpManager()).signUpUserWithPhoneNumber(
-          phoneNumber: event.phoneNumber,
+        String wilayaCode = convertWilayaStringToCode(event.wilaya);
+        String formatedPhoneNumber = formatPhoneNumberToLocal(event.phoneNumber);
+        User user = await (SignUpManager()).signUpUserWithPhoneNumber(
+          phoneNumber: formatedPhoneNumber,
           password: event.password,
           fullName: event.fullName,
           countryCode: event.countryCode,
-          wilaya: event.wilaya
+          wilayaCode: wilayaCode
         );
-        if (!value) {
+        if (user == null) {
           print('error in signup');
-          throw Exception('Could not SignUp');
+          throw Exception('Could not sign you up... try again');
         }
         print('signed in');
-        yield SignedUpState();
+        //TODO: store user data in the local storage
+        await AuthManager().setCurrentUser(user);
+
+        yield SignedUpState(user: user);
         return;
-      } catch (e) {
-        yield SignUpServerErrorState(message: 'Could not sign you up');
+      } catch(e) {
+        print("error : " + e.message);
+        yield SignUpServerErrorState(message: e.message);
         return;
       }
     }

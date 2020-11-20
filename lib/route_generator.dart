@@ -15,6 +15,7 @@ import 'package:restaurant_rlutter_ui/src/pages/mobile_verification.dart';
 import 'package:restaurant_rlutter_ui/src/pages/mobile_verification_2.dart';
 import 'package:restaurant_rlutter_ui/src/pages/pages.dart';
 import 'package:restaurant_rlutter_ui/src/pages/signup.dart';
+import 'package:restaurant_rlutter_ui/src/pages/splash.dart';
 import 'package:restaurant_rlutter_ui/src/pages/tracking.dart';
 import 'package:restaurant_rlutter_ui/src/pages/walkthrough.dart';
 
@@ -26,6 +27,8 @@ class RouteGenerator {
     switch (settings.name) {
       case '/':
         return MaterialPageRoute(builder: (_) => Walkthrough());
+      case "/Splash":
+        return MaterialPageRoute(builder: (_) => SplashScreen());
       case '/Login':
         return MaterialPageRoute(builder: (_) => LoginWidget());
       case '/SignUp':

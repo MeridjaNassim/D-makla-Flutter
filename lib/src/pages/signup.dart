@@ -1,5 +1,6 @@
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:restaurant_rlutter_ui/config/app_config.dart' as config;
 import 'package:restaurant_rlutter_ui/src/core/constants/wilaya.dart';
@@ -48,10 +49,60 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                     if(state is SigningUpState) {
                       return Center(child: LoadingIndicator(loadingText: "Signing you up"));
                     }
+                    if(state is SignUpServerErrorState)
+                      return Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              state.message,
+                              style: Theme.of(context).textTheme.bodyText1.merge(
+                                  TextStyle(color: Theme.of(context).accentColor)),
+                            ),
+                            Container(
+                              margin: const EdgeInsets.only(top: 16),
+                              child: BlockButtonWidget(
+                                text: Text(
+                                  'Try again',
+                                  style: TextStyle(color: Theme.of(context).primaryColor),
+                                ),
+                                color: Theme.of(context).accentColor,
+                                onPressed: (){
+                                  BlocProvider.of<SignUpBloc>(context).add(RetryEvent());
+                                },
+                              ),
+                            ),
+
+                          ],
+                        ),
+                      );
+                    if (state is SignedUpState) {
+                      return Center(
+                        child: Text(
+                          'Welcome to D-makla ${state.user.fullName}',
+                          style: Theme.of(context).textTheme.bodyText1.merge(
+                              TextStyle(color: Theme.of(context).accentColor)),
+                        ),
+                      );
+                    }
                     return Positioned(
                         top: config.App(context).appHeight(29.5) - 80,
                         child: SignUpForm());
                   },
+                ),
+                BlocListener<SignUpBloc,SignUpState>(
+                  listener: (context,state) {
+                    if(state is SignedUpState) {
+                      SchedulerBinding.instance
+                          .addPostFrameCallback((timeStamp) {
+                        Future.delayed(Duration(seconds: 1),(){
+                          Navigator.of(context).pushNamed('/Pages', arguments: 2);
+                        });
+
+                      });
+                    }
+                  },
+                  child: Container(height: 0, width: 0,),
                 ),
 
               ],
@@ -198,7 +249,7 @@ class _SignUpFormState extends State<SignUpForm> {
                     _selectedWilaya = newValue;
                   });
                 },
-                items: WILAYAS_STRINGS
+                items: WILAYA_MAP.values.toList()
                     .map<DropdownMenuItem<String>>((String value) {
                   return DropdownMenuItem<String>(
                     value: value,

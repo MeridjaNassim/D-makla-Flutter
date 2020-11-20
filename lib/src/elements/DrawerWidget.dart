@@ -1,6 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:restaurant_rlutter_ui/src/features/Auth/auth.dart';
 
-class DrawerWidget extends StatelessWidget {
+class DrawerWidget extends StatefulWidget {
+  @override
+  _DrawerWidgetState createState() => _DrawerWidgetState();
+}
+
+class _DrawerWidgetState extends State<DrawerWidget> {
+
+  User user;
+  @override
+  void initState() {
+    super.initState();
+    getCurrentUser();
+  }
+
+  Future<void> getCurrentUser()async {
+    User _user = await AuthManager().getCurrentLoggedUser();
+    if(_user != null) {
+      setState(() {
+        user = _user;
+      });
+    }
+  }
+  Future<void> _onLogOut() async {
+    await AuthManager().removeCurrentUser();
+  }
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -17,11 +42,11 @@ class DrawerWidget extends StatelessWidget {
 //              borderRadius: BorderRadius.only(bottomLeft: Radius.circular(35)),
               ),
               accountName: Text(
-                "Mira Miralova",
+                user != null ? user.fullName ?? "name" :  "name",
                 style: Theme.of(context).textTheme.title,
               ),
               accountEmail: Text(
-                "+1 796 9400 484",
+                user != null ? user.phoneNumber ?? "name" :  "name",
                 style: Theme.of(context).textTheme.caption,
               ),
               currentAccountPicture: CircleAvatar(
@@ -133,8 +158,9 @@ class DrawerWidget extends StatelessWidget {
             ),
           ),
           ListTile(
-            onTap: () {
-              Navigator.of(context).pushNamed('/Login');
+            onTap: () async{
+                await _onLogOut();
+                Navigator.of(context).pushNamed('/Login');
             },
             leading: Icon(
               Icons.exit_to_app,
@@ -160,4 +186,6 @@ class DrawerWidget extends StatelessWidget {
       ),
     );
   }
+
+
 }

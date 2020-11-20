@@ -1,11 +1,14 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:restaurant_rlutter_ui/config/app_config.dart' as config;
 import 'package:restaurant_rlutter_ui/route_generator.dart';
 import 'package:restaurant_rlutter_ui/src/utils/navigation.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-void main(){
+void main() {
   //TODO get boolean from shared prefs and check if its first
+  EquatableConfig.stringify = true;
   runApp(DmaklaApp());
 }
 
@@ -20,8 +23,8 @@ class DmaklaApp extends StatelessWidget {
     return BlocProvider<NavigatorBloc>(
       create :(context) =>NavigatorBloc(navigatorKey: _navigatorKey),
       child: MaterialApp(
-        title: 'Restaurant Flutter UI',
-        initialRoute: '/',
+        title: 'D-makla',
+        initialRoute: "/Splash",
         onGenerateRoute: RouteGenerator.generateRoute,
         debugShowCheckedModeBanner: false,
         darkTheme: ThemeData(

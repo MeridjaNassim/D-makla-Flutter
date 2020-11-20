@@ -30,6 +30,10 @@ dependencies:
   flutter_bloc: ^6.1.1
   equatable: ^1.2.5
   country_code_picker: ^1.6.2
+  # local storage
+  shared_preferences: ^0.5.12+4
+  # http requests
+  http: ^0.12.2
 
 #  location: ^2.3.5
 

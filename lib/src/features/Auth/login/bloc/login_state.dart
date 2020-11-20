@@ -1,5 +1,7 @@
 import 'package:equatable/equatable.dart';
 
+import '../../auth.dart';
+
 abstract class LoginState extends Equatable{
 
 }
@@ -19,6 +21,9 @@ class LoggingInState extends LoginState{
   }
 }
 class LoggedInState extends LoginState{
+  final User user;
+
+  LoggedInState({this.user});
 
   @override
   List<Object> get props {
@@ -28,7 +33,6 @@ class LoggedInState extends LoginState{
 
 //region ErrorStates
 abstract class LoginErrorState extends LoginState{
-
 }
 class LoginInputValidationErrorState extends LoginErrorState{
   final String phoneNumberError;

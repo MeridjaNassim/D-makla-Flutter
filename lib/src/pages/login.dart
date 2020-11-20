@@ -10,23 +10,16 @@ import 'package:restaurant_rlutter_ui/src/features/Auth/login/bloc/login_event.d
 import 'package:restaurant_rlutter_ui/src/features/Auth/login/bloc/login_state.dart';
 
 class LoginForm extends StatefulWidget {
-  final Function(String value) onPasswordChanged;
-  final Function(String value) onPhoneChanged;
-  final Function() onLogin;
-  LoginForm(
-      {@required this.onPasswordChanged,
-      @required this.onPhoneChanged,
-      @required this.onLogin,
-      });
+  LoginForm();
 
   @override
   _LoginFormState createState() => _LoginFormState();
 }
 
 class _LoginFormState extends State<LoginForm> {
-  bool showPassword;
-  TextEditingController _phoneController;
-  TextEditingController _passwordController;
+  String _phoneNumber;
+  String _password;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -34,8 +27,18 @@ class _LoginFormState extends State<LoginForm> {
     showPassword = false;
     _phoneController = TextEditingController();
     _passwordController = TextEditingController();
+    _resetValues();
   }
 
+  void _resetValues() {
+    _password = '';
+    _phoneNumber = '';
+  }
+
+
+  bool showPassword;
+  TextEditingController _phoneController;
+  TextEditingController _passwordController;
   @override
   void dispose() {
     // TODO: implement dispose
@@ -54,9 +57,11 @@ class _LoginFormState extends State<LoginForm> {
     _phoneController.clear();
     _passwordController.clear();
   }
-
-  void _onLogin() {
-    this.widget.onLogin();
+  void _dispatchLogin() {
+    print('phone: '+_phoneNumber);
+    print('password: '+_password);
+    BlocProvider.of<LoginBloc>(context)
+        .add(StartLoginEvent(phoneNumber: _phoneNumber, password: _password));
   }
 
   @override
@@ -93,7 +98,9 @@ class _LoginFormState extends State<LoginForm> {
               ),
             ),
             TextField(
-              onChanged: this.widget.onPhoneChanged,
+              onChanged: (value) {
+                _phoneNumber = value;
+              },
               keyboardType: TextInputType.phone,
               controller: _phoneController,
               decoration: InputDecoration(
@@ -101,7 +108,7 @@ class _LoginFormState extends State<LoginForm> {
                 errorText: state is LoginInputValidationErrorState? state.phoneNumberError :null,
                 labelStyle: TextStyle(color: Theme.of(context).accentColor),
                 contentPadding: EdgeInsets.all(12),
-                hintText: '+213123456789',
+                hintText: '0123456789',
                 hintStyle: TextStyle(
                     color: Theme.of(context).focusColor.withOpacity(0.7)),
                 prefixIcon:
@@ -119,7 +126,9 @@ class _LoginFormState extends State<LoginForm> {
             ),
             SizedBox(height: 30),
             TextField(
-              onChanged: this.widget.onPasswordChanged,
+              onChanged: (value){
+                _password = value;
+              },
               keyboardType: TextInputType.text,
               obscureText: !showPassword,
               controller: _passwordController,
@@ -156,7 +165,7 @@ class _LoginFormState extends State<LoginForm> {
                 style: TextStyle(color: Theme.of(context).primaryColor),
               ),
               color: Theme.of(context).accentColor,
-              onPressed: _onLogin,
+              onPressed: _dispatchLogin,
             ),
             SizedBox(height: 25),
             BlocListener<LoginBloc,LoginState>(
@@ -198,33 +207,10 @@ class InputError extends StatelessWidget {
 
 
 
-class LoginWidget extends StatefulWidget {
-  @override
-  _LoginWidgetState createState() => _LoginWidgetState();
-}
 
-class _LoginWidgetState extends State<LoginWidget> {
-  String _phoneNumber;
-  String _password;
 
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    _resetValues();
-  }
+class LoginWidget extends StatelessWidget {
 
-  void _resetValues() {
-    _password = '';
-    _phoneNumber = '';
-  }
-
-  void _dispatchLogin(BuildContext context) {
-    print('phone: '+_phoneNumber);
-    print('password: '+_password);
-    BlocProvider.of<LoginBloc>(context)
-        .add(StartLoginEvent(phoneNumber: _phoneNumber, password: _password));
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -257,10 +243,37 @@ class _LoginWidgetState extends State<LoginWidget> {
                       ),
                     );
                   }
+                  if(state is LoginServerErrorState)
+                    return Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            state.message ?? "Could not login",
+                            style: Theme.of(context).textTheme.bodyText1.merge(
+                                TextStyle(color: Theme.of(context).accentColor)),
+                          ),
+                          Container(
+                            margin: const EdgeInsets.only(top: 16),
+                            child: BlockButtonWidget(
+                              text: Text(
+                                'Try again',
+                                style: TextStyle(color: Theme.of(context).primaryColor),
+                              ),
+                              color: Theme.of(context).accentColor,
+                              onPressed: (){
+                                BlocProvider.of<LoginBloc>(context).add(RetryEvent());
+                              },
+                            ),
+                          ),
+
+                        ],
+                      ),
+                    );
                   if (state is LoggedInState) {
                     return Center(
                       child: Text(
-                        'Welcome to D-makla',
+                        'Welcome to D-makla ${state.user.fullName}',
                         style: Theme.of(context).textTheme.bodyText1.merge(
                             TextStyle(color: Theme.of(context).accentColor)),
                       ),
@@ -268,24 +281,17 @@ class _LoginWidgetState extends State<LoginWidget> {
                   }
                   return Positioned(
                       top: config.App(context).appHeight(37) - 50,
-                      child: LoginForm(
-                        onPhoneChanged: (value) {
-                          _phoneNumber = value;
-                        },
-                        onPasswordChanged: (value) {
-                          _password = value;
-                        },
-                        onLogin: () {
-                          _dispatchLogin(context);
-                        },
-                      ));
+                      child: LoginForm());
                 }),
                 BlocListener<LoginBloc, LoginState>(
                   listener: (context, state) {
                     if (state is LoggedInState) {
                       SchedulerBinding.instance
                           .addPostFrameCallback((timeStamp) {
-                        Navigator.of(context).pushNamed('/Pages', arguments: 2);
+                            Future.delayed(Duration(seconds: 1),(){
+                            Navigator.of(context).pushNamed('/Pages', arguments: 2);
+                            });
+
                       });
                       return Container(
                         height: 0,

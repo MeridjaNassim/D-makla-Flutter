@@ -1,10 +1,45 @@
-class SignUpManager {
+import 'package:restaurant_rlutter_ui/src/features/Auth/auth.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
+const String signup_url_dev =
+    "https://www.d-makla.com/nassim_api/AppAndroid_all_apiBis.php?signup";
+const String RES_ATR = "USER_REGISTRATION";
+
+class SignUpManager {
   SignUpManager();
 
-  Future<bool> signUpUserWithPhoneNumber({String phoneNumber, String password,String fullName,String countryCode,String wilaya}) async{
-    ///TODO : POST api/signup to create a new user and get his data
-    return Future.delayed(Duration(seconds: 3), ()=>true);
-  }
+  Future<User> signUpUserWithPhoneNumber(
+      {String phoneNumber,
+      String password,
+      String fullName,
+      String countryCode,
+      String wilayaCode}) async {
+    Map<String, String> formData = {
+      "name": fullName,
+      "password": password,
+      "mobile": phoneNumber,
+      "city_id": wilayaCode
+    };
 
+    final http.Response response =
+        await http.post(signup_url_dev, body: formData);
+    if (response.body.isEmpty) return null;
+    final Map<String, dynamic> decodedBody = json.decode(response.body);
+    Map<String, dynamic> data = decodedBody[RES_ATR];
+    if (data == null) return null;
+    if (data["error"] == "true")
+       {
+         throw Exception(data["message"]);
+       }
+
+    ///TODO : add other fields to user object
+    User user = User(
+        id: data["id"],
+        fullName: data["name"],
+        phoneNumber: data["mobile"],
+        email: data["email"]
+    );
+    return user;
+  }
 }
