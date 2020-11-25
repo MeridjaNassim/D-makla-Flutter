@@ -1,23 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:restaurant_rlutter_ui/src/models/route_argument.dart';
-import 'package:restaurant_rlutter_ui/src/pages/account.dart';
-import 'package:restaurant_rlutter_ui/src/pages/cart.dart';
-import 'package:restaurant_rlutter_ui/src/pages/chat.dart';
-import 'package:restaurant_rlutter_ui/src/pages/checkout.dart';
-import 'package:restaurant_rlutter_ui/src/pages/details.dart';
-import 'package:restaurant_rlutter_ui/src/pages/food.dart';
-import 'package:restaurant_rlutter_ui/src/pages/help.dart';
-import 'package:restaurant_rlutter_ui/src/pages/languages.dart';
-import 'package:restaurant_rlutter_ui/src/pages/login.dart';
-import 'package:restaurant_rlutter_ui/src/pages/menu_list.dart';
-import 'package:restaurant_rlutter_ui/src/pages/messages.dart';
-import 'package:restaurant_rlutter_ui/src/pages/mobile_verification.dart';
-import 'package:restaurant_rlutter_ui/src/pages/mobile_verification_2.dart';
-import 'package:restaurant_rlutter_ui/src/pages/pages.dart';
-import 'package:restaurant_rlutter_ui/src/pages/signup.dart';
-import 'package:restaurant_rlutter_ui/src/pages/splash.dart';
-import 'package:restaurant_rlutter_ui/src/pages/tracking.dart';
-import 'package:restaurant_rlutter_ui/src/pages/walkthrough.dart';
+import 'package:restaurant_rlutter_ui/src/views/pages/account.dart';
+import 'package:restaurant_rlutter_ui/src/views/pages/cart.dart';
+import 'package:restaurant_rlutter_ui/src/views/pages/chat.dart';
+import 'package:restaurant_rlutter_ui/src/views/pages/checkout.dart';
+import 'package:restaurant_rlutter_ui/src/views/pages/details.dart';
+import 'package:restaurant_rlutter_ui/src/views/pages/food.dart';
+import 'package:restaurant_rlutter_ui/src/views/pages/help.dart';
+import 'package:restaurant_rlutter_ui/src/views/pages/languages.dart';
+import 'package:restaurant_rlutter_ui/src/views/pages/login.dart';
+import 'package:restaurant_rlutter_ui/src/views/pages/menu_list.dart';
+import 'package:restaurant_rlutter_ui/src/views/pages/messages.dart';
+import 'package:restaurant_rlutter_ui/src/views/pages/mobile_verification.dart';
+import 'package:restaurant_rlutter_ui/src/views/pages/mobile_verification_2.dart';
+import 'package:restaurant_rlutter_ui/src/views/pages/pages.dart';
+import 'package:restaurant_rlutter_ui/src/views/pages/signup.dart';
+import 'package:restaurant_rlutter_ui/src/views/pages/splash.dart';
+import 'package:restaurant_rlutter_ui/src/views/pages/tracking.dart';
+import 'package:restaurant_rlutter_ui/src/views/pages/walkthrough.dart';
+
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
