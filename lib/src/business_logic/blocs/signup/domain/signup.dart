@@ -1,3 +1,4 @@
+import 'package:restaurant_rlutter_ui/src/business_logic/models/common/wilaya.dart';
 import 'package:restaurant_rlutter_ui/src/business_logic/models/user.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -38,7 +39,8 @@ class SignUpManager {
         id: data["id"],
         fullName: data["name"],
         phoneNumber: data["mobile"],
-        email: data["email"]
+        email: data["email"],
+        wilaya: Wilaya(code: data["city_id"])
     );
     return user;
   }

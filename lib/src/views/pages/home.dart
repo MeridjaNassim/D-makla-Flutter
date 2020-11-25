@@ -154,13 +154,13 @@ class _HomeWidgetState extends State<HomeWidget> {
               color: Theme.of(context).hintColor,
             ),
             title: Text(
-              'Trending This Week',
+              homeData["Trending"]["title"] ?? "Tendences",
               style: Theme.of(context).textTheme.display1,
             ),
-            subtitle: Text(
-              'Double click on the food to add it to the cart',
+            subtitle:homeData["Trending"]["subtitle"] != "" ?  Text(
+                homeData["Trending"]["subtitle"] ,
               style: Theme.of(context).textTheme.caption.merge(TextStyle(fontSize: 11)),
-            ),
+            ) : null,
           ),
           FoodsCarouselWidget(),
           Padding(
@@ -200,21 +200,21 @@ class _HomeWidgetState extends State<HomeWidget> {
             ),
           ),
           CategoriesCarouselWidget(),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: ListTile(
-              dense: true,
-              contentPadding: EdgeInsets.symmetric(vertical: 0),
-              leading: Icon(
-                Icons.trending_up,
-                color: Theme.of(context).hintColor,
-              ),
-              title: Text(
-                'Most Popular',
-                style: Theme.of(context).textTheme.display1,
-              ),
-            ),
-          ),
+          // Padding(
+          //   padding: const EdgeInsets.symmetric(horizontal: 20),
+          //   child: ListTile(
+          //     dense: true,
+          //     contentPadding: EdgeInsets.symmetric(vertical: 0),
+          //     leading: Icon(
+          //       Icons.trending_up,
+          //       color: Theme.of(context).hintColor,
+          //     ),
+          //     title: Text(
+          //       'Most Popular',
+          //       style: Theme.of(context).textTheme.display1,
+          //     ),
+          //   ),
+          // ),
           // Padding(
           //   padding: const EdgeInsets.symmetric(horizontal: 20),
           //   child: GridWidget(),

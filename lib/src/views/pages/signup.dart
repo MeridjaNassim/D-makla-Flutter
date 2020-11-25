@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:restaurant_rlutter_ui/config/app_config.dart' as config;
+import 'package:restaurant_rlutter_ui/src/business_logic/blocs/auth/auth.bloc.dart';
+import 'package:restaurant_rlutter_ui/src/business_logic/blocs/auth/auth.state.dart';
 import 'package:restaurant_rlutter_ui/src/business_logic/blocs/signup/bloc/signup_bloc.dart';
 import 'package:restaurant_rlutter_ui/src/business_logic/blocs/signup/bloc/signup_event.dart';
 import 'package:restaurant_rlutter_ui/src/business_logic/blocs/signup/bloc/signup_state.dart';
@@ -23,89 +25,97 @@ class _SignUpWidgetState extends State<SignUpWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<SignUpBloc>(
-      create: (context)=> SignUpBloc(),
-      child: Scaffold(
-        body: SingleChildScrollView(
-          child: Container(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
-            child: Stack(
-              alignment: AlignmentDirectional.topCenter,
-              children: <Widget>[
-                Positioned(
-                  top: 0,
-                  child: Container(
-                    width: config.App(context).appWidth(100),
-                    height: config.App(context).appHeight(29.5),
-                    decoration: BoxDecoration(image: DecorationImage(
-                      image: AssetImage('img/food3.jpg'),
-                      fit: BoxFit.cover
-                    )),
+    return BlocListener<AuthenticationBloc,AuthenticationState>(
+      listener: (context,state){
+        if(state is AuthenticationAuthenticated) {
+          print("authenticated from signup");
+          Navigator.of(context).pushReplacementNamed("/Pages",arguments: 2);
+        }
+      },
+      child: BlocProvider<SignUpBloc>(
+        create: (context)=> SignUpBloc(BlocProvider.of<AuthenticationBloc>(context)),
+        child: Scaffold(
+          body: SingleChildScrollView(
+            child: Container(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+              child: Stack(
+                alignment: AlignmentDirectional.topCenter,
+                children: <Widget>[
+                  Positioned(
+                    top: 0,
+                    child: Container(
+                      width: config.App(context).appWidth(100),
+                      height: config.App(context).appHeight(29.5),
+                      decoration: BoxDecoration(image: DecorationImage(
+                        image: AssetImage('img/food3.jpg'),
+                        fit: BoxFit.cover
+                      )),
+                    ),
                   ),
-                ),
-                BlocBuilder<SignUpBloc,SignUpState>(
-                  builder: (context,state) {
-                    if(state is SigningUpState) {
-                      return Center(child: LoadingIndicator(loadingText: "Signing you up"));
-                    }
-                    if(state is SignUpServerErrorState)
-                      return Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              state.message,
-                              style: Theme.of(context).textTheme.bodyText1.merge(
-                                  TextStyle(color: Theme.of(context).accentColor)),
-                            ),
-                            Container(
-                              margin: const EdgeInsets.only(top: 16),
-                              child: BlockButtonWidget(
-                                text: Text(
-                                  'Try again',
-                                  style: TextStyle(color: Theme.of(context).primaryColor),
-                                ),
-                                color: Theme.of(context).accentColor,
-                                onPressed: (){
-                                  BlocProvider.of<SignUpBloc>(context).add(RetryEvent());
-                                },
+                  BlocBuilder<SignUpBloc,SignUpState>(
+                    builder: (context,state) {
+                      if(state is SigningUpState) {
+                        return Center(child: LoadingIndicator(loadingText: "Signing you up"));
+                      }
+                      if(state is SignUpServerErrorState)
+                        return Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                state.message,
+                                style: Theme.of(context).textTheme.bodyText1.merge(
+                                    TextStyle(color: Theme.of(context).accentColor)),
                               ),
-                            ),
+                              Container(
+                                margin: const EdgeInsets.only(top: 16),
+                                child: BlockButtonWidget(
+                                  text: Text(
+                                    'Try again',
+                                    style: TextStyle(color: Theme.of(context).primaryColor),
+                                  ),
+                                  color: Theme.of(context).accentColor,
+                                  onPressed: (){
+                                    BlocProvider.of<SignUpBloc>(context).add(RetryEvent());
+                                  },
+                                ),
+                              ),
 
-                          ],
-                        ),
-                      );
-                    if (state is SignedUpState) {
-                      return Center(
-                        child: Text(
-                          'Welcome to D-makla ${state.user.fullName}',
-                          style: Theme.of(context).textTheme.bodyText1.merge(
-                              TextStyle(color: Theme.of(context).accentColor)),
-                        ),
-                      );
-                    }
-                    return Positioned(
-                        top: config.App(context).appHeight(29.5) - 80,
-                        child: SignUpForm());
-                  },
-                ),
-                BlocListener<SignUpBloc,SignUpState>(
-                  listener: (context,state) {
-                    if(state is SignedUpState) {
-                      SchedulerBinding.instance
-                          .addPostFrameCallback((timeStamp) {
-                        Future.delayed(Duration(seconds: 1),(){
-                          Navigator.of(context).pushNamed('/Pages', arguments: 2);
-                        });
+                            ],
+                          ),
+                        );
+                      if (state is SignedUpState) {
+                        return Center(
+                          child: Text(
+                            'Welcome to D-makla ${state.user.fullName}',
+                            style: Theme.of(context).textTheme.bodyText1.merge(
+                                TextStyle(color: Theme.of(context).accentColor)),
+                          ),
+                        );
+                      }
+                      return Positioned(
+                          top: config.App(context).appHeight(29.5) - 80,
+                          child: SignUpForm());
+                    },
+                  ),
+                  // BlocListener<SignUpBloc,SignUpState>(
+                  //   listener: (context,state) {
+                  //     if(state is SignedUpState) {
+                  //       SchedulerBinding.instance
+                  //           .addPostFrameCallback((timeStamp) {
+                  //         Future.delayed(Duration(seconds: 1),(){
+                  //           Navigator.of(context).pushNamed('/Pages', arguments: 2);
+                  //         });
+                  //
+                  //       });
+                  //     }
+                  //   },
+                  //   child: Container(height: 0, width: 0,),
+                  // ),
 
-                      });
-                    }
-                  },
-                  child: Container(height: 0, width: 0,),
-                ),
-
-              ],
+                ],
+              ),
             ),
           ),
         ),
@@ -257,51 +267,74 @@ class _SignUpFormState extends State<SignUpForm> {
                   );
                 }).toList()),
             SizedBox(height: 30),
-            Row(
-              children: [
-                Expanded(
-                  flex: 1,
-                  child: CountryCodePicker(
-                    textStyle: TextStyle(color: Theme.of(context).accentColor),
-                    onChanged: (code) {
-                      _selectedCountryCode = code.dialCode;
-                    },
-                    // Initial selection and favorite can be one of code ('IT') OR dial_code('+39')
-                    initialSelection: 'DZ',
-                    favorite: ['+213', 'DZ'],
-                    showFlagDialog: false,
-                    comparator: (a, b) => b.name.compareTo(a.name),
-                  ),
-                ),
-                Expanded(
-                  flex: 3,
-                  child: TextField(
-                    controller: _phoneController,
-                    keyboardType: TextInputType.phone,
-                    onChanged: (value){
-                      this.setState(() {
-                        _mobileNumber = value;
-                      });
-                    },
-                    decoration: InputDecoration(
-                      labelText: "Mobile No.",
-                      labelStyle: TextStyle(color: Theme.of(context).accentColor),
-                      errorText: (state is SignUpInputValidationErrorState) ? state.phoneNumberError : null,
-                      contentPadding: EdgeInsets.all(12),
-                      hintText: '123456789',
-                      hintStyle: TextStyle(color: Theme.of(context).focusColor.withOpacity(0.7)),
-                      prefixIcon: Icon(Icons.phone, color: Theme.of(context).accentColor),
-                      border: OutlineInputBorder(
-                          borderSide: BorderSide(color: Theme.of(context).focusColor.withOpacity(0.2))),
-                      focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Theme.of(context).focusColor.withOpacity(0.5))),
-                      enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Theme.of(context).focusColor.withOpacity(0.2))),
-                    ),
-                  ),)
-              ],
+            // Row(
+            //   children: [
+            //     Expanded(
+            //       flex: 1,
+            //       child: CountryCodePicker(
+            //         textStyle: TextStyle(color: Theme.of(context).accentColor),
+            //         onChanged: (code) {
+            //           _selectedCountryCode = code.dialCode;
+            //         },
+            //         // Initial selection and favorite can be one of code ('IT') OR dial_code('+39')
+            //         initialSelection: 'DZ',
+            //         favorite: ['+213', 'DZ'],
+            //         showFlagDialog: false,
+            //         comparator: (a, b) => b.name.compareTo(a.name),
+            //       ),
+            //     ),
+            //     Expanded(
+            //       flex: 3,
+            //       child: TextField(
+            //         controller: _phoneController,
+            //         keyboardType: TextInputType.phone,
+            //         onChanged: (value){
+            //           this.setState(() {
+            //             _mobileNumber = value;
+            //           });
+            //         },
+            //         decoration: InputDecoration(
+            //           labelText: "Mobile No.",
+            //           labelStyle: TextStyle(color: Theme.of(context).accentColor),
+            //           errorText: (state is SignUpInputValidationErrorState) ? state.phoneNumberError : null,
+            //           contentPadding: EdgeInsets.all(12),
+            //           hintText: '123456789',
+            //           hintStyle: TextStyle(color: Theme.of(context).focusColor.withOpacity(0.7)),
+            //           prefixIcon: Icon(Icons.phone, color: Theme.of(context).accentColor),
+            //           border: OutlineInputBorder(
+            //               borderSide: BorderSide(color: Theme.of(context).focusColor.withOpacity(0.2))),
+            //           focusedBorder: OutlineInputBorder(
+            //               borderSide: BorderSide(color: Theme.of(context).focusColor.withOpacity(0.5))),
+            //           enabledBorder: OutlineInputBorder(
+            //               borderSide: BorderSide(color: Theme.of(context).focusColor.withOpacity(0.2))),
+            //         ),
+            //       ),)
+            //   ],
+            // ),
+            TextField(
+              controller: _phoneController,
+              keyboardType: TextInputType.phone,
+              onChanged: (value){
+                this.setState(() {
+                  _mobileNumber = value;
+                });
+              },
+              decoration: InputDecoration(
+                labelText: "Mobile No.",
+                labelStyle: TextStyle(color: Theme.of(context).accentColor),
+                errorText: (state is SignUpInputValidationErrorState) ? state.phoneNumberError : null,
+                contentPadding: EdgeInsets.all(12),
+                hintText: '0123456789',
+                hintStyle: TextStyle(color: Theme.of(context).focusColor.withOpacity(0.7)),
+                prefixIcon: Icon(Icons.phone, color: Theme.of(context).accentColor),
+                border: OutlineInputBorder(
+                    borderSide: BorderSide(color: Theme.of(context).focusColor.withOpacity(0.2))),
+                focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Theme.of(context).focusColor.withOpacity(0.5))),
+                enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Theme.of(context).focusColor.withOpacity(0.2))),
+              ),
             ),
-
             SizedBox(height: 30),
             TextField(
               keyboardType: TextInputType.text,

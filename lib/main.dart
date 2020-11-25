@@ -30,7 +30,7 @@ class DmaklaApp extends StatelessWidget {
       ],
       child: MaterialApp(
         title: 'D-makla',
-        initialRoute: "/Splash",
+        initialRoute: "/",
         onGenerateRoute: RouteGenerator.generateRoute,
         debugShowCheckedModeBanner: false,
         darkTheme: ThemeData(

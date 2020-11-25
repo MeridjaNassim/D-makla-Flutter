@@ -47,6 +47,8 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
     print("user logged in " + event.user.toString());
     yield AuthenticationAuthenticated(user: event.user);
     await _authenticationService.setUser(event.user);
+
+
   }
 
   Stream<AuthenticationState> _mapUserLoggedOutToState(UserLoggedOut event) async* {

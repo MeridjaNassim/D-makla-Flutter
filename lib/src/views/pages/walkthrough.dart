@@ -18,24 +18,11 @@ class Walkthrough extends StatelessWidget {
     return AppBar(
       elevation: 0,
       backgroundColor: Colors.transparent,
-      leading: MaterialButton(
-        padding: EdgeInsets.all(0),
-        onPressed: () {
-          Navigator.of(context).pushNamed('/Pages', arguments: 2);
-        },
-        child: Padding(
-          padding: const EdgeInsets.only(left: 20),
-          child: Text(
-            'Skip',
-            style: TextStyle(color: Theme.of(context).accentColor),
-          ),
-        ),
-      ),
       actions: <Widget>[
         MaterialButton(
             padding: EdgeInsets.all(0),
             onPressed: () {
-              Navigator.of(context).pushNamed('/Login');
+              Navigator.of(context).pushReplacementNamed('/Login');
             },
             child: Row(
               children: <Widget>[

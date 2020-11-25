@@ -24,9 +24,8 @@ class _SplashScreenState extends State<SplashScreen> {
 
   Future<void> start() async {
     print("starting app");
-    final authBloc = BlocProvider.of<AuthenticationBloc>(context);
     Timer(Duration(seconds: 2),(){
-      authBloc.add(AppLoaded());
+      BlocProvider.of<AuthenticationBloc>(context).add(AppLoaded());
     });
   }
 
@@ -36,10 +35,12 @@ class _SplashScreenState extends State<SplashScreen> {
     return BlocConsumer<AuthenticationBloc, AuthenticationState>(
       listener: (context, state) {
         if (state is AuthenticationAuthenticated) {
-          return Navigator.of(context).pushNamed("/Pages", arguments: 2);
+          print("auth from splash");
+          return Navigator.of(context).pushReplacementNamed("/Pages", arguments: 2);
         }
         if(state is AuthenticationNotAuthenticated) {
-          return Navigator.of(context).pushNamed("/Login");
+          print("no auth splash go to login");
+          return Navigator.of(context).pushReplacementNamed("/Login");
         }
       },
       builder: (context, state) => Container(

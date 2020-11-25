@@ -1,9 +1,12 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:restaurant_rlutter_ui/config/app_config.dart' as config;
 import 'package:restaurant_rlutter_ui/src/business_logic/blocs/auth/auth.bloc.dart';
+import 'package:restaurant_rlutter_ui/src/business_logic/blocs/auth/auth.state.dart';
 import 'package:restaurant_rlutter_ui/src/business_logic/blocs/login/bloc/login_bloc.dart';
 import 'package:restaurant_rlutter_ui/src/business_logic/blocs/login/bloc/login_event.dart';
 import 'package:restaurant_rlutter_ui/src/business_logic/blocs/login/bloc/login_state.dart';
@@ -215,76 +218,84 @@ class LoginWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<LoginBloc>(
-      create: (context) => LoginBloc(BlocProvider.of<AuthenticationBloc>(context)),
-      child: Scaffold(
-        body: SingleChildScrollView(
-          child: Container(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
-            child: Stack(
-              alignment: AlignmentDirectional.topCenter,
-              children: <Widget>[
-                Positioned(
-                  top: 0,
-                  child: Container(
-                    width: config.App(context).appWidth(100),
-                    height: config.App(context).appHeight(37),
-                    decoration: BoxDecoration(
-                        image: DecorationImage(
-                            image: AssetImage('img/food2.jpg'),
-                            fit: BoxFit.cover)),
+    return BlocListener<AuthenticationBloc,AuthenticationState>(
+      listener: (context,state){
+        if(state is AuthenticationAuthenticated) {
+          print("authenticated");
+          Navigator.of(context).pushReplacementNamed("/Pages",arguments: 2);
+        }
+      },
+      child: BlocProvider<LoginBloc>(
+        create: (context) => LoginBloc(BlocProvider.of<AuthenticationBloc>(context)),
+        child: Scaffold(
+          body: SingleChildScrollView(
+            child: Container(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+              child: Stack(
+                alignment: AlignmentDirectional.topCenter,
+                children: <Widget>[
+                  Positioned(
+                    top: 0,
+                    child: Container(
+                      width: config.App(context).appWidth(100),
+                      height: config.App(context).appHeight(37),
+                      decoration: BoxDecoration(
+                          image: DecorationImage(
+                              image: AssetImage('img/food2.jpg'),
+                              fit: BoxFit.cover)),
+                    ),
                   ),
-                ),
-                BlocBuilder<LoginBloc, LoginState>(builder: (context, state) {
-                  if (state is LoggingInState) {
-                    return Center(
-                      child: LoadingIndicator(
-                        loadingText: 'logging in ...',
-                      ),
-                    );
-                  }
-                  if(state is LoginServerErrorState)
-                    return Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            state.message ?? "Could not login",
-                            style: Theme.of(context).textTheme.bodyText1.merge(
-                                TextStyle(color: Theme.of(context).accentColor)),
-                          ),
-                          Container(
-                            margin: const EdgeInsets.only(top: 16),
-                            child: BlockButtonWidget(
-                              text: Text(
-                                'Try again',
-                                style: TextStyle(color: Theme.of(context).primaryColor),
-                              ),
-                              color: Theme.of(context).accentColor,
-                              onPressed: (){
-                                BlocProvider.of<LoginBloc>(context).add(RetryEvent());
-                              },
+                  BlocBuilder<LoginBloc, LoginState>(builder: (context, state) {
+                    if (state is LoggingInState) {
+                      return Center(
+                        child: LoadingIndicator(
+                          loadingText: 'logging in ...',
+                        ),
+                      );
+                    }
+                    if(state is LoginServerErrorState)
+                      return Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              state.message ?? "Could not login",
+                              style: Theme.of(context).textTheme.bodyText1.merge(
+                                  TextStyle(color: Theme.of(context).accentColor)),
                             ),
-                          ),
+                            Container(
+                              margin: const EdgeInsets.only(top: 16),
+                              child: BlockButtonWidget(
+                                text: Text(
+                                  'Try again',
+                                  style: TextStyle(color: Theme.of(context).primaryColor),
+                                ),
+                                color: Theme.of(context).accentColor,
+                                onPressed: (){
+                                  BlocProvider.of<LoginBloc>(context).add(RetryEvent());
+                                },
+                              ),
+                            ),
 
-                        ],
-                      ),
-                    );
-                  if (state is LoggedInState) {
-                    return Center(
-                      child: Text(
-                        'Welcome to D-makla ${state.user.fullName}',
-                        style: Theme.of(context).textTheme.bodyText1.merge(
-                            TextStyle(color: Theme.of(context).accentColor)),
-                      ),
-                    );
-                  }
-                  return Positioned(
-                      top: config.App(context).appHeight(37) - 50,
-                      child: LoginForm());
-                }),
-              ],
+                          ],
+                        ),
+                      );
+                    if (state is LoggedInState) {
+                      return Center(
+                        child: Text(
+                          'Welcome to D-makla ${state.user.fullName}',
+                          style: Theme.of(context).textTheme.bodyText1.merge(
+                              TextStyle(color: Theme.of(context).accentColor)),
+                        ),
+                      );
+                    }
+                    return Positioned(
+                        top: config.App(context).appHeight(37) - 50,
+                        child: LoginForm());
+                  }),
+                ],
+              ),
             ),
           ),
         ),

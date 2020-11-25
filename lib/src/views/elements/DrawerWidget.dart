@@ -162,7 +162,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
           ListTile(
             onTap: () async{
                 await _onLogOut();
-                Navigator.of(context).pushNamed('/Login');
+                Navigator.of(context).pushReplacementNamed('/Login');
             },
             leading: Icon(
               Icons.exit_to_app,

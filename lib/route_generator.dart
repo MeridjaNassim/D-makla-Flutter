@@ -26,9 +26,7 @@ class RouteGenerator {
     final args = settings.arguments;
 
     switch (settings.name) {
-      case '/':
-        return MaterialPageRoute(builder: (_) => Walkthrough());
-      case "/Splash":
+      case "/":
         return MaterialPageRoute(builder: (_) => SplashScreen());
       case '/Login':
         return MaterialPageRoute(builder: (_) => LoginWidget());
