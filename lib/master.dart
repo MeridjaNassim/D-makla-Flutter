@@ -24,12 +24,11 @@ Future<void> main() async {
   Restaurant restaurant = Restaurant(id: "165");
 
   List<Order> orders = [
-    Order(restaurant: restaurant,
+    Order(
         variant: xxl,
         menu: Menu(id: "44", pricings: princings1),
         toppingList: ToppingListImpl(toppings),quantity: 2),
     Order(
-        restaurant: Restaurant(id: "165"),
         menu: Menu(id: "42", pricings: princings2),
         variant: xxl,
         toppingList: ToppingListImpl(toppings),quantity: 1)

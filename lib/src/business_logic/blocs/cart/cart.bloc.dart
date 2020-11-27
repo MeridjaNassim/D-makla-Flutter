@@ -57,10 +57,18 @@ class CartBloc extends Bloc<CartEvent,CartState> {
       cart.removeOrderFromCart(event.order);
   }
   Stream<CartState> _mapOrderIncrementedEvent(OrderQuantityInceremented event,Cart cart)  async *{
+      print("incrementing");
+      print(cart.orderList);
+      print(event.order);
+      print(event.value);
       cart.increment(event.order, event.value);
   }
   Stream<CartState> _mapOrderDecrementedEvent(OrderQuantityDeceremented event,Cart cart)  async *{
-      cart.decrement(event.order, event.value);
+    print("decrementing");
+    print(cart.orderList);
+    print(event.order);
+    print(event.value);
+    cart.decrement(event.order, event.value);
   }
   Stream<CartState> _mapCartClearedEvent(CartCleared ,Cart cart)  async *{
       cart.clearCart();
@@ -76,7 +84,8 @@ class CartBloc extends Bloc<CartEvent,CartState> {
       print("cart initialized");
       Order order1 = Order(menu: MockMenuRepository.mockData[0], variant: MockMenuRepository.mockData[0].variants.getVariantByIndex(0), toppingList: ToppingListImpl([]) );
       Order order2 = Order(menu: MockMenuRepository.mockData[1], variant: MockMenuRepository.mockData[1].variants.getVariantByIndex(0), toppingList: ToppingListImpl([]) );
-      Cart cart = Cart(OrderListImpl([order1,order2]));
+      Order order3 = Order(menu: MockMenuRepository.mockData[1], variant: MockMenuRepository.mockData[1].variants.getVariantByIndex(1), toppingList: ToppingListImpl([]) );
+      Cart cart = Cart(OrderListImpl([order1,order2,order3]));
       add(CartInitialized(cart));
     });
   }

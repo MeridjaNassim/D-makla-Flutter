@@ -27,8 +27,8 @@ void main(){
               ..setPriceForVariant(variant, 100);
     toppingList = ToppingListImpl([Topping(id: "1",price: 10),Topping(id: "1",price: 20)]);
     menu = Menu(id: "1",name: "testMenu",toppings: toppingList,pricings: pricings);
-    order1 = Order(restaurant: restaurant,menu:menu,variant: variant,quantity: 1,toppingList: toppingList );
-    order2 = Order(restaurant: restaurant,menu:menu,variant: variant,quantity: 2,toppingList: toppingList);
+    order1 = Order(menu:menu,variant: variant,quantity: 1,toppingList: toppingList );
+    order2 = Order(menu:menu,variant: variant,quantity: 2,toppingList: toppingList);
   });
 
   group("Cart pricing", (){

@@ -5,16 +5,13 @@ import 'package:restaurant_rlutter_ui/src/business_logic/models/topping.dart';
 import 'package:restaurant_rlutter_ui/src/business_logic/models/variant.dart';
 
 class Order extends Equatable {
-  final String id;
-  final Restaurant restaurant;
   final Menu menu;
   final Variant variant;
   final ToppingList toppingList;
-  final int quantity;
+  int quantity;
 
   Order(
-      {this.id,
-      this.restaurant,
+      {
       this.menu,
       this.variant,
       this.toppingList,
@@ -22,7 +19,7 @@ class Order extends Equatable {
 
   @override
   List<Object> get props {
-    return [id];
+    return [menu.id,variant.id];
   }
 }
 
@@ -43,7 +40,7 @@ abstract class OrderList extends Equatable {
 
   void incrementQuantityByIndex(int index, int amount);
 
-  void decrementQuantity(Order, int amount);
+  void decrementQuantity(Order order, int amount);
 
   void decrementQuantityByIndex(int index, int amount);
 
@@ -90,8 +87,10 @@ class OrderListImpl extends OrderList {
   }
 
   @override
-  void decrementQuantity(Order, int amount) {
-    // TODO: implement decrementQuantity
+  void decrementQuantity(Order order, int amount) {
+      print("current order quantity:"+ order.quantity.toString());
+      if(order.quantity > amount) order.quantity = order.quantity -amount;
+      print("current order quantity:"+ order.quantity.toString());
   }
 
   @override
@@ -107,7 +106,10 @@ class OrderListImpl extends OrderList {
 
   @override
   void incrementQuantity(Order order, int amount) {
-    // TODO: implement incrementQuantity
+    print("current order quantity:"+ order.quantity.toString());
+    int value = order.quantity+amount;
+    if(value < 99) order.quantity = value;
+    print("current order quantity:"+ order.quantity.toString());
   }
 
   @override
