@@ -57,10 +57,11 @@ class ToppingListImpl extends ToppingList {
 
   @override
   double getListPrice() {
-    double price = 0;
+
     final items = this._items;
     final prices = items.map((e) => e.price).toList();
-    price = prices.reduce((value, element) => value + element);
+    if(prices.isEmpty) return 0;
+    double price = prices.reduce((value, element) => value + element);
     return price;
   }
 

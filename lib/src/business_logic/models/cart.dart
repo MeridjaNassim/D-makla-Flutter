@@ -13,7 +13,9 @@ class Cart extends Equatable{
   void removeOrderFromCart(Order order) => this.orderList.removeOrder(order);
   void removeOrderFromCartByIndex(int index) => this.orderList.removeOrderByIndex(index);
   void clearCart() =>this.orderList.clear();
-  void numberOfOrders() => this.orderList.size();
+  int numberOfOrders() => this.orderList.numberOfDistinctOrders();
+  void totalNumberOfOrders() => this.orderList.size();
+  Order getOrderByIndex(int index) => this.orderList.getOrderByIndex(index);
   @override
   // TODO: implement props
   List<Object> get props => [orderList];

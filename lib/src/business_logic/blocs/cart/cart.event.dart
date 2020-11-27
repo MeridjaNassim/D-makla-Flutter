@@ -1,7 +1,18 @@
 import 'package:equatable/equatable.dart';
+import 'package:restaurant_rlutter_ui/src/business_logic/models/cart.dart';
 import 'package:restaurant_rlutter_ui/src/business_logic/models/order.dart';
 
 abstract class CartEvent extends Equatable{
+
+}
+class CartInitialized extends CartEvent{
+  final Cart cart;
+
+  CartInitialized(this.cart);
+
+  @override
+  // TODO: implement props
+  List<Object> get props => null;
 
 }
 

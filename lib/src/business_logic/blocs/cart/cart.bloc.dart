@@ -4,6 +4,11 @@ import 'package:restaurant_rlutter_ui/src/business_logic/blocs/cart/cart.event.d
 import 'package:restaurant_rlutter_ui/src/business_logic/blocs/cart/cart.state.dart';
 import 'package:restaurant_rlutter_ui/src/business_logic/controllers/pricing.controller.dart';
 import 'package:restaurant_rlutter_ui/src/business_logic/models/cart.dart';
+import 'package:restaurant_rlutter_ui/src/business_logic/models/menu.dart';
+import 'package:restaurant_rlutter_ui/src/business_logic/models/order.dart';
+import 'package:restaurant_rlutter_ui/src/business_logic/models/topping.dart';
+import 'package:restaurant_rlutter_ui/src/business_logic/models/variant.dart';
+import 'package:restaurant_rlutter_ui/src/business_logic/repositories/menu_repository.dart';
 
 class CartBloc extends Bloc<CartEvent,CartState> {
   final AuthenticationBloc _authenticationBloc;
@@ -14,6 +19,10 @@ class CartBloc extends Bloc<CartEvent,CartState> {
   }
   @override
   Stream<CartState> mapEventToState(CartEvent event) async*{
+    if(event is CartInitialized) {
+      print(event.cart);
+      yield LoadedCartState(cart : event.cart,currentCartPrice: CartPricingController(event.cart).getCartBasePrice());
+    }
     final state = this.state;
     if(state is LoadedCartState) {
       Cart cart = state.cart;
@@ -65,6 +74,10 @@ class CartBloc extends Bloc<CartEvent,CartState> {
     print("init cart ... ");
     Future.delayed(Duration(seconds:  2),(){
       print("cart initialized");
+      Order order1 = Order(menu: MockMenuRepository.mockData[0], variant: MockMenuRepository.mockData[0].variants.getVariantByIndex(0), toppingList: ToppingListImpl([]) );
+      Order order2 = Order(menu: MockMenuRepository.mockData[1], variant: MockMenuRepository.mockData[1].variants.getVariantByIndex(0), toppingList: ToppingListImpl([]) );
+      Cart cart = Cart(OrderListImpl([order1,order2]));
+      add(CartInitialized(cart));
     });
   }
 }

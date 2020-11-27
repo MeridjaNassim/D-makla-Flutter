@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:restaurant_rlutter_ui/src/models/food.dart';
+import 'package:restaurant_rlutter_ui/src/business_logic/models/order.dart';
 import 'package:restaurant_rlutter_ui/src/models/route_argument.dart';
 
 class CartItemWidget extends StatefulWidget {
   String heroTag;
-  Food food;
-  int quantity;
+  Order order;
 
-  CartItemWidget({Key key, this.food, this.heroTag, this.quantity = 1}) : super(key: key);
+  CartItemWidget({Key key, this.order, this.heroTag}) : super(key: key);
 
   @override
   _CartItemWidgetState createState() => _CartItemWidgetState();
@@ -21,7 +20,7 @@ class _CartItemWidgetState extends State<CartItemWidget> {
       focusColor: Theme.of(context).accentColor,
       highlightColor: Theme.of(context).primaryColor,
       onTap: () {
-        Navigator.of(context).pushNamed('/Food', arguments: RouteArgument(id: widget.food.id, heroTag: widget.heroTag));
+        Navigator.of(context).pushNamed('/Food', arguments: RouteArgument(id: widget.order.id, heroTag: widget.heroTag));
       },
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 7),
@@ -35,13 +34,13 @@ class _CartItemWidgetState extends State<CartItemWidget> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Hero(
-              tag: widget.heroTag + widget.food.id,
+              tag: widget.heroTag + widget.order.menu.id,
               child: Container(
                 height: 90,
                 width: 90,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(5)),
-                  image: DecorationImage(image: AssetImage(widget.food.image), fit: BoxFit.cover),
+                  image: DecorationImage(image: this.widget.order.menu.image.getImageProvider(), fit: BoxFit.cover),
                 ),
               ),
             ),
@@ -55,13 +54,13 @@ class _CartItemWidgetState extends State<CartItemWidget> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          widget.food.name,
+                          widget.order.menu.name + " : " + widget.order.variant.name,
                           overflow: TextOverflow.ellipsis,
                           maxLines: 2,
                           style: Theme.of(context).textTheme.subhead,
                         ),
                         Text(
-                          widget.food.getPrice(),
+                          widget.order.menu.pricings.getPriceOfVariant(widget.order.variant).toString(),
                           style: Theme.of(context).textTheme.display1,
                         ),
                       ],
@@ -74,21 +73,21 @@ class _CartItemWidgetState extends State<CartItemWidget> {
                     children: <Widget>[
                       IconButton(
                         onPressed: () {
-                          setState(() {
-                            widget.quantity = this.incrementQuantity(widget.quantity);
-                          });
+                          // setState(() {
+                          //   widget.quantity = this.incrementQuantity(widget.quantity);
+                          // });
                         },
                         iconSize: 30,
                         padding: EdgeInsets.symmetric(horizontal: 5),
                         icon: Icon(Icons.add_circle_outline),
                         color: Theme.of(context).hintColor,
                       ),
-                      Text(widget.quantity.toString(), style: Theme.of(context).textTheme.subhead),
+                      Text(widget.order.quantity.toString(), style: Theme.of(context).textTheme.subhead),
                       IconButton(
                         onPressed: () {
-                          setState(() {
-                            widget.quantity = this.decrementQuantity(widget.quantity);
-                          });
+                        //   setState(() {
+                        //     widget.quantity = this.decrementQuantity(widget.quantity);
+                        //   });
                         },
                         iconSize: 30,
                         padding: EdgeInsets.symmetric(horizontal: 5),

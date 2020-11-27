@@ -18,7 +18,7 @@ class Order extends Equatable {
       this.menu,
       this.variant,
       this.toppingList,
-      this.quantity});
+      this.quantity = 1});
 
   @override
   List<Object> get props {
@@ -50,6 +50,7 @@ abstract class OrderList extends Equatable {
   void setQuantity(Order order, int value);
 
   void setQuantityByIndex(int index, int value);
+  int numberOfDistinctOrders();
 }
 
 class OrderListImpl extends OrderList {
@@ -100,8 +101,8 @@ class OrderListImpl extends OrderList {
 
   @override
   Order getOrderByIndex(int index) {
-    // TODO: implement getOrderByIndex
-    throw UnimplementedError();
+    if(_items.length > index) return _items[index];
+    return null;
   }
 
   @override
@@ -131,5 +132,9 @@ class OrderListImpl extends OrderList {
       size = size + order.quantity;
     }
     return size;
+  }
+  @override
+  int numberOfDistinctOrders() {
+    return this._items.length;
   }
 }

@@ -13,13 +13,6 @@ class CartWidget extends StatefulWidget {
 }
 
 class _CartWidgetState extends State<CartWidget> {
-  FoodsList _cartList;
-
-  @override
-  void initState() {
-    _cartList = new FoodsList();
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,6 +39,10 @@ class _CartWidgetState extends State<CartWidget> {
     return BlocConsumer<CartBloc, CartState>(
       listener: (context, state) {
         print(state.name);
+        if(state is LoadedCartState) {
+          print(state.cart);
+          print("price : " + state.currentCartPrice.toString());
+        }
       },
       builder: (context, state) {
         if (state is LoadingCartState) {
@@ -57,7 +54,7 @@ class _CartWidgetState extends State<CartWidget> {
           );
         }
         if (state is LoadedCartState) {
-          Stack(
+          return Stack(
             fit: StackFit.expand,
             children: <Widget>[
               Container(
@@ -105,13 +102,13 @@ class _CartWidgetState extends State<CartWidget> {
                         scrollDirection: Axis.vertical,
                         shrinkWrap: true,
                         primary: false,
-                        itemCount: _cartList.featuredList.length,
+                        itemCount: state.cart.numberOfOrders(),
                         separatorBuilder: (context, index) {
                           return SizedBox(height: 15);
                         },
                         itemBuilder: (context, index) {
                           return CartItemWidget(
-                              food: _cartList.featuredList.elementAt(index),
+                              order: state.cart.getOrderByIndex(index),
                               heroTag: 'cart');
                         },
                       ),
@@ -153,14 +150,14 @@ class _CartWidgetState extends State<CartWidget> {
                           children: <Widget>[
                             Expanded(
                               child: Text(
-                                'Subtotal',
+                                'Total',
                                 style: Theme
                                     .of(context)
                                     .textTheme
                                     .body2,
                               ),
                             ),
-                            Text('\$50.23',
+                            Text(state.currentCartPrice.toString() + " DA",
                                 style: Theme
                                     .of(context)
                                     .textTheme
@@ -168,24 +165,24 @@ class _CartWidgetState extends State<CartWidget> {
                           ],
                         ),
                         SizedBox(height: 5),
-                        Row(
-                          children: <Widget>[
-                            Expanded(
-                              child: Text(
-                                'TAX (20%)',
-                                style: Theme
-                                    .of(context)
-                                    .textTheme
-                                    .body2,
-                              ),
-                            ),
-                            Text('\$13.23',
-                                style: Theme
-                                    .of(context)
-                                    .textTheme
-                                    .subhead),
-                          ],
-                        ),
+                        // Row(
+                        //   children: <Widget>[
+                        //     Expanded(
+                        //       child: Text(
+                        //         'TAX (20%)',
+                        //         style: Theme
+                        //             .of(context)
+                        //             .textTheme
+                        //             .body2,
+                        //       ),
+                        //     ),
+                        //     Text('\$13.23',
+                        //         style: Theme
+                        //             .of(context)
+                        //             .textTheme
+                        //             .subhead),
+                        //   ],
+                        // ),
                         SizedBox(height: 10),
                         Stack(
                           fit: StackFit.loose,
@@ -219,7 +216,7 @@ class _CartWidgetState extends State<CartWidget> {
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 20),
                               child: Text(
-                                '\$55.36',
+                                state.currentCartPrice.toString() +" DA",
                                 style: Theme
                                     .of(context)
                                     .textTheme

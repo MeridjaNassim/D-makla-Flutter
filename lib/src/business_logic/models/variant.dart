@@ -37,8 +37,8 @@ class VariantListImpl extends VariantList {
 
   @override
   Variant getVariantByIndex(int index) {
-    // TODO: implement getVariantByIndex
-    throw UnimplementedError();
+   if(_items.length > index) return _items[index];
+   return null;
   }
 
   @override
