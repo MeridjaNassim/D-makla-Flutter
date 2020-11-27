@@ -16,7 +16,6 @@ class CategoriesGridWidget extends StatelessWidget {
   List<Widget> _buildCategories() {
     return _categoriesList.categoriesList
         .map((category) => CategoriesGridItemWidget(
-              marginLeft: 0,
               category: category,
             ))
         .toList();
@@ -28,14 +27,17 @@ class CategoriesGridWidget extends StatelessWidget {
     }
     if (state is StoreLoadedState) {
       _categoriesList.categoriesList = state.store.categories;
-      return ListView.builder(
+      return GridView.builder(
+        physics: ScrollPhysics(),
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2
+        ),
         itemCount: _categoriesList.categoriesList.length,
-        scrollDirection: Axis.horizontal,
+        shrinkWrap: true,
         itemBuilder: (context, index) {
           double _marginLeft = 0;
           (index == 0) ? _marginLeft = 20 : _marginLeft = 0;
           return new CategoriesGridItemWidget(
-            marginLeft: _marginLeft,
             category: _categoriesList.categoriesList.elementAt(index),
           );
         },
@@ -53,7 +55,6 @@ class CategoriesGridWidget extends StatelessWidget {
           }
         },
         builder: (context, state) => Container(
-              height: 150,
               padding: EdgeInsets.symmetric(vertical: 10),
               child: _buildCategoriesGrid(state),
             ));

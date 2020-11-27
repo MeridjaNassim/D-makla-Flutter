@@ -36,7 +36,9 @@ class CategoryRespositoryImpl implements CategoryRepository{
 class MockCategoryRepository implements CategoryRepository {
   final mockData =[
     Category(id: "cat1",name: "pizza",image: NetworkImage(url: "https://images.unsplash.com/photo-1574126154517-d1e0d89ef734?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1267&q=80" )),
-    Category(id: "cat2" , name: "sandwish",image: NetworkImage(url:"https://images.unsplash.com/photo-1555554317-766200eb80d6?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=700&q=80" ))
+    Category(id: "cat2" , name: "burger",image: NetworkImage(url:"https://images.unsplash.com/photo-1555554317-766200eb80d6?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=700&q=80" )),
+    Category(id: "cat3" , name: "sandwish",image: NetworkImage(url:"https://images.unsplash.com/photo-1554433607-66b5efe9d304?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=700&q=80" )),
+    Category(id: "cat4" , name: "icecream",image: NetworkImage(url:"https://images.unsplash.com/photo-1561845730-208ad5910553?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80" ))
   ];
   @override
   Future<List<Category>> getCategories() async {
