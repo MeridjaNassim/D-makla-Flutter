@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:restaurant_rlutter_ui/src/business_logic/blocs/store/store.cubit.dart';
 import 'CategoriesGridtemWidget.dart';
 import 'common/loading.dart';
 import 'package:restaurant_rlutter_ui/src/features/Menu/categories/bloc/categories_cubit.dart';
@@ -21,12 +22,12 @@ class CategoriesGridWidget extends StatelessWidget {
         .toList();
   }
 
-  Widget _buildCategoriesGrid(CategoryState state) {
-    if (state is CategoryLoading) {
+  Widget _buildCategoriesGrid(StoreState state) {
+    if (state is StoreLoadingState) {
       return LoadingIndicator(loadingText: "loading categories");
     }
-    if (state is CategoryLoaded) {
-      _categoriesList.categoriesList = state.categories;
+    if (state is StoreLoadedState) {
+      _categoriesList.categoriesList = state.store.categories;
       return ListView.builder(
         itemCount: _categoriesList.categoriesList.length,
         scrollDirection: Axis.horizontal,
@@ -44,11 +45,11 @@ class CategoriesGridWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<CategoriesCubit, CategoryState>(
+    return BlocConsumer<StoreCubit, StoreState>(
         listener: (context, state) {
-          print(state.name);
-          if (state is CategoryLoaded) {
-            print(state.categories);
+          print(state);
+          if (state is StoreLoadedState) {
+            print(state.store.categories);
           }
         },
         builder: (context, state) => Container(

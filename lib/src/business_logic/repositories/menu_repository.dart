@@ -25,7 +25,7 @@ abstract class MenuRepository {
 class MenuRepositoryImpl implements MenuRepository {
   final mockData = [
     Menu(
-        id: "1",
+        id: "menu1",
         name: "pizza",
         variants: VariantListImpl([
           Variant(id: "1", name: "XXL"),
@@ -45,7 +45,7 @@ class MenuRepositoryImpl implements MenuRepository {
       ])
     ),
     Menu(
-        id: "2",
+        id: "menu2",
         name: "tacos",
         variants: VariantListImpl([
           Variant(id: "1", name: "XXL"),
@@ -100,7 +100,7 @@ class MenuRepositoryImpl implements MenuRepository {
 
   @override
   Future<List<Menu>> getTrendingMenus() async{
-    return mockData;
+    return Future.delayed(Duration(seconds: 1),()=>mockData);
   }
 }
 

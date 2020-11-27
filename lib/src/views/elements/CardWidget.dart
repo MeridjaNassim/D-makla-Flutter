@@ -36,7 +36,7 @@ class CardWidget extends StatelessWidget {
               decoration: BoxDecoration(
                 image: DecorationImage(
                   image: getRestaurantImage(),
-                  fit: BoxFit.contain,
+                  fit: BoxFit.cover,
                 ),
                 borderRadius: BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10)),
               ),

@@ -10,15 +10,15 @@ abstract class RestaurantRepository {
 
 
 List<Restaurant> mockData = [
-  Restaurant(id: "1",name: "Capri",image: NetworkImage(url: "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80")),
-  Restaurant(id: "2",name: "Syriana",image: NetworkImage(url: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80"))
+  Restaurant(id: "resto1",name: "Capri",image: NetworkImage(url: "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80")),
+  Restaurant(id: "resto2",name: "Syriana",image: NetworkImage(url: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80"))
 ];
 
 class MockRestaurantRepository extends RestaurantRepository{
   @override
   Future<List<Restaurant>> getAllRestaurants(String city_id) async{
     // TODO: implement getAllRestaurants
-   return mockData;
+   return Future.delayed(Duration(seconds: 1),()=>mockData);
   }
 
   @override

@@ -17,8 +17,11 @@ class StoreInitialState extends StoreState {
 
 }
 class StoreLoadingState extends StoreState {
+  final String message;
 
-  List<Object> get props => null;
+  StoreLoadingState(this.message);
+
+  List<Object> get props => [message];
 
 }
 class StoreLoadedState extends StoreState {
@@ -41,11 +44,16 @@ class StoreCubit extends Cubit<StoreState> {
 
   ///Loads the store of the application
   void loadStore() async {
-
-    emit(StoreLoadingState());
+    print("loading store ...");
+    emit(StoreLoadingState("loading restaurants"));
     ///TODO: implement load store
+    print("getting restaurants");
     final restaurants = await restaurantRepository.getAllRestaurants("10");
+    emit(StoreLoadingState("loading categories"));
+    print("getting categories");
     final categories = await categoryRepository.getCategories();
+    emit(StoreLoadingState("loading trending menus"));
+    print("getting trending");
     final trending = await menuRepository.getTrendingMenus();
     final store = Store(
       trendingMenus: trending,

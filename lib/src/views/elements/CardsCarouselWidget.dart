@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:restaurant_rlutter_ui/src/business_logic/blocs/store/store.cubit.dart';
 import 'common/loading.dart';
 import 'package:restaurant_rlutter_ui/src/features/Menu/restaurants/bloc/restaurant_cubit.dart';
 import 'package:restaurant_rlutter_ui/src/models/restaurant.dart';
@@ -18,12 +19,12 @@ class _CardsCarouselWidgetState extends State<CardsCarouselWidget> {
     _restaurantsList = new RestaurantsList();
     super.initState();
   }
-  Widget BuildRestaurantCarousel(RestaurantState state) {
-    if(state is RestaurantLoading) {
+  Widget BuildRestaurantCarousel(StoreState state) {
+    if(state is StoreLoadingState) {
       return LoadingIndicator(loadingText: "Loading restaurants");
     }
-    if(state is RestaurantLoaded) {
-      _restaurantsList.restaurantList = state.restaurants;
+    if(state is StoreLoadedState) {
+      _restaurantsList.restaurantList = state.store.restaurants;
       return ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: _restaurantsList.restaurantsList.length,
@@ -44,7 +45,7 @@ class _CardsCarouselWidgetState extends State<CardsCarouselWidget> {
   Widget build(BuildContext context) {
     return Container(
       height: 288,
-      child: BlocBuilder<RestaurantCubit,RestaurantState>(
+      child: BlocBuilder<StoreCubit,StoreState>(
         builder: (context,state)=> BuildRestaurantCarousel(state),
       )
     );
