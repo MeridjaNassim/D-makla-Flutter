@@ -1,19 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'CategoriesCarouselItemWidget.dart';
+import 'CategoriesGridtemWidget.dart';
 import 'common/loading.dart';
 import 'package:restaurant_rlutter_ui/src/features/Menu/categories/bloc/categories_cubit.dart';
 import 'package:restaurant_rlutter_ui/src/models/category.dart';
 
-class CategoriesCarouselWidget extends StatelessWidget {
+class CategoriesGridWidget extends StatelessWidget {
   CategoriesList _categoriesList = new CategoriesList();
 
-  CategoriesCarouselWidget({
+  CategoriesGridWidget({
     Key key,
   }) : super(key: key);
 
-  Widget BuildListCategories(CategoryState state) {
-    if(state is CategoryLoading) {
+  List<Widget> _buildCategories() {
+    return _categoriesList.categoriesList
+        .map((category) => CategoriesGridItemWidget(
+              marginLeft: 0,
+              category: category,
+            ))
+        .toList();
+  }
+
+  Widget _buildCategoriesGrid(CategoryState state) {
+    if (state is CategoryLoading) {
       return LoadingIndicator(loadingText: "loading categories");
     }
     if (state is CategoryLoaded) {
@@ -24,7 +33,7 @@ class CategoriesCarouselWidget extends StatelessWidget {
         itemBuilder: (context, index) {
           double _marginLeft = 0;
           (index == 0) ? _marginLeft = 20 : _marginLeft = 0;
-          return new CategoriesCarouselItemWidget(
+          return new CategoriesGridItemWidget(
             marginLeft: _marginLeft,
             category: _categoriesList.categoriesList.elementAt(index),
           );
@@ -45,7 +54,7 @@ class CategoriesCarouselWidget extends StatelessWidget {
         builder: (context, state) => Container(
               height: 150,
               padding: EdgeInsets.symmetric(vertical: 10),
-              child: BuildListCategories(state),
+              child: _buildCategoriesGrid(state),
             ));
   }
 }

@@ -4,9 +4,13 @@ import 'package:restaurant_rlutter_ui/src/business_logic/models/common/wilaya.da
 class DeliveryLocation {
 final Wilaya wilaya;
 final Commune commune;
-final Coordinates coordinates;
+final DeliveryZone zone;
 
-DeliveryLocation({this.wilaya, this.commune,this.coordinates});
+DeliveryLocation({this.wilaya, this.commune,this.zone});
+}
+
+class DeliveryZone {
+
 }
 
 class DeliveryTime {

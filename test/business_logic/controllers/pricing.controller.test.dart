@@ -29,33 +29,48 @@ void main(){
     menu = Menu(id: "1",name: "testMenu",toppings: toppingList,pricings: pricings);
     order1 = Order(restaurant: restaurant,menu:menu,variant: variant,quantity: 1,toppingList: toppingList );
     order2 = Order(restaurant: restaurant,menu:menu,variant: variant,quantity: 2,toppingList: toppingList);
-    cart = Cart(OrderListImpl([order1,order2]));
   });
 
-  test("should return correct price for toppings of one order", (){
-    /// arrange
-    orderPricingController = OrderPricingController(order1);
-    /// act
-    double toppingsPrice = orderPricingController.getOrderToppingsPrice();
-    /// assert
-    expect(toppingsPrice,30);
+  group("Cart pricing", (){
+    test("should return correct price for cart", (){
+      /// arrange
+      cart = Cart(OrderListImpl([order1,order2]));
+      cartPricingController = CartPricingController(cart);
+      /// act
+      double cartPrice = cartPricingController.getCartBasePrice();
+      /// assert
+      expect(cartPrice,390);
+    });
+    test("should return 0 if no orders are present in cart", (){
+      /// arrange
+      cart = Cart(OrderListImpl([]));
+      cartPricingController = CartPricingController(cart);
+      /// act
+      double cartPrice = cartPricingController.getCartBasePrice();
+      /// assert
+      expect(cartPrice,0);
+    });
+
+  });
+  group("Order pricing", (){
+    test("should return correct price for toppings of one order", (){
+      /// arrange
+      orderPricingController = OrderPricingController(order1);
+      /// act
+      double toppingsPrice = orderPricingController.getOrderToppingsPrice();
+      /// assert
+      expect(toppingsPrice,30);
+    });
+
+    test("should return correct price for one order", (){
+      /// arrange
+      orderPricingController = OrderPricingController(order1);
+      /// act
+      double orderPrice = orderPricingController.getOrderBasePrice();
+      /// assert
+      expect(orderPrice,130);
+    });
   });
 
-  test("should return correct price for one order", (){
-    /// arrange
-    orderPricingController = OrderPricingController(order1);
-    /// act
-    double orderPrice = orderPricingController.getOrderBasePrice();
-    /// assert
-    expect(orderPrice,130);
-  });
-  test("should return correct price for cart", (){
-    /// arrange
-    cartPricingController = CartPricingController(cart);
-    /// act
-    double cartPrice = cartPricingController.getCartBasePrice();
-    /// assert
-    expect(cartPrice,390);
-  });
 
 }

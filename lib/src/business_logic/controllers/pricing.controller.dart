@@ -27,6 +27,7 @@ class CartPricingController {
       final orderPricingController = OrderPricingController(order);
       return orderPricingController.getOrderBasePrice();
     }).toList();
+    if(prices.isEmpty) return 0;
     return prices.reduce((value, element) => value + element);
   }
 }

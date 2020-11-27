@@ -7,7 +7,6 @@ abstract class CartEvent extends Equatable{
 
 class OrderAdded extends CartEvent {
   final Order order ;
-
   OrderAdded(this.order);
 
   @override
@@ -34,4 +33,28 @@ class OrderQuantityInceremented extends CartEvent {
   // TODO: implement props
   List<Object> get props => [order,value];
 
+}
+class OrderQuantityDeceremented extends CartEvent {
+  final Order order ;
+  final int value;
+  OrderQuantityDeceremented(this.order, this.value);
+
+  @override
+  // TODO: implement props
+  List<Object> get props => [order,value];
+
+}
+class CartCleared extends CartEvent {
+  CartCleared();
+
+  @override
+  // TODO: implement props
+  List<Object> get props => null;
+}
+class CartCheckedOut extends CartEvent {
+  CartCheckedOut();
+
+  @override
+  // TODO: implement props
+  List<Object> get props => null;
 }

@@ -1,12 +1,11 @@
-
-
 import 'package:equatable/equatable.dart';
 import 'package:restaurant_rlutter_ui/src/business_logic/models/menu.dart';
 import 'package:restaurant_rlutter_ui/src/business_logic/models/restaurant.dart';
 import 'package:restaurant_rlutter_ui/src/business_logic/models/topping.dart';
 import 'package:restaurant_rlutter_ui/src/business_logic/models/variant.dart';
 
-class Order extends Equatable{
+class Order extends Equatable {
+  final String id;
   final Restaurant restaurant;
   final Menu menu;
   final Variant variant;
@@ -14,7 +13,8 @@ class Order extends Equatable{
   final int quantity;
 
   Order(
-      {this.restaurant,
+      {this.id,
+      this.restaurant,
       this.menu,
       this.variant,
       this.toppingList,
@@ -22,23 +22,34 @@ class Order extends Equatable{
 
   @override
   List<Object> get props {
-    return [restaurant,menu,variant,toppingList,quantity];
+    return [id];
   }
 }
 
 abstract class OrderList extends Equatable {
   void clear();
+  int size();
   Iterable<Order> items();
+
   void addNewOrder(Order order);
+
   void removeOrder(Order order);
+
   void removeOrderByIndex(int index);
+
   Order getOrderByIndex(int index);
-  void incrementQuantity(Order order,int amount);
-  void incrementQuantityByIndex(int index,int amount);
-  void decrementQuantity(Order ,int amount);
-  void decrementQuantityByIndex(int index,int amount);
+
+  void incrementQuantity(Order order, int amount);
+
+  void incrementQuantityByIndex(int index, int amount);
+
+  void decrementQuantity(Order, int amount);
+
+  void decrementQuantityByIndex(int index, int amount);
+
   void setQuantity(Order order, int value);
-  void setQuantityByIndex(int index,int value);
+
+  void setQuantityByIndex(int index, int value);
 }
 
 class OrderListImpl extends OrderList {
@@ -74,7 +85,7 @@ class OrderListImpl extends OrderList {
   @override
   Iterable<Order> items() {
     // TODO: implement items
-   return this._items;
+    return this._items;
   }
 
   @override
@@ -111,5 +122,14 @@ class OrderListImpl extends OrderList {
   @override
   void setQuantityByIndex(int index, int value) {
     // TODO: implement setQuantityByIndex
+  }
+
+  @override
+  int size() {
+    int size = 0;
+    for(Order order in _items) {
+      size = size + order.quantity;
+    }
+    return size;
   }
 }

@@ -4,6 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:restaurant_rlutter_ui/config/app_config.dart' as config;
 import 'package:restaurant_rlutter_ui/route_generator.dart';
 import 'package:restaurant_rlutter_ui/src/business_logic/blocs/auth/auth.bloc.dart';
+import 'package:restaurant_rlutter_ui/src/business_logic/blocs/cart/cart.bloc.dart';
+import 'package:restaurant_rlutter_ui/src/business_logic/blocs/store/store.cubit.dart';
+import 'package:restaurant_rlutter_ui/src/business_logic/repositories/menu_repository.dart';
+import 'package:restaurant_rlutter_ui/src/business_logic/repositories/restaurant_repository.dart';
 import 'package:restaurant_rlutter_ui/src/business_logic/services/auth.service.dart';
 import 'package:restaurant_rlutter_ui/src/features/Menu/categories/bloc/categories_cubit.dart';
 import 'package:restaurant_rlutter_ui/src/features/Menu/restaurants/bloc/restaurant_cubit.dart';
@@ -22,9 +26,16 @@ class DmaklaApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    final AuthenticationBloc authenticationBloc = AuthenticationBloc(AuthenticationServiceImpl());
     return MultiBlocProvider(
       providers: [
-        BlocProvider<AuthenticationBloc>(create: (context)=> AuthenticationBloc(AuthenticationServiceImpl())),
+        BlocProvider<AuthenticationBloc>(create: (context)=> authenticationBloc),
+        BlocProvider<StoreCubit>(create: (context)=>StoreCubit(
+          restaurantRepository: MockRestaurantRepository(),
+          menuRepository: MockMenuRepository(),
+          categoryRepository: MockCategoryRepository(),
+        )),
+        BlocProvider<CartBloc>(create: (context)=> CartBloc(authenticationBloc)),
         BlocProvider<CategoriesCubit>(create: (context) => CategoriesCubit()),
         BlocProvider<RestaurantCubit>(create: (context) => RestaurantCubit())
       ],

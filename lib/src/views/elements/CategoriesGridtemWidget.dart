@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:restaurant_rlutter_ui/src/business_logic/models/category.dart';
 
 // ignore: must_be_immutable
-class CategoriesCarouselItemWidget extends StatelessWidget {
+class CategoriesGridItemWidget extends StatelessWidget {
   double marginLeft;
   Category category;
-  CategoriesCarouselItemWidget({Key key, this.marginLeft, this.category}) : super(key: key);
+  CategoriesGridItemWidget({Key key, this.marginLeft, this.category}) : super(key: key);
   ImageProvider getCategoryImage(){
     if(category.image ==null) return null;
     return category.image.getImageProvider();

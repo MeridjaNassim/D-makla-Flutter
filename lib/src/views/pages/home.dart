@@ -10,7 +10,7 @@ import "dart:convert";
 import 'package:restaurant_rlutter_ui/src/features/Menu/categories/bloc/categories_cubit.dart';
 import 'package:restaurant_rlutter_ui/src/features/Menu/restaurants/bloc/restaurant_cubit.dart';
 import 'package:restaurant_rlutter_ui/src/views/elements/CardsCarouselWidget.dart';
-import 'package:restaurant_rlutter_ui/src/views/elements/CaregoriesCarouselWidget.dart';
+import 'package:restaurant_rlutter_ui/src/views/elements/CategoriesGridWidget.dart';
 import 'package:restaurant_rlutter_ui/src/views/elements/FoodsCarouselWidget.dart';
 import 'package:restaurant_rlutter_ui/src/views/elements/SearchBarWidget.dart';
 import 'package:restaurant_rlutter_ui/src/views/elements/common/loading.dart';
@@ -199,7 +199,7 @@ class _HomeWidgetState extends State<HomeWidget> {
               ),
             ),
           ),
-          CategoriesCarouselWidget(),
+          CategoriesGridWidget(),
           // Padding(
           //   padding: const EdgeInsets.symmetric(horizontal: 20),
           //   child: ListTile(

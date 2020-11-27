@@ -22,8 +22,25 @@ class LoadingCartState extends CartState {
 
 class LoadedCartState extends CartState{
   final Cart cart;
-  LoadedCartState({this.cart}) : super("loaded");
+  final double currentCartPrice;
+  LoadedCartState({this.cart,this.currentCartPrice}) : super("loaded");
   @override
   // TODO: implement props
-  List<Object> get props => [super.name,cart];
+  List<Object> get props => [super.name,cart,currentCartPrice];
+}
+class CartClearedState extends CartState {
+  CartClearedState() : super("cleared");
+}
+class CartCheckedoutState extends CartState {
+  CartCheckedoutState() : super("checkout");
+}
+
+
+class CartErrorState extends CartState {
+  final String errorMessage ;
+
+  CartErrorState(this.errorMessage) : super("error");
+  @override
+  // TODO: implement props
+  List<Object> get props => [super.name,errorMessage];
 }
