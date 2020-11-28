@@ -70,7 +70,7 @@ class CartBloc extends Bloc<CartEvent,CartState> {
     print(event.value);
     cart.decrement(event.order, event.value);
   }
-  Stream<CartState> _mapCartClearedEvent(CartCleared ,Cart cart)  async *{
+  Stream<CartState> _mapCartClearedEvent(CartCleared state ,Cart cart)  async *{
       cart.clearCart();
   }
   Stream<CartState> _mapCartCheckoutEvent(CartCheckedOut event,Cart cart)  async *{

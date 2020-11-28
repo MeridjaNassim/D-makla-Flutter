@@ -226,7 +226,7 @@ class LoginWidget extends StatelessWidget {
         }
       },
       child: BlocProvider<LoginBloc>(
-        create: (context) => LoginBloc(BlocProvider.of<AuthenticationBloc>(context)),
+        create: (context) => LoginBloc(BlocProvider.of<AuthenticationBloc>(context),),
         child: Scaffold(
           body: SingleChildScrollView(
             child: Container(

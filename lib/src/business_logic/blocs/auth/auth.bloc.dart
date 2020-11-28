@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:restaurant_rlutter_ui/src/business_logic/repositories/user_repository.dart';
 import 'package:restaurant_rlutter_ui/src/business_logic/services/auth.service.dart';
 
 import 'auth.event.dart';
@@ -6,7 +7,6 @@ import 'auth.state.dart';
 
 class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> {
   final AuthenticationService _authenticationService;
-
   AuthenticationBloc(AuthenticationService authenticationService)
       : assert(authenticationService != null),
         _authenticationService = authenticationService,

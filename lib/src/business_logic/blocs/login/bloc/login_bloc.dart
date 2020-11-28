@@ -3,6 +3,7 @@ import 'package:restaurant_rlutter_ui/src/business_logic/blocs/auth/auth.bloc.da
 import 'package:restaurant_rlutter_ui/src/business_logic/blocs/auth/auth.event.dart';
 import 'package:restaurant_rlutter_ui/src/business_logic/blocs/login/domain/login.dart';
 import 'package:restaurant_rlutter_ui/src/business_logic/models/user.dart';
+import 'package:restaurant_rlutter_ui/src/business_logic/repositories/user_repository.dart';
 import 'file:///D:/Projects/flutter/d_makla2/d_makla/lib/src/business_logic/utils/conversion.dart';
 import 'file:///D:/Projects/flutter/d_makla2/d_makla/lib/src/business_logic/utils/validation.dart';
 
