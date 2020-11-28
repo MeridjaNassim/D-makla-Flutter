@@ -1,6 +1,9 @@
 import 'package:equatable/equatable.dart';
 import 'package:restaurant_rlutter_ui/src/business_logic/models/cart.dart';
+import 'package:restaurant_rlutter_ui/src/business_logic/models/menu.dart';
 import 'package:restaurant_rlutter_ui/src/business_logic/models/order.dart';
+import 'package:restaurant_rlutter_ui/src/business_logic/models/topping.dart';
+import 'package:restaurant_rlutter_ui/src/business_logic/models/variant.dart';
 
 abstract class CartEvent extends Equatable{
 
@@ -17,12 +20,15 @@ class CartInitialized extends CartEvent{
 }
 
 class OrderAdded extends CartEvent {
-  final Order order ;
-  OrderAdded(this.order);
+  final Menu menu ;
+  final Variant variant;
+  final List<Topping> toppingList;
+  final int quantity;
+  OrderAdded({this.menu, this.variant, this.toppingList, this.quantity = 1});
 
   @override
   // TODO: implement props
-  List<Object> get props => [order];
+  List<Object> get props => [menu];
 
 }
 class OrderRemoved extends CartEvent {

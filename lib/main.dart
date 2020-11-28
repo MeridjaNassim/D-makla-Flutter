@@ -5,6 +5,9 @@ import 'package:restaurant_rlutter_ui/config/app_config.dart' as config;
 import 'package:restaurant_rlutter_ui/route_generator.dart';
 import 'package:restaurant_rlutter_ui/src/business_logic/blocs/auth/auth.bloc.dart';
 import 'package:restaurant_rlutter_ui/src/business_logic/blocs/cart/cart.bloc.dart';
+import 'package:restaurant_rlutter_ui/src/business_logic/blocs/store/category.cubit.dart';
+import 'package:restaurant_rlutter_ui/src/business_logic/blocs/store/menu.cubit.dart';
+import 'package:restaurant_rlutter_ui/src/business_logic/blocs/store/restaurant.cubit.dart';
 import 'package:restaurant_rlutter_ui/src/business_logic/blocs/store/store.cubit.dart';
 import 'package:restaurant_rlutter_ui/src/business_logic/repositories/category_repository.dart';
 import 'package:restaurant_rlutter_ui/src/business_logic/repositories/menu_repository.dart';
@@ -21,21 +24,23 @@ class DmaklaApp extends StatelessWidget {
   DmaklaApp();
   final GlobalKey<NavigatorState> _navigatorKey = GlobalKey();
   // This widget is the root of your application.
-  final AuthenticationBloc authenticationBloc = AuthenticationBloc(AuthenticationServiceImpl());
-
   @override
   Widget build(BuildContext context) {
 
     return BlocProvider<AuthenticationBloc>(
-      create: (context)=> authenticationBloc,
+      create: (context)=> AuthenticationBloc(AuthenticationServiceImpl()),
       child: MultiBlocProvider(
         providers: [
+          BlocProvider<CartBloc>(create: (context)=> CartBloc(BlocProvider.of<AuthenticationBloc>(context))),
+          BlocProvider<RestaurantCubit>(create: (context)=> RestaurantCubit()),
+          BlocProvider<CategoryCubit>(create: (context)=> CategoryCubit()),
+          BlocProvider<MenuCubit>(create: (context)=> MenuCubit(BlocProvider.of<CartBloc>(context))),
           BlocProvider<StoreCubit>(create: (context)=>StoreCubit(
             restaurantRepository: MockRestaurantRepository(),
             menuRepository: MockMenuRepository(),
             categoryRepository: MockCategoryRepository(),
           )),
-          BlocProvider<CartBloc>(create: (context)=> CartBloc(authenticationBloc)),
+
         ],
         child: MaterialApp(
           title: 'D-makla',

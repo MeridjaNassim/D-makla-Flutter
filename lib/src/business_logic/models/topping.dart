@@ -25,6 +25,7 @@ class Topping extends Equatable{
 }
 
 abstract class ToppingList {
+  int size();
   Topping getToppingById(String id);
   Topping getToppingByName(String name);
   Topping getToppingByIndex(int index);
@@ -45,8 +46,8 @@ class ToppingListImpl extends ToppingList {
 
   @override
   Topping getToppingByIndex(int index) {
-    // TODO: implement getToppingByIndex
-    throw UnimplementedError();
+   if(this._items != null &&  this._items.length > index) return this._items[index];
+   return null;
   }
 
   @override
@@ -63,6 +64,11 @@ class ToppingListImpl extends ToppingList {
     if(prices.isEmpty) return 0;
     double price = prices.reduce((value, element) => value + element);
     return price;
+  }
+
+  @override
+  int size() {
+    return this._items.length;
   }
 
 

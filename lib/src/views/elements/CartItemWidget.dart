@@ -43,7 +43,8 @@ class _CartItemWidgetState extends State<CartItemWidget> {
             ],
           ),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+
             children: <Widget>[
               Hero(
                 tag: widget.heroTag + widget.order.menu.id + widget.order.variant.id,
@@ -58,8 +59,9 @@ class _CartItemWidgetState extends State<CartItemWidget> {
               ),
               SizedBox(width: 15),
               Flexible(
+                flex: 3,
                 child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Expanded(
                       child: Column(
@@ -77,6 +79,18 @@ class _CartItemWidgetState extends State<CartItemWidget> {
                             maxLines: 2,
                             style: Theme.of(context).textTheme.body2,
                           ),
+                          ListView.builder(
+                            shrinkWrap: true,
+                              itemCount: widget.order.toppingList.size(),
+                              itemBuilder: (item,index){
+                                return Row(
+                                  children: [
+                                    Icon(Icons.add,color: Theme.of(context).accentColor,),
+                                    SizedBox(width: 10,),
+                                    Text(widget.order.toppingList.getToppingByIndex(index).name,style: Theme.of(context).textTheme.body1,)
+                                  ],
+                                );
+                              }),
                           Text(
                             widget.order.menu.pricings.getPriceOfVariant(widget.order.variant).toString() + " DA",
                             style: Theme.of(context).textTheme.display1,

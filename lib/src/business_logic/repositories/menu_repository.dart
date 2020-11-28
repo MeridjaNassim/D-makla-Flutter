@@ -71,18 +71,18 @@ class MockMenuRepository extends MenuRepository {
         id: "menu1",
         name: "pizza",
         variants: VariantListImpl([
-          Variant(id: "1", name: "XXL"),
-          Variant(id: "2", name: "Regulier")
+          Variant(id: "1", name: "Regulier"),
+          Variant(id: "2", name: "Moyen")
         ]),
         image: NetworkImage(
             url:
             "https://images.unsplash.com/photo-1585238342024-78d387f4a707?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"),
-        pricings: PricingsPerVariantImpl()..setPriceForVariant( Variant(id: "1", name: "XXL"), 100)..setPriceForVariant( Variant(id: "2", name: "Regulier"), 120),
+        pricings: PricingsPerVariantImpl()..setPriceForVariant( Variant(id: "1", name: "Regulier"), 170)..setPriceForVariant( Variant(id: "2", name: "Moyen"), 230),
         toppings: ToppingListImpl([
-          Topping(id: "11",price: 14,image: NetworkImage(
+          Topping(id: "11", name: "sauce ketchup",price: 14,image: NetworkImage(
               url:
               "https://images.unsplash.com/photo-1514326640560-7d063ef2aed5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=80")),
-          Topping(id: "12",price: 10,image: NetworkImage(
+          Topping(id: "12",name: "sauce marinée",price: 10,image: NetworkImage(
               url:
               "https://images.unsplash.com/photo-1514326640560-7d063ef2aed5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=80"))
         ])
@@ -91,18 +91,18 @@ class MockMenuRepository extends MenuRepository {
         id: "menu2",
         name: "tacos",
         variants: VariantListImpl([
-          Variant(id: "1", name: "XXL"),
-          Variant(id: "2", name: "Regulier")
+          Variant(id: "1", name: "Regulier"),
+          Variant(id: "2", name: "Large")
         ]),
         image: NetworkImage(
             url:
             "https://images.unsplash.com/photo-1551504734-5ee1c4a1479b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"),
-        pricings: PricingsPerVariantImpl()..setPriceForVariant( Variant(id: "1", name: "XXL"), 210)..setPriceForVariant( Variant(id: "2", name: "Regulier"), 120),
+        pricings: PricingsPerVariantImpl()..setPriceForVariant( Variant(id: "2", name: "Large"), 160)..setPriceForVariant( Variant(id: "1", name: "Regulier"), 100),
         toppings: ToppingListImpl([
-          Topping(id: "11",price: 14,image: NetworkImage(
+          Topping(id: "11", name: "sauce ketchup",price: 14,image: NetworkImage(
               url:
               "https://images.unsplash.com/photo-1514326640560-7d063ef2aed5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=80")),
-          Topping(id: "12",price: 10,image: NetworkImage(
+          Topping(id: "12",name: "sauce marinée",price: 10,image: NetworkImage(
               url:
               "https://images.unsplash.com/photo-1514326640560-7d063ef2aed5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=80"))
         ])

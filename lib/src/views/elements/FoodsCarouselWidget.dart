@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:restaurant_rlutter_ui/src/business_logic/models/menu.dart';
 import 'package:restaurant_rlutter_ui/src/models/food.dart';
 
 import 'FoodsCarouselItemWidget.dart';
 
 class FoodsCarouselWidget extends StatelessWidget {
   FoodsList _foodsList = new FoodsList();
-
+  List<Menu> menus;
   FoodsCarouselWidget({
+    this.menus,
     Key key,
   }) : super(key: key);
 
@@ -17,14 +19,14 @@ class FoodsCarouselWidget extends StatelessWidget {
         color: Theme.of(context).primaryColor,
         padding: EdgeInsets.symmetric(vertical: 10),
         child: ListView.builder(
-          itemCount: _foodsList.featuredList.length,
+          itemCount: menus.length,
           itemBuilder: (context, index) {
             double _marginLeft = 0;
             (index == 0) ? _marginLeft = 20 : _marginLeft = 0;
             return FoodsCarouselItemWidget(
               heroTag: 'home_food_carousel',
               marginLeft: _marginLeft,
-              food: _foodsList.featuredList.elementAt(index),
+              menu: menus.elementAt(index),
             );
           },
           scrollDirection: Axis.horizontal,

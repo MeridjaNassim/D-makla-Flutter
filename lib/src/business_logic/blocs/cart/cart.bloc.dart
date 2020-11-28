@@ -26,6 +26,7 @@ class CartBloc extends Bloc<CartEvent,CartState> {
     final state = this.state;
     if(state is LoadedCartState) {
       Cart cart = state.cart;
+      print(cart);
       if(event is OrderAdded){
         yield* _mapOrderAddedEvent(event,cart);
       }
@@ -44,14 +45,18 @@ class CartBloc extends Bloc<CartEvent,CartState> {
       if(event is CartCheckedOut){
         yield* _mapCartCheckoutEvent(event,cart);
       }
+      print("computing new price");
       double currentPrice = CartPricingController(cart).getCartBasePrice();
+      print("price: " + currentPrice.toString());
       yield LoadedCartState(cart: cart,currentCartPrice: currentPrice);
     }
 
   }
 
   Stream<CartState> _mapOrderAddedEvent(OrderAdded event,Cart cart)  async *{
-      cart.addOrderToCart(event.order);
+      print("adding to cart");
+      Order order = Order(menu: event.menu,variant: event.variant,toppingList: ToppingListImpl(event.toppingList),quantity: event.quantity);
+      cart.addOrderToCart(order);
   }
   Stream<CartState> _mapOrderRemovedEvent(OrderRemoved event,Cart cart)  async *{
       cart.removeOrderFromCart(event.order);
@@ -82,10 +87,7 @@ class CartBloc extends Bloc<CartEvent,CartState> {
     print("init cart ... ");
     Future.delayed(Duration(seconds:  2),(){
       print("cart initialized");
-      Order order1 = Order(menu: MockMenuRepository.mockData[0], variant: MockMenuRepository.mockData[0].variants.getVariantByIndex(0), toppingList: ToppingListImpl([]) );
-      Order order2 = Order(menu: MockMenuRepository.mockData[1], variant: MockMenuRepository.mockData[1].variants.getVariantByIndex(0), toppingList: ToppingListImpl([]) );
-      Order order3 = Order(menu: MockMenuRepository.mockData[1], variant: MockMenuRepository.mockData[1].variants.getVariantByIndex(1), toppingList: ToppingListImpl([]) );
-      Cart cart = Cart(OrderListImpl([order1,order2,order3]));
+      Cart cart = Cart(OrderListImpl([]));
       add(CartInitialized(cart));
     });
   }

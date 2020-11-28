@@ -1,21 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/blocs/store/menu.cubit.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/models/topping.dart';
+import 'package:restaurant_rlutter_ui/src/business_logic/models/variant.dart';
 
-class ExtraItemWidget extends StatefulWidget {
-  Topping topping;
-
-  ExtraItemWidget({
+class VariantItemWidget extends StatefulWidget {
+  Variant variant;
+  String price;
+  VariantItemWidget({
     Key key,
-    this.topping,
+    this.price,
+    this.variant,
   }) : super(key: key);
 
   @override
-  _ExtraItemWidgetState createState() => _ExtraItemWidgetState();
+  _VariantItemWidgetState createState() => _VariantItemWidgetState();
 }
 
-class _ExtraItemWidgetState extends State<ExtraItemWidget> with SingleTickerProviderStateMixin {
+class _VariantItemWidgetState extends State<VariantItemWidget> with SingleTickerProviderStateMixin {
   Animation animation;
   AnimationController animationController;
   Animation<double> sizeCheckAnimation;
@@ -62,8 +61,7 @@ class _ExtraItemWidgetState extends State<ExtraItemWidget> with SingleTickerProv
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        print('Extra added: '+ widget.topping.toString());
-        BlocProvider.of<MenuCubit>(context).toggleTopping(widget.topping);
+        print('Variant Selected');
         if (checked) {
           animationController.reverse();
         } else {
@@ -77,14 +75,6 @@ class _ExtraItemWidgetState extends State<ExtraItemWidget> with SingleTickerProv
           Stack(
             alignment: AlignmentDirectional.center,
             children: <Widget>[
-              Container(
-                height: 60,
-                width: 60,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(60)),
-                  image: DecorationImage(image: widget.topping.image.getImageProvider(), fit: BoxFit.cover),
-                ),
-              ),
               Container(
                 height: animation.value,
                 width: animation.value,
@@ -113,13 +103,13 @@ class _ExtraItemWidgetState extends State<ExtraItemWidget> with SingleTickerProv
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Text(
-                        widget.topping.name ??"name",
+                        widget.variant.name,
                         overflow: TextOverflow.ellipsis,
                         maxLines: 2,
                         style: Theme.of(context).textTheme.subhead,
                       ),
                       Text(
-                        widget.topping.description ?? "add this topping",
+                        widget.variant.description ?? "no description",
                         overflow: TextOverflow.ellipsis,
                         maxLines: 2,
                         style: Theme.of(context).textTheme.caption,
@@ -128,7 +118,7 @@ class _ExtraItemWidgetState extends State<ExtraItemWidget> with SingleTickerProv
                   ),
                 ),
                 SizedBox(width: 8),
-                Text(widget.topping.price.toString() +"DA", style: Theme.of(context).textTheme.display1),
+                Text(widget.price, style: Theme.of(context).textTheme.display1),
               ],
             ),
           )

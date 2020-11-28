@@ -61,7 +61,12 @@ class OrderListImpl extends OrderList {
 
   @override
   void addNewOrder(Order order) {
-    // TODO: implement addNewOrder
+    if(_items.isEmpty) return _items.add(order);
+    // check if this order exists first
+    Order existOrder = _items.firstWhere((element) => element == order,orElse: ()=>null);
+    if(existOrder == null) return _items.add(order);
+    removeOrder(existOrder);
+    return _items.add(order);
   }
 
   @override

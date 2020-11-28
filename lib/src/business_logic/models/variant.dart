@@ -19,6 +19,7 @@ class Variant extends Equatable{
 
 }
 abstract class VariantList {
+  int size();
   Variant getVariantById(String id);
   Variant getVariantByName(String name);
   Variant getVariantByIndex(int index);
@@ -45,6 +46,11 @@ class VariantListImpl extends VariantList {
   Variant getVariantByName(String name) {
     // TODO: implement getVariantByName
     throw UnimplementedError();
+  }
+
+  @override
+  int size() {
+    return this._items.length;
   }
 
 

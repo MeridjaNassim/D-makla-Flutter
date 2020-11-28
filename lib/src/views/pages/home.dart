@@ -7,6 +7,7 @@ import 'package:restaurant_rlutter_ui/src/views/elements/FoodsCarouselWidget.dar
 import 'package:restaurant_rlutter_ui/src/views/elements/SearchBarWidget.dart';
 import 'package:restaurant_rlutter_ui/src/views/elements/common/loading.dart';
 import '../../business_logic/models/common/image.dart' as BusinessImage;
+
 // /// Get all data of HomeScreen
 // Future<Map<String,dynamic>> getHomeData({String userId, String cityId}) async {
 //   final String repository_url = "https://www.d-makla.com/nassim_api/AppAndroid_all_apiBis.php?app_home_list";
@@ -79,12 +80,9 @@ import '../../business_logic/models/common/image.dart' as BusinessImage;
 // }
 
 class HomeWidget extends StatefulWidget {
-
   @override
   _HomeWidgetState createState() => _HomeWidgetState();
 }
-
-
 
 class _HomeWidgetState extends State<HomeWidget> {
   @override
@@ -95,14 +93,14 @@ class _HomeWidgetState extends State<HomeWidget> {
   Widget _buildHomePage(StoreState state) {
     return SingleChildScrollView(
       padding: EdgeInsets.symmetric(horizontal: 0, vertical: 10),
-      child:  Column(
+      child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
         mainAxisSize: MainAxisSize.max,
         children: <Widget>[
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: SearchBarWidget(title : "Rechercher votre plat préférer"),
+            child: SearchBarWidget(title: "Rechercher votre plat préférer"),
           ),
           ListTile(
             dense: true,
@@ -117,7 +115,13 @@ class _HomeWidgetState extends State<HomeWidget> {
             ),
             subtitle: null,
           ),
-          FoodsCarouselWidget(),
+          BlocBuilder<StoreCubit, StoreState>(
+              builder: (context, state){
+                if(state is StoreLoadedState ) {
+                  return FoodsCarouselWidget(menus : state.store.trendingMenus);
+                }
+                  return LoadingIndicator(loadingText: "loading trending");
+              }),
           Padding(
             padding: const EdgeInsets.only(top: 15, left: 20, right: 20),
             child: ListTile(
@@ -149,7 +153,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                 color: Theme.of(context).hintColor,
               ),
               title: Text(
-                "Choisir par catégorie" ,
+                "Choisir par catégorie",
                 style: Theme.of(context).textTheme.display1,
               ),
             ),
@@ -197,20 +201,22 @@ class _HomeWidgetState extends State<HomeWidget> {
       ),
     );
   }
+
   Widget _buildLoading(String message) {
     return Container(
-        height: MediaQuery.of(context).size.height -Scaffold.of(context).appBarMaxHeight ,
+        height: MediaQuery.of(context).size.height -
+            Scaffold.of(context).appBarMaxHeight,
         width: MediaQuery.of(context).size.width,
         child: Center(child: LoadingIndicator(loadingText: message)));
   }
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return BlocBuilder<StoreCubit,StoreState>(
-        builder: (context,state){
-          if(state is StoreLoadedState) return _buildHomePage(state);
-          if(state is StoreLoadingState) return _buildLoading(state.message);
-        return _buildLoading("loading");
+    return BlocBuilder<StoreCubit, StoreState>(builder: (context, state) {
+      if (state is StoreLoadedState) return _buildHomePage(state);
+      if (state is StoreLoadingState) return _buildLoading(state.message);
+      return _buildLoading("loading");
     });
   }
 }
