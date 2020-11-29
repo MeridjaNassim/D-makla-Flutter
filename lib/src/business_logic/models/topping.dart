@@ -25,6 +25,8 @@ class Topping extends Equatable{
 }
 
 abstract class ToppingList {
+  void toggle(Topping topping);
+  bool contains(Topping topping);
   int size();
   Topping getToppingById(String id);
   Topping getToppingByName(String name);
@@ -69,6 +71,26 @@ class ToppingListImpl extends ToppingList {
   @override
   int size() {
     return this._items.length;
+  }
+
+  @override
+  bool contains(Topping topping) {
+    return this._items.contains(topping);
+  }
+
+  @override
+  void toggle(Topping topping) {
+    if(this._items.isEmpty){
+      this._items.add(topping);
+      return;
+    }
+    final toppings = this._items;
+    final _topping = toppings.firstWhere((element) => element ==topping,orElse: ()=>null);
+    if(_topping != null) {
+      this._items.remove(_topping);
+      return;
+    }
+    this._items.add(topping);
   }
 
 

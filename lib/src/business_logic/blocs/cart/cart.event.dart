@@ -22,7 +22,7 @@ class CartInitialized extends CartEvent{
 class OrderAdded extends CartEvent {
   final Menu menu ;
   final Variant variant;
-  final List<Topping> toppingList;
+  final ToppingList toppingList;
   final int quantity;
   OrderAdded({this.menu, this.variant, this.toppingList, this.quantity = 1});
 

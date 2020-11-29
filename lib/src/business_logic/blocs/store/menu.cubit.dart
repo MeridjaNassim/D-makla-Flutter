@@ -23,7 +23,7 @@ class MenuSelectedState extends MenuState {
 
   final Menu menu;
   final Variant selectedVariant;
-  final List<Topping> selectedToppings;
+  final ToppingList selectedToppings;
   final double currentOrderPrice;
   final int quantity;
   MenuSelectedState(this.menu,this.selectedVariant,this.selectedToppings,this.currentOrderPrice,this.quantity);
@@ -55,11 +55,12 @@ class MenuCubit extends Cubit<MenuState> {
         this._cartBloc = cartBloc,
         super(InitialMenuState());
 
-  void setCurrentMenu(Menu menu) {
-    Variant firstVariant = menu.variants.getVariantByIndex(0);
-    Order order = Order(menu: menu,variant: firstVariant,toppingList: ToppingListImpl([]),quantity: 1);
+  void setCurrentMenu(Menu menu,{Variant selectedVariant,ToppingList selectedToppings,int quantity}) {
+    Variant variant = selectedVariant ?? menu.variants.getVariantByIndex(0);
+    ToppingList toppings = selectedToppings ?? ToppingListImpl([]);
+    Order order = Order(menu: menu,variant: variant,toppingList: toppings ,quantity: quantity ?? 1);
     double price = OrderPricingController(order).getOrderBasePrice();
-    emit(MenuSelectedState(menu,firstVariant,[],price,1));
+    emit(MenuSelectedState(menu,variant,toppings,price,1));
   }
   Future<void> addCurrentMenuToCart() async{
     final state = this.state;
@@ -71,16 +72,13 @@ class MenuCubit extends Cubit<MenuState> {
           quantity: state.quantity,
           toppingList:state.selectedToppings ));
       emit(CreatedNewOrderFromMenuState());
-      Future.delayed(Duration(seconds: 1),(){
-        setCurrentMenu(state.menu);
-      });
     }
   }
   void setSelectedVariant(Variant variant) {
     final state = this.state;
     print("Variant : " + variant.toString());
     if(state is MenuSelectedState) {
-      Order order = Order(menu: state.menu,variant: variant,toppingList: ToppingListImpl(state.selectedToppings),quantity: state.quantity);
+      Order order = Order(menu: state.menu,variant: variant,toppingList: state.selectedToppings,quantity: state.quantity);
       double price = OrderPricingController(order).getOrderBasePrice();
       final newState = MenuSelectedState(state.menu,variant,state.selectedToppings,price,state.quantity);
       emit(newState);
@@ -93,7 +91,7 @@ class MenuCubit extends Cubit<MenuState> {
       int quantity= state.quantity;
       quantity +=1;
       if(quantity>99) quantity = 99;
-      Order order = Order(menu: state.menu,variant: state.selectedVariant,toppingList: ToppingListImpl(state.selectedToppings),quantity: quantity);
+      Order order = Order(menu: state.menu,variant: state.selectedVariant,toppingList: state.selectedToppings,quantity: quantity);
       double price = OrderPricingController(order).getOrderBasePrice();
       final newState = MenuSelectedState(state.menu,state.selectedVariant,state.selectedToppings,price,quantity);
       emit(newState);
@@ -106,7 +104,7 @@ class MenuCubit extends Cubit<MenuState> {
       int quantity= state.quantity;
       quantity -=1;
       if(quantity<1) quantity = 1;
-      Order order = Order(menu: state.menu,variant: state.selectedVariant,toppingList: ToppingListImpl(state.selectedToppings),quantity: quantity);
+      Order order = Order(menu: state.menu,variant: state.selectedVariant,toppingList: state.selectedToppings,quantity: quantity);
       double price = OrderPricingController(order).getOrderBasePrice();
       final newState = MenuSelectedState(state.menu,state.selectedVariant,state.selectedToppings,price,quantity);
       emit(newState);
@@ -117,17 +115,8 @@ class MenuCubit extends Cubit<MenuState> {
     final state = this.state;
     if(state is MenuSelectedState) {
       final toppings = state.selectedToppings;
-      final _topping = toppings.firstWhere((element) => element == topping,orElse: ()=>null);
-      if(_topping == null) {
-        print("added topping"+ topping.toString());
-        toppings.add(topping);
-
-      }
-      else{
-        print("removed topping"+ topping.toString());
-        toppings.remove(topping);
-      }
-      Order order = Order(menu: state.menu,variant: state.selectedVariant,toppingList: ToppingListImpl(toppings),quantity: state.quantity);
+      toppings.toggle(topping);
+      Order order = Order(menu: state.menu,variant: state.selectedVariant,toppingList: toppings,quantity: state.quantity);
       double price = OrderPricingController(order).getOrderBasePrice();
       final newState = MenuSelectedState(state.menu,state.selectedVariant,toppings,price,state.quantity);
       emit(newState);

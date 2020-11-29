@@ -19,7 +19,7 @@ class Order extends Equatable {
 
   @override
   List<Object> get props {
-    return [menu.id,variant.id];
+    return [menu,variant];
   }
 }
 
@@ -63,8 +63,12 @@ class OrderListImpl extends OrderList {
   void addNewOrder(Order order) {
     if(_items.isEmpty) return _items.add(order);
     // check if this order exists first
+    print("checking if exists");
     Order existOrder = _items.firstWhere((element) => element == order,orElse: ()=>null);
-    if(existOrder == null) return _items.add(order);
+    if(existOrder == null) {
+      print("order does not exist");
+      return _items.add(order);
+    }
     removeOrder(existOrder);
     return _items.add(order);
   }
@@ -72,6 +76,7 @@ class OrderListImpl extends OrderList {
   @override
   void removeOrder(Order order) {
     // TODO: implement removeOrder
+    if(this._items != null && this._items.isNotEmpty) this._items.remove(order);
   }
 
   @override

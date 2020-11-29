@@ -55,7 +55,7 @@ class CartBloc extends Bloc<CartEvent,CartState> {
 
   Stream<CartState> _mapOrderAddedEvent(OrderAdded event,Cart cart)  async *{
       print("adding to cart");
-      Order order = Order(menu: event.menu,variant: event.variant,toppingList: ToppingListImpl(event.toppingList),quantity: event.quantity);
+      Order order = Order(menu: event.menu,variant: event.variant,toppingList: event.toppingList,quantity: event.quantity);
       cart.addOrderToCart(order);
   }
   Stream<CartState> _mapOrderRemovedEvent(OrderRemoved event,Cart cart)  async *{

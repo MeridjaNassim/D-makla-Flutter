@@ -78,7 +78,10 @@ class _FoodWidgetState extends State<FoodWidget> {
     return ListView.separated(
       padding: EdgeInsets.all(0),
       itemBuilder: (context, index) {
-        return ExtraItemWidget(topping: state.menu.toppings.getToppingByIndex(index));
+        final topping = state.menu.toppings.getToppingByIndex(index);
+        final isSelected = state.selectedToppings.contains(topping);
+        print("is selected "+ topping.toString()+ ": " + isSelected.toString());
+        return ExtraItemWidget(topping: topping, isSelected: isSelected,);
       },
       separatorBuilder: (context, index) {
         return SizedBox(height: 20);
@@ -209,16 +212,6 @@ class _FoodWidgetState extends State<FoodWidget> {
             ),
             BlocBuilder<MenuCubit,MenuState>(
               builder:(context,state){
-                if(state is CreatingNewOrderFromMenuState) {
-                  return Positioned(
-                      bottom: 0,
-                      child: LoadingIndicator(loadingText: "creating new order",));
-                }
-                if(state is CreatedNewOrderFromMenuState) {
-                  return Positioned(
-                      bottom: 0,
-                      child: Text("Created new order in cart"));
-                }
                 if(state is MenuSelectedState) {
                   return Positioned(
                     bottom: 0,

@@ -5,9 +5,10 @@ import 'package:restaurant_rlutter_ui/src/business_logic/models/topping.dart';
 
 class ExtraItemWidget extends StatefulWidget {
   Topping topping;
-
+  bool isSelected;
   ExtraItemWidget({
     Key key,
+    this.isSelected = false,
     this.topping,
   }) : super(key: key);
 
@@ -22,11 +23,13 @@ class _ExtraItemWidgetState extends State<ExtraItemWidget> with SingleTickerProv
   Animation<double> rotateCheckAnimation;
   Animation<double> opacityAnimation;
   Animation opacityCheckAnimation;
-  bool checked = false;
+  bool checked;
 
   @override
   void initState() {
+    print("hello init state");
     super.initState();
+    checked = widget.isSelected;
     animationController = AnimationController(duration: Duration(milliseconds: 350), vsync: this);
     CurvedAnimation curve = CurvedAnimation(parent: animationController, curve: Curves.easeOut);
     animation = Tween(begin: 0.0, end: 60.0).animate(curve)
@@ -49,6 +52,12 @@ class _ExtraItemWidgetState extends State<ExtraItemWidget> with SingleTickerProv
       ..addListener(() {
         setState(() {});
       });
+    if(checked) {
+      animationController.forward();
+    }else {
+      animationController.reverse();
+    }
+
   }
 
   @override
