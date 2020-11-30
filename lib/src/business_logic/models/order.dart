@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
 import 'package:restaurant_rlutter_ui/src/business_logic/models/menu.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/models/restaurant.dart';
 import 'package:restaurant_rlutter_ui/src/business_logic/models/topping.dart';
 import 'package:restaurant_rlutter_ui/src/business_logic/models/variant.dart';
 
@@ -8,19 +7,32 @@ class Order extends Equatable {
   final Menu menu;
   final Variant variant;
   final ToppingList toppingList;
+  final DateTime creationDate;
   int quantity;
-
+  double price;
   Order(
       {
       this.menu,
       this.variant,
       this.toppingList,
+        this.creationDate,
       this.quantity = 1});
 
   @override
   List<Object> get props {
-    return [menu,variant];
+    return [menu,variant,toppingList,creationDate];
   }
+
+  double getUnitPrice() {
+    final variantPrice = this.menu.pricings.getPriceOfVariant(this.variant);
+    final toppingsPrice = this.toppingList.getListPrice();
+    if(variantPrice != null && toppingsPrice != null) return (variantPrice+toppingsPrice);
+    return 0;
+  }
+  double getFullPrice() {
+    return this.getUnitPrice() *this.quantity;
+  }
+
 }
 
 abstract class OrderList extends Equatable {

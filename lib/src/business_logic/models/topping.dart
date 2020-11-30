@@ -24,10 +24,13 @@ class Topping extends Equatable{
 
 }
 
-abstract class ToppingList {
+abstract class ToppingList  extends Equatable{
+  List<Topping> getItemsList();
   void toggle(Topping topping);
   bool contains(Topping topping);
   int size();
+  void addTopping(Topping topping);
+  void removeTopping(Topping topping);
   Topping getToppingById(String id);
   Topping getToppingByName(String name);
   Topping getToppingByIndex(int index);
@@ -40,6 +43,9 @@ class ToppingListImpl extends ToppingList {
 
   ToppingListImpl(List<Topping> toppings) : this._items = toppings;
 
+  @override
+  // TODO: implement props
+  List<Object> get props => _items;
   @override
   Topping getToppingById(String id) {
     // TODO: implement getToppingById
@@ -91,6 +97,21 @@ class ToppingListImpl extends ToppingList {
       return;
     }
     this._items.add(topping);
+  }
+
+  @override
+  List<Topping> getItemsList() {
+  return this._items;
+  }
+
+  @override
+  void addTopping(Topping topping) {
+    this._items.add(topping);
+  }
+
+  @override
+  void removeTopping(Topping topping) {
+    this._items.remove(topping);
   }
 
 

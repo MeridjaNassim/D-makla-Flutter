@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:restaurant_rlutter_ui/src/business_logic/blocs/cart/cart.bloc.dart';
+import 'package:restaurant_rlutter_ui/src/business_logic/blocs/cart/cart.event.dart';
 import 'package:restaurant_rlutter_ui/src/business_logic/blocs/cart/cart.state.dart';
 import 'package:restaurant_rlutter_ui/src/models/food.dart';
 import 'package:restaurant_rlutter_ui/src/views/elements/CartItemWidget.dart';
@@ -19,6 +20,13 @@ class _CartWidgetState extends State<CartWidget> {
     // TODO: implement build
     return Scaffold(
       appBar: AppBar(
+        actions: [
+          IconButton(icon: Icon(Icons.refresh,color: Theme.of(context).accentColor,), tooltip: "clear cart",
+            splashRadius: 10,
+            onPressed: (){
+            BlocProvider.of<CartBloc>(context).add(CartCleared());
+          },)
+        ],
         backgroundColor: Colors.transparent,
         elevation: 0,
         centerTitle: true,
@@ -164,7 +172,6 @@ class _CartWidgetState extends State<CartWidget> {
                                     .subhead),
                           ],
                         ),
-                        SizedBox(height: 5),
                         // Row(
                         //   children: <Widget>[
                         //     Expanded(
@@ -183,7 +190,7 @@ class _CartWidgetState extends State<CartWidget> {
                         //             .subhead),
                         //   ],
                         // ),
-                        SizedBox(height: 10),
+                        SizedBox(height: 20),
                         Stack(
                           fit: StackFit.loose,
                           alignment: AlignmentDirectional.centerEnd,
@@ -230,7 +237,6 @@ class _CartWidgetState extends State<CartWidget> {
                             )
                           ],
                         ),
-                        SizedBox(height: 10),
                       ],
                     ),
                   ),

@@ -48,7 +48,7 @@ class _CartItemWidgetState extends State<CartItemWidget> {
                   widget.order.menu, selectedVariant: widget.order.variant,
                   selectedToppings: widget.order.toppingList,
                   quantity: widget.order.quantity);
-              Navigator.of(context).pushNamed('/Food', arguments: RouteArgument(
+              Navigator.of(context).pushReplacementNamed('/Food', arguments: RouteArgument(
                   id: widget.order.menu.id, heroTag: widget.heroTag));
             },
             child: Container(
@@ -127,8 +127,7 @@ class _CartItemWidgetState extends State<CartItemWidget> {
                                     );
                                   }),
                               Text(
-                                widget.order.menu.pricings.getPriceOfVariant(
-                                    widget.order.variant).toString() + " DA",
+                                widget.order.getUnitPrice().toString() + " DA",
                                 style: Theme
                                     .of(context)
                                     .textTheme

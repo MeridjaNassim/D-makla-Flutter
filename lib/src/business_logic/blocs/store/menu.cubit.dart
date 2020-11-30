@@ -30,23 +30,7 @@ class MenuSelectedState extends MenuState {
 
   @override
   // TODO: implement props
-  List<Object> get props => [menu,selectedVariant,quantity,currentOrderPrice];
-}
-class CreatingNewOrderFromMenuState extends MenuState {
-
-  CreatingNewOrderFromMenuState();
-
-  @override
-  // TODO: implement props
-  List<Object> get props => null;
-}
-class CreatedNewOrderFromMenuState extends MenuState {
-
-  CreatedNewOrderFromMenuState();
-
-  @override
-  // TODO: implement props
-  List<Object> get props => null;
+  List<Object> get props => [menu,selectedVariant,quantity,selectedToppings];
 }
 class MenuCubit extends Cubit<MenuState> {
   final CartBloc _cartBloc;
@@ -59,19 +43,17 @@ class MenuCubit extends Cubit<MenuState> {
     Variant variant = selectedVariant ?? menu.variants.getVariantByIndex(0);
     ToppingList toppings = selectedToppings ?? ToppingListImpl([]);
     Order order = Order(menu: menu,variant: variant,toppingList: toppings ,quantity: quantity ?? 1);
-    double price = OrderPricingController(order).getOrderBasePrice();
-    emit(MenuSelectedState(menu,variant,toppings,price,1));
+    double price = order.getFullPrice();
+    emit(MenuSelectedState(menu,variant,toppings,price,quantity ?? 1));
   }
   Future<void> addCurrentMenuToCart() async{
     final state = this.state;
     if(state is MenuSelectedState) {
-      emit(CreatingNewOrderFromMenuState());
       _cartBloc.add(OrderAdded(
           menu: state.menu,
           variant: state.selectedVariant,
           quantity: state.quantity,
           toppingList:state.selectedToppings ));
-      emit(CreatedNewOrderFromMenuState());
     }
   }
   void setSelectedVariant(Variant variant) {
@@ -79,7 +61,7 @@ class MenuCubit extends Cubit<MenuState> {
     print("Variant : " + variant.toString());
     if(state is MenuSelectedState) {
       Order order = Order(menu: state.menu,variant: variant,toppingList: state.selectedToppings,quantity: state.quantity);
-      double price = OrderPricingController(order).getOrderBasePrice();
+      double price = order.getFullPrice();
       final newState = MenuSelectedState(state.menu,variant,state.selectedToppings,price,state.quantity);
       emit(newState);
     }
@@ -92,7 +74,7 @@ class MenuCubit extends Cubit<MenuState> {
       quantity +=1;
       if(quantity>99) quantity = 99;
       Order order = Order(menu: state.menu,variant: state.selectedVariant,toppingList: state.selectedToppings,quantity: quantity);
-      double price = OrderPricingController(order).getOrderBasePrice();
+      double price = order.getFullPrice();
       final newState = MenuSelectedState(state.menu,state.selectedVariant,state.selectedToppings,price,quantity);
       emit(newState);
     }
@@ -105,7 +87,7 @@ class MenuCubit extends Cubit<MenuState> {
       quantity -=1;
       if(quantity<1) quantity = 1;
       Order order = Order(menu: state.menu,variant: state.selectedVariant,toppingList: state.selectedToppings,quantity: quantity);
-      double price = OrderPricingController(order).getOrderBasePrice();
+      double price = order.getFullPrice();
       final newState = MenuSelectedState(state.menu,state.selectedVariant,state.selectedToppings,price,quantity);
       emit(newState);
     }
@@ -115,10 +97,19 @@ class MenuCubit extends Cubit<MenuState> {
     final state = this.state;
     if(state is MenuSelectedState) {
       final toppings = state.selectedToppings;
-      toppings.toggle(topping);
-      Order order = Order(menu: state.menu,variant: state.selectedVariant,toppingList: toppings,quantity: state.quantity);
-      double price = OrderPricingController(order).getOrderBasePrice();
-      final newState = MenuSelectedState(state.menu,state.selectedVariant,toppings,price,state.quantity);
+      final list = toppings.getItemsList();
+      ToppingList newToppings = ToppingListImpl([]);
+      bool shouldAdd = true;
+      list.forEach((element) {
+        print("item topping is : " + element.toString());
+        if(element != topping) newToppings.addTopping(element);
+        else shouldAdd = false;
+      });
+      if(shouldAdd) newToppings.addTopping(topping);
+      Order order = Order(menu: state.menu,variant: state.selectedVariant,toppingList: newToppings,quantity: state.quantity);
+      double price = order.getFullPrice();
+      final newState = MenuSelectedState(state.menu,state.selectedVariant,newToppings,price,state.quantity);
+      print("state is same: " + (newState == state).toString());
       emit(newState);
     }
 

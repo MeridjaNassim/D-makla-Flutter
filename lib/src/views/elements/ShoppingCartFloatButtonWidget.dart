@@ -22,7 +22,7 @@ class ShoppingCartFloatButtonWidget extends StatelessWidget {
         color: Theme.of(context).accentColor,
         shape: StadiumBorder(),
         onPressed: () {
-          Navigator.of(context).pushNamed('/Cart');
+          Navigator.of(context).pushReplacementNamed('/Cart');
         },
         child: Stack(
           alignment: AlignmentDirectional.bottomEnd,
