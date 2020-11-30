@@ -25,6 +25,7 @@ class _CartWidgetState extends State<CartWidget> {
             splashRadius: 10,
             onPressed: (){
             BlocProvider.of<CartBloc>(context).add(CartCleared());
+
           },)
         ],
         backgroundColor: Colors.transparent,
@@ -62,6 +63,7 @@ class _CartWidgetState extends State<CartWidget> {
           );
         }
         if (state is LoadedCartState) {
+          final numberOfOrders = state.cart.totalNumberOfOrders();
           return Stack(
             fit: StackFit.expand,
             children: <Widget>[
@@ -115,9 +117,26 @@ class _CartWidgetState extends State<CartWidget> {
                           return SizedBox(height: 15);
                         },
                         itemBuilder: (context, index) {
-                          return CartItemWidget(
-                              order: state.cart.getOrderByIndex(index),
-                              heroTag: 'cart');
+                          final order = state.cart.getOrderByIndex(index);
+                          return Dismissible(
+                              onDismissed: (direction){
+                                BlocProvider.of<CartBloc>(context).add(OrderRemoved(order));
+                                Scaffold
+                                    .of(context)
+                                    .showSnackBar(SnackBar(
+                                    backgroundColor: Theme.of(context).accentColor,
+                                    content: Text("Order ${order.menu.name +" " + order.variant.name} deleted",textAlign: TextAlign.start,
+                                        style: TextStyle(
+                                            color: Theme
+                                                .of(context)
+                                                .primaryColor))));
+                                // Remove the item from the data source.
+                              },
+                              key: Key(index.toString()), child:
+                          CartItemWidget(
+                              order: order,
+                              heroTag: 'cart')
+                          );
                         },
                       ),
                     ],
@@ -201,16 +220,18 @@ class _CartWidgetState extends State<CartWidget> {
                                   .size
                                   .width - 40,
                               child: FlatButton(
-                                onPressed: () {
+                                disabledColor: Colors.grey,
+                                disabledTextColor: Colors.black54,
+                                onPressed:numberOfOrders != 0 ? () {
                                   Navigator.of(context).pushNamed('/Checkout');
-                                },
+                                } : null,
                                 padding: EdgeInsets.symmetric(vertical: 14),
                                 color: Theme
                                     .of(context)
                                     .accentColor,
                                 shape: StadiumBorder(),
                                 child: Text(
-                                  'Checkout',
+                                  numberOfOrders != 0 ? 'Checkout' : "Cart Empty",
                                   textAlign: TextAlign.start,
                                   style: TextStyle(
                                       color: Theme
