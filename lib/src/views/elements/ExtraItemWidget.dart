@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/blocs/store/menu.cubit.dart';
+import 'package:restaurant_rlutter_ui/src/business_logic/blocs/store/order.cubit.dart';
 import 'package:restaurant_rlutter_ui/src/business_logic/models/topping.dart';
+import 'package:restaurant_rlutter_ui/src/views/utils/image_handling.dart';
 
 class ExtraItemWidget extends StatefulWidget {
   Topping topping;
@@ -72,7 +73,7 @@ class _ExtraItemWidgetState extends State<ExtraItemWidget> with SingleTickerProv
     return InkWell(
       onTap: () {
         print('Extra added: '+ widget.topping.toString());
-        BlocProvider.of<MenuCubit>(context).toggleTopping(widget.topping);
+        BlocProvider.of<OrderCubit>(context).toggleTopping(widget.topping);
         if (checked) {
           animationController.reverse();
         } else {
@@ -91,7 +92,7 @@ class _ExtraItemWidgetState extends State<ExtraItemWidget> with SingleTickerProv
                 width: 60,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(60)),
-                  image: DecorationImage(image: widget.topping.image.getImageProvider(), fit: BoxFit.cover),
+                  image: DecorationImage(image: getImageProvider(widget.topping.image), fit: BoxFit.cover),
                 ),
               ),
               Container(
@@ -128,7 +129,7 @@ class _ExtraItemWidgetState extends State<ExtraItemWidget> with SingleTickerProv
                         style: Theme.of(context).textTheme.subhead,
                       ),
                       Text(
-                        widget.topping.description ?? "add this topping",
+                        widget.topping.description ?? "clicker pour ajouter",
                         overflow: TextOverflow.ellipsis,
                         maxLines: 2,
                         style: Theme.of(context).textTheme.caption,

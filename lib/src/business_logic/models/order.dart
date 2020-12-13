@@ -4,15 +4,19 @@ import 'package:restaurant_rlutter_ui/src/business_logic/models/topping.dart';
 import 'package:restaurant_rlutter_ui/src/business_logic/models/variant.dart';
 
 class Order extends Equatable {
+  final String id;
   final Menu menu;
   final Variant variant;
+  final String note;
   final ToppingList toppingList;
   final DateTime creationDate;
   int quantity;
   double price;
   Order(
       {
+        this.id,
       this.menu,
+        this.note,
       this.variant,
       this.toppingList,
         this.creationDate,
@@ -20,7 +24,7 @@ class Order extends Equatable {
 
   @override
   List<Object> get props {
-    return [menu,variant,toppingList,creationDate];
+    return [id,menu,variant,toppingList,creationDate];
   }
 
   double getUnitPrice() {
@@ -60,6 +64,8 @@ abstract class OrderList extends Equatable {
 
   void setQuantityByIndex(int index, int value);
   int numberOfDistinctOrders();
+  int countDistinct(Menu menu);
+  int count(Menu menu);
 }
 
 class OrderListImpl extends OrderList {
@@ -76,11 +82,15 @@ class OrderListImpl extends OrderList {
     if(_items.isEmpty) return _items.add(order);
     // check if this order exists first
     print("checking if exists");
-    Order existOrder = _items.firstWhere((element) => element == order,orElse: ()=>null);
+    Order existOrder = _items.firstWhere((element){
+      return element.menu == order.menu && element.variant == order.variant && element.toppingList == order.toppingList;
+    },orElse: ()=>null);
     if(existOrder == null) {
       print("order does not exist");
       return _items.add(order);
     }
+    int quantity = existOrder.quantity;
+    order.quantity = order.quantity+quantity;
     removeOrder(existOrder);
     return _items.add(order);
   }
@@ -160,5 +170,22 @@ class OrderListImpl extends OrderList {
   @override
   int numberOfDistinctOrders() {
     return this._items.length;
+  }
+
+  @override
+  int countDistinct(Menu menu) {
+    int _count = 0;
+    this._items.forEach((element) {
+      if(element.menu == menu) _count++;
+    });
+    return _count;
+  }
+  @override
+  int count(Menu menu) {
+    int _count = 0;
+    this._items.forEach((element) {
+      if(element.menu == menu) _count+=element.quantity;
+    });
+    return _count;
   }
 }

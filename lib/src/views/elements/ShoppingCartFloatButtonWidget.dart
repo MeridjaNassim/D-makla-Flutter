@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:restaurant_rlutter_ui/src/business_logic/blocs/cart/cart.bloc.dart';
+import 'package:restaurant_rlutter_ui/src/business_logic/blocs/cart/cart.state.dart';
 
 class ShoppingCartFloatButtonWidget extends StatelessWidget {
   const ShoppingCartFloatButtonWidget({
     this.iconColor,
     this.labelColor,
-    this.labelCount = 0,
     Key key,
   }) : super(key: key);
 
   final Color iconColor;
   final Color labelColor;
-  final int labelCount;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +23,7 @@ class ShoppingCartFloatButtonWidget extends StatelessWidget {
         color: Theme.of(context).accentColor,
         shape: StadiumBorder(),
         onPressed: () {
-          Navigator.of(context).pushReplacementNamed('/Cart');
+          Navigator.of(context).pushNamed('/Cart');
         },
         child: Stack(
           alignment: AlignmentDirectional.bottomEnd,
@@ -33,12 +34,14 @@ class ShoppingCartFloatButtonWidget extends StatelessWidget {
               size: 28,
             ),
             Container(
-              child: Text(
-                this.labelCount.toString(),
-                textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.caption.merge(
-                      TextStyle(color: Theme.of(context).primaryColor, fontSize: 9),
-                    ),
+              child: BlocBuilder<CartBloc,CartState>(
+                builder:(context,state)=> Text(
+                  (state is LoadedCartState) ? state.cart.totalNumberOfOrders().toString() : "..",
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.caption.merge(
+                        TextStyle(color: Theme.of(context).primaryColor, fontSize: 9),
+                      ),
+                ),
               ),
               padding: EdgeInsets.all(0),
               decoration: BoxDecoration(color: this.labelColor, borderRadius: BorderRadius.all(Radius.circular(10))),

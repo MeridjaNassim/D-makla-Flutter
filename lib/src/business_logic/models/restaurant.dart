@@ -1,12 +1,16 @@
 import 'package:equatable/equatable.dart';
-import 'file:///D:/Projects/flutter/d_makla2/d_makla/lib/src/business_logic/models/common/wilaya.dart';
 import 'common/localisation.dart';
 import 'common/image.dart';
+import 'common/wilaya.dart';
 import 'menu.dart';
+
 class Restaurant extends Equatable {
   final String id;
   final String name;
   final Image image;
+  final String description;
+  final String phoneNumber;
+  final String address;
   final MenuList menus;
   final Wilaya wilaya;
   final Commune commune;
@@ -17,6 +21,9 @@ class Restaurant extends Equatable {
   Restaurant(
       {this.id,
       this.name,
+      this.phoneNumber,
+      this.description,
+        this.address,
       this.image,
       this.menus,
       this.wilaya,
@@ -27,10 +34,9 @@ class Restaurant extends Equatable {
 
   @override
   List<Object> get props {
-    return [id,name,wilaya,commune];
+    return [id, name, wilaya, commune];
   }
 }
-
 
 class OpeningTimePeriod extends Equatable {
   final String day;

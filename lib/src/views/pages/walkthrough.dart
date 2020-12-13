@@ -4,6 +4,7 @@ import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:restaurant_rlutter_ui/config/app_config.dart' as config;
 import 'package:restaurant_rlutter_ui/src/business_logic/models/restaurant.dart';
 import 'package:restaurant_rlutter_ui/src/models/restaurant.dart';
+import 'package:restaurant_rlutter_ui/src/views/utils/image_handling.dart';
 
 class Walkthrough extends StatelessWidget {
   @override
@@ -144,7 +145,7 @@ class WalkthroughItemWidget extends StatelessWidget {
           decoration: BoxDecoration(
               image: DecorationImage(
                 fit: BoxFit.cover,
-                image: restaurant.image == null? null : restaurant.image.getImageProvider(),
+                image: restaurant.image == null? null : getImageProvider(restaurant.image),
               ),
               borderRadius: BorderRadius.all(Radius.circular(10)),
               boxShadow: [

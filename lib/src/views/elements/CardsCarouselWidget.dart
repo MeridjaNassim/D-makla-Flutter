@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:restaurant_rlutter_ui/src/business_logic/blocs/store/restaurant.cubit.dart';
 import 'package:restaurant_rlutter_ui/src/business_logic/blocs/store/store.cubit.dart';
+import 'package:restaurant_rlutter_ui/src/models/route_argument.dart';
 import 'common/loading.dart';
 import 'package:restaurant_rlutter_ui/src/models/restaurant.dart';
 
@@ -28,12 +30,14 @@ class _CardsCarouselWidgetState extends State<CardsCarouselWidget> {
         scrollDirection: Axis.horizontal,
         itemCount: _restaurantsList.restaurantsList.length,
         itemBuilder: (context, index) {
+          final restaurant = _restaurantsList.restaurantsList.elementAt(index);
           return GestureDetector(
             onTap: () {
+              BlocProvider.of<RestaurantCubit>(context).setCurrentRestaurant(restaurant);
               Navigator.of(context)
-                  .pushNamed('/Details', arguments: _restaurantsList.restaurantsList.elementAt(index).id);
+                  .pushNamed('/Details');
             },
-            child: CardWidget(restaurant: _restaurantsList.restaurantsList.elementAt(index)),
+            child: CardWidget(restaurant: restaurant),
           );
         },
       );

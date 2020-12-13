@@ -8,6 +8,7 @@ import 'variant.dart';
 class Menu extends Equatable {
   final String id;
   final String name;
+  final String restaurant_name;
   final String description;
   final VariantList variants;
   final Image image;
@@ -18,6 +19,7 @@ class Menu extends Equatable {
   Menu(
       {this.id,
       this.name,
+      this.restaurant_name,
       this.description,
       this.variants,
       this.image,
@@ -27,7 +29,11 @@ class Menu extends Equatable {
 
   @override
   List<Object> get props {
-    return [id, name];
+    return [id, name,restaurant_name];
+  }
+  double getBasePrice() {
+    final firstVariant = variants.getVariantByIndex(0);
+    return pricings.getPriceOfVariant(firstVariant);
   }
 }
 

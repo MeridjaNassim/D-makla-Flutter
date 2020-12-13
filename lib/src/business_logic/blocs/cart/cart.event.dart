@@ -24,7 +24,8 @@ class OrderAdded extends CartEvent {
   final Variant variant;
   final ToppingList toppingList;
   final int quantity;
-  OrderAdded({this.menu, this.variant, this.toppingList, this.quantity = 1});
+  final String note;
+  OrderAdded({this.menu, this.variant, this.toppingList,this.note, this.quantity = 1});
 
   @override
   // TODO: implement props

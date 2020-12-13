@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:restaurant_rlutter_ui/src/business_logic/models/order.dart';
 
+import 'menu.dart';
 import 'user.dart';
 
 class Cart extends Equatable{
@@ -15,6 +16,8 @@ class Cart extends Equatable{
   void clearCart() =>this.orderList.clear();
   int numberOfOrders() => this.orderList.numberOfDistinctOrders();
   int totalNumberOfOrders() => this.orderList.size();
+  int numberOfOrderByMenu(Menu menu) => this.orderList.countDistinct(menu);
+  int sizeOfOrderByMenu(Menu menu) => this.orderList.count(menu);
   Order getOrderByIndex(int index) => this.orderList.getOrderByIndex(index);
   @override
   // TODO: implement props

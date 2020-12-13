@@ -5,12 +5,19 @@ import 'package:restaurant_rlutter_ui/config/app_config.dart' as config;
 import 'package:restaurant_rlutter_ui/route_generator.dart';
 import 'package:restaurant_rlutter_ui/src/business_logic/blocs/auth/auth.bloc.dart';
 import 'package:restaurant_rlutter_ui/src/business_logic/blocs/cart/cart.bloc.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/blocs/store/category.cubit.dart';
+import 'package:restaurant_rlutter_ui/src/business_logic/blocs/delivery/delivery.cubit.dart';
 import 'package:restaurant_rlutter_ui/src/business_logic/blocs/store/menu.cubit.dart';
+import 'package:restaurant_rlutter_ui/src/business_logic/blocs/store/order.cubit.dart';
 import 'package:restaurant_rlutter_ui/src/business_logic/blocs/store/restaurant.cubit.dart';
 import 'package:restaurant_rlutter_ui/src/business_logic/blocs/store/store.cubit.dart';
+import 'package:restaurant_rlutter_ui/src/business_logic/datasources/category_datasource.dart';
+import 'package:restaurant_rlutter_ui/src/business_logic/datasources/delivery_datasource.dart';
+import 'package:restaurant_rlutter_ui/src/business_logic/datasources/menu_datasource.dart';
+import 'package:restaurant_rlutter_ui/src/business_logic/datasources/restaurant_datasource.dart';
 import 'package:restaurant_rlutter_ui/src/business_logic/repositories/category_repository.dart';
+import 'package:restaurant_rlutter_ui/src/business_logic/repositories/delivery_repository.dart';
 import 'package:restaurant_rlutter_ui/src/business_logic/repositories/menu_repository.dart';
+import 'package:restaurant_rlutter_ui/src/business_logic/repositories/order_repository.dart';
 import 'package:restaurant_rlutter_ui/src/business_logic/repositories/restaurant_repository.dart';
 import 'package:restaurant_rlutter_ui/src/business_logic/services/auth.service.dart';
 
@@ -22,25 +29,54 @@ void main() {
 
 class DmaklaApp extends StatelessWidget {
   DmaklaApp();
+
   final GlobalKey<NavigatorState> _navigatorKey = GlobalKey();
+  final RemoteCategoryDataSource remoteCategoryDataSource =
+      RemoteCategoryDataSource();
+  final RemoteRestaurantDataSource remoteRestaurantDataSource =
+      RemoteRestaurantDataSource();
+  final RemoteDeliveryDataSource remoteDeliveryDataSource =
+      RemoteDeliveryDataSource();
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-
+    final menuRepository = MenuRepositoryImpl(RemoteMenuDataSourceImpl());
+    final mockCategoryRepository = MockCategoryRepository();
+    final restaurantRepository = RestaurantRepositoryImpl(
+        remoteRestaurantDataSource: remoteRestaurantDataSource);
+    final categoryRepository = CategoryRespositoryImpl(
+        remoteCategoryDataSource: remoteCategoryDataSource);
     return BlocProvider<AuthenticationBloc>(
-      create: (context)=> AuthenticationBloc(AuthenticationServiceImpl()),
+      create: (context) => AuthenticationBloc(AuthenticationServiceImpl()),
       child: MultiBlocProvider(
         providers: [
-          BlocProvider<CartBloc>(create: (context)=> CartBloc(BlocProvider.of<AuthenticationBloc>(context))),
-          BlocProvider<RestaurantCubit>(create: (context)=> RestaurantCubit()),
-          BlocProvider<CategoryCubit>(create: (context)=> CategoryCubit()),
-          BlocProvider<MenuCubit>(create: (context)=> MenuCubit(BlocProvider.of<CartBloc>(context))),
-          BlocProvider<StoreCubit>(create: (context)=>StoreCubit(
-            restaurantRepository: MockRestaurantRepository(),
-            menuRepository: MockMenuRepository(),
-            categoryRepository: MockCategoryRepository(),
-          )),
-
+          BlocProvider<CartBloc>(
+              create: (context) =>
+                  CartBloc(BlocProvider.of<AuthenticationBloc>(context))),
+          BlocProvider<DeliveryCubit>(
+              create: (context) => DeliveryCubit(
+                    BlocProvider.of<AuthenticationBloc>(context),
+                    BlocProvider.of<CartBloc>(context),
+                    DeliveryRepositoryImpl(remoteDeliveryDataSource: remoteDeliveryDataSource),
+                    MockOrderRepository(),
+                  )),
+          BlocProvider<RestaurantCubit>(
+              create: (context) => RestaurantCubit(categoryRepository)),
+          BlocProvider<MenuCubit>(
+              create: (context) => MenuCubit(
+                  BlocProvider.of<AuthenticationBloc>(context),
+                  menuRepository)),
+          BlocProvider<OrderCubit>(
+              create: (context) =>
+                  OrderCubit(BlocProvider.of<CartBloc>(context))),
+          BlocProvider<StoreCubit>(
+              create: (context) => StoreCubit(
+                    BlocProvider.of<AuthenticationBloc>(context),
+                    restaurantRepository: restaurantRepository,
+                    menuRepository: menuRepository,
+                    categoryRepository: categoryRepository,
+                  )),
         ],
         child: MaterialApp(
           title: 'D-makla',

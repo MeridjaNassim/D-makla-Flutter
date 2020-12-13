@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:restaurant_rlutter_ui/src/business_logic/models/restaurant.dart';
 import 'package:restaurant_rlutter_ui/src/models/restaurant.dart';
+import 'package:restaurant_rlutter_ui/src/views/utils/image_handling.dart';
 
 class GridItemWidget extends StatelessWidget {
   Restaurant restaurant;
@@ -28,7 +29,7 @@ class GridItemWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Container(
-              child: restaurant.image == null ? null : Image(image: restaurant.image.getImageProvider()),
+              child: restaurant.image == null ? null : Image(image: getImageProvider(restaurant.image)),
             ),
             SizedBox(height: 5),
             Text(

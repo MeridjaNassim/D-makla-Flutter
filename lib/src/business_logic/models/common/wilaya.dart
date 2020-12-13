@@ -1,6 +1,7 @@
 
 
 import 'package:equatable/equatable.dart';
+import 'package:restaurant_rlutter_ui/src/business_logic/models/delivery.dart';
 
 class Wilaya extends Equatable{
   final String code;
@@ -10,15 +11,15 @@ class Wilaya extends Equatable{
 
   @override
   List<Object> get props {
-    return [code,name];
+    return [code];
   }
 }
 
 class Commune extends Equatable{
   final String id;
   final String name;
-
-  Commune({this.id, this.name});
+  final List<DeliveryZone> zones;
+  Commune({this.id, this.name,this.zones});
 
   @override
   List<Object> get props {

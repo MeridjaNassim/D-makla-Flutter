@@ -1,119 +1,111 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/blocs/cart/cart.bloc.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/blocs/cart/cart.event.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/controllers/pricing.controller.dart';
+import 'package:restaurant_rlutter_ui/src/business_logic/blocs/auth/auth.bloc.dart';
+import 'package:restaurant_rlutter_ui/src/business_logic/blocs/auth/auth.state.dart';
+import 'package:restaurant_rlutter_ui/src/business_logic/models/category.dart';
 import 'package:restaurant_rlutter_ui/src/business_logic/models/menu.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/models/order.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/models/topping.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/models/variant.dart';
+import 'package:restaurant_rlutter_ui/src/business_logic/models/restaurant.dart';
+import 'package:restaurant_rlutter_ui/src/business_logic/models/user.dart';
+import 'package:restaurant_rlutter_ui/src/business_logic/repositories/menu_repository.dart';
 
-abstract class MenuState extends Equatable {
-
-}
+abstract class MenuState extends Equatable {}
 
 class InitialMenuState extends MenuState {
-
   @override
   // TODO: implement props
   List<Object> get props => null;
 }
 
-class MenuSelectedState extends MenuState {
+class MenuStateLoading extends MenuState {
+  final String loadingMessage;
 
-  final Menu menu;
-  final Variant selectedVariant;
-  final ToppingList selectedToppings;
-  final double currentOrderPrice;
-  final int quantity;
-  MenuSelectedState(this.menu,this.selectedVariant,this.selectedToppings,this.currentOrderPrice,this.quantity);
+  MenuStateLoading(this.loadingMessage);
 
   @override
   // TODO: implement props
-  List<Object> get props => [menu,selectedVariant,quantity,selectedToppings];
+  List<Object> get props => [loadingMessage];
 }
+
+abstract class MenuReadyState extends MenuState {
+  final List<Menu> trendingMenus;
+  final List<Menu> allMenus;
+
+  MenuReadyState(this.trendingMenus, this.allMenus);
+}
+
+class MenuByCategoryStateReady extends MenuReadyState {
+  final Category category;
+
+  MenuByCategoryStateReady(
+      this.category, List<Menu> trendingMenus, List<Menu> allMenus)
+      : super(trendingMenus, allMenus);
+
+  @override
+  // TODO: implement props
+  List<Object> get props => [category];
+}
+
+class MenuByRestaurantStateReady extends MenuReadyState {
+  final Restaurant restaurant;
+
+  MenuByRestaurantStateReady(
+      this.restaurant, List<Menu> trendingMenus, List<Menu> allMenus)
+      : super(trendingMenus, allMenus);
+
+  @override
+  // TODO: implement props
+  List<Object> get props => [restaurant];
+}
+
+class MenuByRestaurantCategoryState extends MenuReadyState {
+  final Restaurant restaurant;
+  final Category category;
+
+  MenuByRestaurantCategoryState(this.restaurant, this.category,
+      List<Menu> trendingMenus, List<Menu> allMenus)
+      : super(trendingMenus, allMenus);
+
+  @override
+  // TODO: implement props
+  List<Object> get props => [restaurant, category];
+}
+
 class MenuCubit extends Cubit<MenuState> {
-  final CartBloc _cartBloc;
-  MenuCubit(CartBloc cartBloc) :
-        assert(cartBloc != null),
-        this._cartBloc = cartBloc,
+  final MenuRepository _menuRepository;
+  final AuthenticationBloc _authenticationBloc;
+  MenuCubit(AuthenticationBloc authenticationBloc,MenuRepository menuRepository)
+      : assert(menuRepository != null),
+        assert(authenticationBloc != null),
+        this._authenticationBloc = authenticationBloc,
+        this._menuRepository = menuRepository,
         super(InitialMenuState());
 
-  void setCurrentMenu(Menu menu,{Variant selectedVariant,ToppingList selectedToppings,int quantity}) {
-    Variant variant = selectedVariant ?? menu.variants.getVariantByIndex(0);
-    ToppingList toppings = selectedToppings ?? ToppingListImpl([]);
-    Order order = Order(menu: menu,variant: variant,toppingList: toppings ,quantity: quantity ?? 1);
-    double price = order.getFullPrice();
-    emit(MenuSelectedState(menu,variant,toppings,price,quantity ?? 1));
-  }
-  Future<void> addCurrentMenuToCart() async{
-    final state = this.state;
-    if(state is MenuSelectedState) {
-      _cartBloc.add(OrderAdded(
-          menu: state.menu,
-          variant: state.selectedVariant,
-          quantity: state.quantity,
-          toppingList:state.selectedToppings ));
-    }
-  }
-  void setSelectedVariant(Variant variant) {
-    final state = this.state;
-    print("Variant : " + variant.toString());
-    if(state is MenuSelectedState) {
-      Order order = Order(menu: state.menu,variant: variant,toppingList: state.selectedToppings,quantity: state.quantity);
-      double price = order.getFullPrice();
-      final newState = MenuSelectedState(state.menu,variant,state.selectedToppings,price,state.quantity);
-      emit(newState);
-    }
-  }
-  void incrementQuantity() {
-    print("Incrementing...");
-    final state = this.state;
-    if(state is MenuSelectedState) {
-      int quantity= state.quantity;
-      quantity +=1;
-      if(quantity>99) quantity = 99;
-      Order order = Order(menu: state.menu,variant: state.selectedVariant,toppingList: state.selectedToppings,quantity: quantity);
-      double price = order.getFullPrice();
-      final newState = MenuSelectedState(state.menu,state.selectedVariant,state.selectedToppings,price,quantity);
-      emit(newState);
-    }
-  }
-  void decrementQuantity() {
-    print("Decrementing...");
-    final state = this.state;
-    if(state is MenuSelectedState) {
-      int quantity= state.quantity;
-      quantity -=1;
-      if(quantity<1) quantity = 1;
-      Order order = Order(menu: state.menu,variant: state.selectedVariant,toppingList: state.selectedToppings,quantity: quantity);
-      double price = order.getFullPrice();
-      final newState = MenuSelectedState(state.menu,state.selectedVariant,state.selectedToppings,price,quantity);
-      emit(newState);
-    }
-  }
-  void toggleTopping(Topping topping) {
-    print("Topping toggle : " + topping.toString());
-    final state = this.state;
-    if(state is MenuSelectedState) {
-      final toppings = state.selectedToppings;
-      final list = toppings.getItemsList();
-      ToppingList newToppings = ToppingListImpl([]);
-      bool shouldAdd = true;
-      list.forEach((element) {
-        print("item topping is : " + element.toString());
-        if(element != topping) newToppings.addTopping(element);
-        else shouldAdd = false;
-      });
-      if(shouldAdd) newToppings.addTopping(topping);
-      Order order = Order(menu: state.menu,variant: state.selectedVariant,toppingList: newToppings,quantity: state.quantity);
-      double price = order.getFullPrice();
-      final newState = MenuSelectedState(state.menu,state.selectedVariant,newToppings,price,state.quantity);
-      print("state is same: " + (newState == state).toString());
-      emit(newState);
+  void setMenusByCategory(Category category) async {
+    print(category);
+    emit(MenuStateLoading("loading menus de ${category.name}"));
+    //final trending = await _menuRepository.getTrendingMenusByCategory(category);
+    final authState = _authenticationBloc.state;
+    if(authState is AuthenticationAuthenticated) {
+      User user = authState.user;
+      final allMenus = await _menuRepository.getMenusByCategory(category,user.wilaya);
+      emit(MenuByCategoryStateReady(category,[], allMenus));
     }
 
   }
 
+  void setMenusByRestaurant(Restaurant restaurant) async {
+    print(restaurant);
+    emit(MenuStateLoading("loading menus de ${restaurant.name}"));
+    final menus = await _menuRepository.getAllMenusByRestaurant(restaurant);
+    emit(MenuByRestaurantStateReady(restaurant, [], menus));
+  }
 
+  void setMenusByRestaurantCategory(
+      Restaurant restaurant, Category category) async {
+   print(restaurant);
+   print(category);
+   emit(MenuStateLoading("loading ${category.name} menus de ${restaurant.name}"));
+   final menus = await _menuRepository.getAllMenusOfCategoryByRestaurant(restaurant, category);
+   emit(MenuByRestaurantCategoryState(restaurant, category, [], menus));
+  }
 }

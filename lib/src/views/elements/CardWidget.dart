@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/models/common/image.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:restaurant_rlutter_ui/src/business_logic/blocs/store/menu.cubit.dart';
 import 'package:restaurant_rlutter_ui/src/business_logic/models/restaurant.dart';
-import 'package:restaurant_rlutter_ui/src/models/restaurant.dart';
+import 'package:restaurant_rlutter_ui/src/views/utils/image_handling.dart';
 
 class CardWidget extends StatelessWidget {
   Restaurant restaurant;
 
   CardWidget({Key key, this.restaurant}) : super(key: key);
 
-  ImageProvider getRestaurantImage(){
-    if(restaurant.image == null) return null;
-    return restaurant.image.getImageProvider();
-  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -29,13 +27,13 @@ class CardWidget extends StatelessWidget {
         children: <Widget>[
           // Image of the card
           Hero(
-            tag: restaurant.id,
+            tag: "restaurant" + restaurant.id,
             child: Container(
               width: 292,
               height: 150,
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: getRestaurantImage(),
+                  image: getImageProvider(restaurant.image),
                   fit: BoxFit.cover,
                 ),
                 borderRadius: BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10)),
@@ -60,14 +58,16 @@ class CardWidget extends StatelessWidget {
                         style: Theme.of(context).textTheme.subhead,
                       ),
                       Text(
-                        "description ... ",
+                        restaurant?.description ?? "no description",
                         overflow: TextOverflow.ellipsis,
                         style: Theme.of(context).textTheme.caption,
                       ),
                       SizedBox(height: 5),
                       Row(
                         children: List.generate(5, (index) {
-                          return index < 10
+                          Rating rating = restaurant?.rating;
+                          if(rating == null) rating = Rating(score: 0);
+                          return index < (rating.score.floor())
                               ? Icon(Icons.star, size: 18, color: Color(0xFFFFB24D))
                               : Icon(Icons.star_border, size: 18, color: Color(0xFFFFB24D));
                         }),
@@ -80,10 +80,11 @@ class CardWidget extends StatelessWidget {
                   child: FlatButton(
                     padding: EdgeInsets.all(0),
                     onPressed: () {
-                      print('Go to map');
-                      Navigator.of(context).pushNamed('/Map', arguments: restaurant.id);
+                      BlocProvider.of<MenuCubit>(context)
+                          .setMenusByRestaurant(restaurant);
+                      Navigator.of(context).pushNamed('/Menu', arguments: restaurant.id);
                     },
-                    child: Icon(Icons.directions, color: Theme.of(context).primaryColor),
+                    child: Icon(Icons.restaurant, color: Theme.of(context).primaryColor),
                     color: Theme.of(context).accentColor,
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
                   ),

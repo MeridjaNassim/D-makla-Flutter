@@ -46,11 +46,11 @@ class ProfileAvatarWidget extends StatelessWidget {
           ),
         ),
         Text(
-          'Bloomberg',
+          'Meridja Nassim',
           style: Theme.of(context).textTheme.headline,
         ),
         Text(
-          'Berlin, Germany',
+          'Alger, Algeria',
           style: Theme.of(context).textTheme.caption,
         ),
       ],

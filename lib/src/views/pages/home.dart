@@ -135,10 +135,6 @@ class _HomeWidgetState extends State<HomeWidget> {
                 "Choisir par restaurant",
                 style: Theme.of(context).textTheme.display1,
               ),
-              // subtitle: Text(
-              //   'Ordered by Nearby first',
-              //   style: Theme.of(context).textTheme.caption,
-              // ),
             ),
           ),
           CardsCarouselWidget(),
@@ -159,44 +155,6 @@ class _HomeWidgetState extends State<HomeWidget> {
             ),
           ),
           CategoriesGridWidget(),
-          // Padding(
-          //   padding: const EdgeInsets.symmetric(horizontal: 20),
-          //   child: ListTile(
-          //     dense: true,
-          //     contentPadding: EdgeInsets.symmetric(vertical: 0),
-          //     leading: Icon(
-          //       Icons.trending_up,
-          //       color: Theme.of(context).hintColor,
-          //     ),
-          //     title: Text(
-          //       'Most Popular',
-          //       style: Theme.of(context).textTheme.display1,
-          //     ),
-          //   ),
-          // ),
-          // Padding(
-          //   padding: const EdgeInsets.symmetric(horizontal: 20),
-          //   child: GridWidget(),
-          // ),
-          // Padding(
-          //   padding: const EdgeInsets.symmetric(horizontal: 20),
-          //   child: ListTile(
-          //     dense: true,
-          //     contentPadding: EdgeInsets.symmetric(vertical: 20),
-          //     leading: Icon(
-          //       Icons.recent_actors,
-          //       color: Theme.of(context).hintColor,
-          //     ),
-          //     title: Text(
-          //       'Recent Reviews',
-          //       style: Theme.of(context).textTheme.display1,
-          //     ),
-          //   ),
-          // ),
-          // Padding(
-          //   padding: const EdgeInsets.symmetric(horizontal: 20),
-          //   child: ReviewsListWidget(),
-          // ),
         ],
       ),
     );

@@ -30,6 +30,7 @@ dependencies:
   flutter_bloc: ^6.1.1
   equatable: ^1.2.5
   country_code_picker: ^1.6.2
+  flutter_datetime_picker: ^1.4.0
   # local storage
   shared_preferences: ^0.5.12+4
   # http requests

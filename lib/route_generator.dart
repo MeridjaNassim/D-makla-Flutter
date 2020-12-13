@@ -4,6 +4,7 @@ import 'package:restaurant_rlutter_ui/src/views/pages/account.dart';
 import 'package:restaurant_rlutter_ui/src/views/pages/cart.dart';
 import 'package:restaurant_rlutter_ui/src/views/pages/chat.dart';
 import 'package:restaurant_rlutter_ui/src/views/pages/checkout.dart';
+import 'package:restaurant_rlutter_ui/src/views/pages/delivery.dart';
 import 'package:restaurant_rlutter_ui/src/views/pages/details.dart';
 import 'package:restaurant_rlutter_ui/src/views/pages/food.dart';
 import 'package:restaurant_rlutter_ui/src/views/pages/help.dart';
@@ -44,7 +45,7 @@ class RouteGenerator {
 //      case '/Home':
 //        return MaterialPageRoute(builder: (_) => HomeWidget());
       case '/Details':
-        return MaterialPageRoute(builder: (_) => DetailsWidget(id: args));
+        return MaterialPageRoute(builder: (_) => DetailsWidget());
       case '/Menu':
         return MaterialPageRoute(builder: (_) => MenuWidget());
       case '/Food':
@@ -56,6 +57,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => CartWidget());
       case '/Checkout':
         return MaterialPageRoute(builder: (_) => CheckoutWidget());
+      case '/Delivery':
+        return MaterialPageRoute(builder: (_) => DeliveryScreen());
       case '/Help':
         return MaterialPageRoute(builder: (_) => HelpWidget());
       case '/Languages':

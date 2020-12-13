@@ -1,9 +1,13 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:restaurant_rlutter_ui/src/business_logic/models/category.dart';
 import 'package:restaurant_rlutter_ui/src/business_logic/models/restaurant.dart';
+import 'package:restaurant_rlutter_ui/src/business_logic/repositories/category_repository.dart';
 
 abstract class RestaurantState extends Equatable {
+  final Restaurant restaurant;
 
+  RestaurantState(this.restaurant);
 }
 
 class InitialRestaurantState extends RestaurantState {
@@ -11,23 +15,38 @@ class InitialRestaurantState extends RestaurantState {
   @override
   // TODO: implement props
   List<Object> get props => null;
+
+  InitialRestaurantState(Restaurant restaurant) : super(restaurant);
 }
 
+class RestaurantLoadingState extends RestaurantState {
+  final String message;
+
+  RestaurantLoadingState(Restaurant restaurant , this.message) : super(restaurant);
+
+  @override
+  // TODO: implement props
+  List<Object> get props => [message];
+}
 class RestaurantSelectedState extends RestaurantState {
 
-  final Restaurant restaurant;
-
-  RestaurantSelectedState(this.restaurant);
+  final List<Category> categories;
+  RestaurantSelectedState(Restaurant restaurant,this.categories): super(restaurant);
 
   @override
   // TODO: implement props
   List<Object> get props => [restaurant];
 }
 class RestaurantCubit extends Cubit<RestaurantState> {
-  RestaurantCubit() : super(InitialRestaurantState());
+  final CategoryRepository _categoryRepository;
+  RestaurantCubit(CategoryRepository categoryRepository) :
+        assert(categoryRepository != null),
+        this._categoryRepository = categoryRepository, super(InitialRestaurantState(null));
 
-  void setCurrentRestaurant(Restaurant restaurant) {
-    emit(RestaurantSelectedState(restaurant));
+  void setCurrentRestaurant(Restaurant restaurant) async{
+    emit(RestaurantLoadingState(restaurant,"loading categories"));
+    final categories = await _categoryRepository.getCategoriesByRestaurant(restaurant);
+    emit(RestaurantSelectedState(restaurant,categories));
   }
 
 

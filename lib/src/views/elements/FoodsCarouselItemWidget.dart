@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/blocs/store/menu.cubit.dart';
+import 'package:restaurant_rlutter_ui/src/business_logic/blocs/store/order.cubit.dart';
 import 'package:restaurant_rlutter_ui/src/business_logic/models/menu.dart';
 import 'package:restaurant_rlutter_ui/src/models/food.dart';
 import 'package:restaurant_rlutter_ui/src/models/route_argument.dart';
+import 'package:restaurant_rlutter_ui/src/views/utils/image_handling.dart';
 
 class FoodsCarouselItemWidget extends StatelessWidget {
   double marginLeft;
@@ -14,7 +15,7 @@ class FoodsCarouselItemWidget extends StatelessWidget {
   FoodsCarouselItemWidget({Key key, this.heroTag, this.marginLeft, this.food,this.menu}) : super(key: key);
 
   void _setSelectedMenu(BuildContext context) {
-    BlocProvider.of<MenuCubit>(context).setCurrentMenu(this.menu);
+    BlocProvider.of<OrderCubit>(context).setCurrentMenu(this.menu);
   }
   @override
   Widget build(BuildContext context) {
@@ -41,7 +42,7 @@ class FoodsCarouselItemWidget extends StatelessWidget {
                     borderRadius: BorderRadius.all(Radius.circular(5)),
                     image: DecorationImage(
                       fit: BoxFit.cover,
-                      image: menu.image.getImageProvider(),
+                      image: getImageProvider(menu.image),
                     ),
                   ),
                 ),
@@ -72,7 +73,7 @@ class FoodsCarouselItemWidget extends StatelessWidget {
                     style: Theme.of(context).textTheme.body1,
                   ),
                   Text(
-                    "restaurant name",
+                    menu.restaurant_name,
                     overflow: TextOverflow.fade,
                     softWrap: false,
                     style: Theme.of(context).textTheme.caption,

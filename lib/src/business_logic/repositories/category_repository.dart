@@ -3,21 +3,26 @@
 * Gets all data related to Repositories;
 * */
 
+import 'package:restaurant_rlutter_ui/src/business_logic/datasources/category_datasource.dart';
 import 'package:restaurant_rlutter_ui/src/business_logic/models/category.dart';
 import 'package:restaurant_rlutter_ui/src/business_logic/models/common/image.dart';
+import 'package:restaurant_rlutter_ui/src/business_logic/models/restaurant.dart';
 
 abstract class CategoryRepository {
   Future<List<Category>> getCategories();
-  Future<List<Category>> getCategoriesByRestaurantId(String restaurant_id);
+  Future<List<Category>> getCategoriesByRestaurant(Restaurant restaurant);
   Future<Category> getCategoryById(String id);
 }
 
 class CategoryRespositoryImpl implements CategoryRepository{
-  
+  final RemoteCategoryDataSource remoteCategoryDataSource ;
+
+  CategoryRespositoryImpl({this.remoteCategoryDataSource});
+
   @override
-  Future<List<Category>> getCategories() {
-    ///TODO implement code to get all categories
-    ///TODO implement code to convert the data from raw data to 
+  Future<List<Category>> getCategories() async{
+    final data = await this.remoteCategoryDataSource.getCategories();
+    return data;
   }
 
   @override
@@ -27,9 +32,8 @@ class CategoryRespositoryImpl implements CategoryRepository{
   }
 
   @override
-  Future<List<Category>> getCategoriesByRestaurantId(String restaurant_id) {
-    // TODO: implement getCategoriesByRestaurantId
-    throw UnimplementedError();
+  Future<List<Category>> getCategoriesByRestaurant(Restaurant restaurant) async{
+    return await remoteCategoryDataSource.getCategoriesByRestaurant(restaurant.id);
   }
 }
 
@@ -47,9 +51,8 @@ class MockCategoryRepository implements CategoryRepository {
   }
 
   @override
-  Future<List<Category>> getCategoriesByRestaurantId(String restaurant_id) {
-    // TODO: implement getCategoriesByRestaurantId
-    throw UnimplementedError();
+  Future<List<Category>> getCategoriesByRestaurant(Restaurant restaurant) async{
+    return mockData;
   }
 
   @override

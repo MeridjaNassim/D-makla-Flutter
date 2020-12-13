@@ -16,7 +16,6 @@ class FoodsCarouselWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         height: 210,
-        color: Theme.of(context).primaryColor,
         padding: EdgeInsets.symmetric(vertical: 10),
         child: ListView.builder(
           itemCount: menus.length,

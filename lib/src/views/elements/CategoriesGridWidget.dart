@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:restaurant_rlutter_ui/src/business_logic/blocs/store/menu.cubit.dart';
 import 'package:restaurant_rlutter_ui/src/business_logic/blocs/store/store.cubit.dart';
 import 'CategoriesGridtemWidget.dart';
 import 'common/loading.dart';
@@ -25,19 +26,28 @@ class CategoriesGridWidget extends StatelessWidget {
       return LoadingIndicator(loadingText: "loading categories");
     }
     if (state is StoreLoadedState) {
-      _categoriesList.categoriesList = state.store.categories;
+      final categories= state.store.categories;
       return GridView.builder(
         physics: ScrollPhysics(),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2
         ),
-        itemCount: _categoriesList.categoriesList.length,
+        itemCount: categories.length,
         shrinkWrap: true,
         itemBuilder: (context, index) {
           double _marginLeft = 0;
           (index == 0) ? _marginLeft = 20 : _marginLeft = 0;
-          return new CategoriesGridItemWidget(
-            category: _categoriesList.categoriesList.elementAt(index),
+          final category = categories[index];
+          return InkWell(
+            splashColor: Theme.of(context).accentColor.withOpacity(0.08),
+            highlightColor: Colors.transparent,
+            onTap: () {
+              BlocProvider.of<MenuCubit>(context).setMenusByCategory(category);
+              Navigator.of(context).pushNamed('/Menu');
+            },
+            child: new CategoriesGridItemWidget(
+              category: category,
+            ),
           );
         },
       );

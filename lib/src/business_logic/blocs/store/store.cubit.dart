@@ -1,6 +1,10 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:restaurant_rlutter_ui/src/business_logic/blocs/auth/auth.bloc.dart';
+import 'package:restaurant_rlutter_ui/src/business_logic/blocs/auth/auth.state.dart';
+import 'package:restaurant_rlutter_ui/src/business_logic/blocs/cart/cart.bloc.dart';
 import 'package:restaurant_rlutter_ui/src/business_logic/models/store.dart';
+import 'package:restaurant_rlutter_ui/src/business_logic/models/user.dart';
 import 'package:restaurant_rlutter_ui/src/business_logic/repositories/category_repository.dart';
 import 'package:restaurant_rlutter_ui/src/business_logic/repositories/menu_repository.dart';
 import 'package:restaurant_rlutter_ui/src/business_logic/repositories/restaurant_repository.dart';
@@ -34,7 +38,8 @@ class StoreCubit extends Cubit<StoreState> {
   final CategoryRepository categoryRepository;
   final MenuRepository menuRepository;
   final RestaurantRepository restaurantRepository;
-  StoreCubit({this.restaurantRepository,this.menuRepository,this.categoryRepository}) :
+  final AuthenticationBloc _authenticationBloc;
+  StoreCubit(this._authenticationBloc,{this.restaurantRepository,this.menuRepository,this.categoryRepository}) :
   assert(categoryRepository != null),
   assert(menuRepository != null),
   assert(restaurantRepository != null),
@@ -44,22 +49,27 @@ class StoreCubit extends Cubit<StoreState> {
 
   ///Loads the store of the application
   void loadStore() async {
-    print("loading store ...");
-    emit(StoreLoadingState("loading restaurants"));
-    ///TODO: implement load store
-    print("getting restaurants");
-    final restaurants = await restaurantRepository.getAllRestaurants("10");
-    emit(StoreLoadingState("loading categories"));
-    print("getting categories");
-    final categories = await categoryRepository.getCategories();
-    emit(StoreLoadingState("loading trending menus"));
-    print("getting trending");
-    final trending = await menuRepository.getTrendingMenus();
-    final store = Store(
-      trendingMenus: trending,
-      restaurants: restaurants,
-      categories: categories
-    );
-    emit(StoreLoadedState(store));
+   final authState = this._authenticationBloc.state;
+   if(authState is AuthenticationAuthenticated) {
+     User user = authState.user;
+     print("loading store ...");
+     emit(StoreLoadingState("loading restaurants"));
+     ///TODO: implement load store
+     print("getting restaurants");
+     final wilayaId = user.wilaya.code;
+     final restaurants = await restaurantRepository.getAllRestaurants(wilayaId);
+     emit(StoreLoadingState("loading categories"));
+     print("getting categories");
+     final categories = await categoryRepository.getCategories();
+     emit(StoreLoadingState("loading trending menus"));
+     print("getting trending");
+     final trending = await menuRepository.getTrendingMenus(user.wilaya);
+     final store = Store(
+         trendingMenus: trending,
+         restaurants: restaurants,
+         categories: categories
+     );
+     emit(StoreLoadedState(store));
+   }
   }
 }
