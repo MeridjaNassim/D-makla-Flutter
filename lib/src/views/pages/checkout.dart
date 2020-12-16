@@ -19,8 +19,10 @@ class CheckoutWidget extends StatefulWidget {
 class _CheckoutWidgetState extends State<CheckoutWidget> {
   String _addressValue;
   String _phoneNumberValue;
+  String _commentaireLivraison;
   TextEditingController _addressController;
   TextEditingController _phoneNumberController;
+  TextEditingController _commentaireController;
   @override
   void initState() {
     // TODO: implement initState
@@ -28,9 +30,12 @@ class _CheckoutWidgetState extends State<CheckoutWidget> {
     User user = (BlocProvider.of<AuthenticationBloc>(context).state as AuthenticationAuthenticated).user;
     _addressValue = user.address;
     _phoneNumberValue = user.phoneNumber;
+    _commentaireLivraison = "";
     _addressController = new TextEditingController();
     _phoneNumberController = new TextEditingController();
+    _commentaireController = new TextEditingController();
     _addressController.text = _addressValue;
+    _commentaireController.text = _commentaireLivraison;
     _phoneNumberController.text = _phoneNumberValue;
   }
 
@@ -40,11 +45,12 @@ class _CheckoutWidgetState extends State<CheckoutWidget> {
     super.dispose();
     _addressController.dispose();
     _phoneNumberController.dispose();
+    _commentaireController.dispose();
   }
 
   Widget _buildScreen() {
-    final today = DateTime.now();
-    final maxDeliveryTimeFromToday = today.add(Duration(days: 30));
+    final starting = DateTime.now().add(Duration(minutes: 30));
+    final maxDeliveryTimeFromToday = starting.add(Duration(days: 30));
     return BlocConsumer<DeliveryCubit,DeliveryState>(
       listener: (context,state) async{
         if(state is ApprovedDeliveryState) {
@@ -85,7 +91,7 @@ class _CheckoutWidgetState extends State<CheckoutWidget> {
                         color: Theme.of(context).hintColor,
                       ),
                       title: Text(
-                        'Livraison',
+                        'Information de livraison',
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: Theme.of(context).textTheme.display1,
@@ -99,6 +105,20 @@ class _CheckoutWidgetState extends State<CheckoutWidget> {
                     ),
                   ),
                   SizedBox(height: 20),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Row(children: [
+                      Icon(Icons.info_outline_rounded, size : 14,color: Theme.of(context).accentColor,),
+                      SizedBox(width: 5),
+                      Text(
+                        'Choisissez votre commune',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context).textTheme.body1,
+                      ),
+                    ],),
+                  ),
+                  SizedBox(height: 5),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16.0),
                     child: DropdownButtonFormField<Commune>(
@@ -145,6 +165,20 @@ class _CheckoutWidgetState extends State<CheckoutWidget> {
                   SizedBox(height: 20),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Row(children: [
+                      Icon(Icons.info_outline_rounded,size: 14,color: Theme.of(context).accentColor,),
+                      SizedBox(width: 5),
+                      Text(
+                        'Choisissez la zone de livraison',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context).textTheme.body1,
+                      ),
+                    ],),
+                  ),
+                  SizedBox(height: 5),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
                     child: DropdownButtonFormField<DeliveryZone>(
                         hint: Text("Zone de livraison"),
                         value: state.selectedZone,
@@ -189,6 +223,123 @@ class _CheckoutWidgetState extends State<CheckoutWidget> {
                   SizedBox(height: 20),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Row(children: [
+                      Icon(Icons.info_outline_rounded,size: 14,color: Theme.of(context).accentColor,),
+                      SizedBox(width: 5),
+                      Text(
+                        'Choisissez la date et heure de livraison',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context).textTheme.body1,
+                      ),
+                    ],),
+                  ),
+                  SizedBox(height: 5),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: FlatButton(
+                      onPressed: () {
+                        DatePicker.showDateTimePicker(context,
+                            theme: DatePickerTheme(
+                              cancelStyle: Theme.of(context).textTheme.body2,
+                              doneStyle: TextStyle(
+                                  color: Theme.of(context).accentColor,
+                                  fontWeight: FontWeight.bold),
+                              itemStyle:
+                              TextStyle(color: Theme.of(context).accentColor),
+                            ),
+                            showTitleActions: true,
+                            minTime: starting,
+                            maxTime: maxDeliveryTimeFromToday, onChanged: (date) {
+                              print('change $date');
+                            }, onConfirm: (date) {
+                              print('confirm $date');
+                              BlocProvider.of<DeliveryCubit>(context).setDeliveryTime(DeliveryTime(date));
+                            }, currentTime: starting, locale: LocaleType.fr);
+                      },
+                      padding: EdgeInsets.symmetric(vertical: 0),
+                      color: Theme.of(context).accentColor,
+                      child: Container(
+                          width: double.infinity,
+                          child: ListTile(
+                            trailing: Icon(Icons.calendar_today_rounded, color: Theme.of(context).primaryColor,),
+                            title:  Text(
+                              'Livrer le ${getDeliveryDateText(state.deliveryTime)} à ${getDeliveryTimeText(state.deliveryTime)}',
+                              textAlign: TextAlign.start,
+                              style: TextStyle(color: Theme.of(context).primaryColor),
+                            ),
+                          )
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: TextField(
+                      autofocus: false,
+                      onChanged: (value) {
+                        this.setState(() {
+                          _commentaireLivraison = value;
+                        });
+                      },
+                      keyboardType: TextInputType.text,
+                      minLines: 3,
+                      maxLines: 10,
+                      controller: _commentaireController,
+                      decoration: InputDecoration(
+                        labelText: "Commentaire sur livraison",
+                        errorText: null,
+                        labelStyle:
+                        TextStyle(color: Theme.of(context).accentColor),
+                        contentPadding: EdgeInsets.all(12),
+                        hintText: 'Commentaire sur livraison',
+                        hintStyle: TextStyle(
+                            color: Theme.of(context).focusColor.withOpacity(0.7)),
+                        suffixIcon: Icon(Icons.comment,
+                            color: Theme.of(context).accentColor),
+                        border: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Theme.of(context)
+                                    .focusColor
+                                    .withOpacity(0.2))),
+                        focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Theme.of(context)
+                                    .focusColor
+                                    .withOpacity(0.5))),
+                        enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Theme.of(context)
+                                    .focusColor
+                                    .withOpacity(0.2))),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 20, right: 10),
+                    child: ListTile(
+                      contentPadding: EdgeInsets.symmetric(vertical: 0),
+                      leading: Icon(
+                        Icons.add,
+                        color: Theme.of(context).hintColor,
+                      ),
+                      title: Text(
+                        'Information de réception',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context).textTheme.display1,
+                      ),
+                      subtitle: Text(
+                        'Entrez vos informations de réception',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context).textTheme.caption,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
                     child: TextField(
                       autofocus: false,
                       onChanged: (value) {
@@ -204,7 +355,7 @@ class _CheckoutWidgetState extends State<CheckoutWidget> {
                         labelStyle:
                         TextStyle(color: Theme.of(context).accentColor),
                         contentPadding: EdgeInsets.all(12),
-                        hintText: 'Votre adresse',
+                        hintText: 'Votre adresse (optionnel)',
                         hintStyle: TextStyle(
                             color: Theme.of(context).focusColor.withOpacity(0.7)),
                         suffixIcon: Icon(Icons.home,
@@ -270,44 +421,27 @@ class _CheckoutWidgetState extends State<CheckoutWidget> {
                   ),
                   SizedBox(height: 20),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: FlatButton(
-                      onPressed: () {
-                        DatePicker.showDateTimePicker(context,
-                            theme: DatePickerTheme(
-                              cancelStyle: Theme.of(context).textTheme.body2,
-                              doneStyle: TextStyle(
-                                  color: Theme.of(context).accentColor,
-                                  fontWeight: FontWeight.bold),
-                              itemStyle:
-                              TextStyle(color: Theme.of(context).accentColor),
-                            ),
-                            showTitleActions: true,
-                            minTime: today,
-                            maxTime: maxDeliveryTimeFromToday, onChanged: (date) {
-                              print('change $date');
-                            }, onConfirm: (date) {
-                              print('confirm $date');
-                              BlocProvider.of<DeliveryCubit>(context).setDeliveryTime(DeliveryTime(date));
-                            }, currentTime: DateTime.now(), locale: LocaleType.fr);
-                      },
-                      padding: EdgeInsets.symmetric(vertical: 14),
-                      color: Theme.of(context).accentColor,
-                      child: Container(
-                          width: double.infinity,
-                          child: ListTile(
-                            trailing: Icon(Icons.calendar_today_rounded, color: Theme.of(context).primaryColor,),
-                            title:  Text(
-                              'Livrer le ${getDeliveryDateText(state.deliveryTime)} à ${getDeliveryTimeText(state.deliveryTime)}',
-                              textAlign: TextAlign.start,
-                              style: TextStyle(color: Theme.of(context).primaryColor),
-                            ),
-                          )
+                    padding: const EdgeInsets.only(left: 20, right: 10),
+                    child: ListTile(
+                      contentPadding: EdgeInsets.symmetric(vertical: 0),
+                      leading: Icon(
+                        Icons.money,
+                        color: Theme.of(context).hintColor,
+                      ),
+                      title: Text(
+                        'Frais totale',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context).textTheme.display1,
+                      ),
+                      subtitle: Text(
+                        'confirmez votre commande après vérification des informations',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context).textTheme.caption,
                       ),
                     ),
                   ),
-                  SizedBox(height: 20),
-
                   Container(
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -318,7 +452,7 @@ class _CheckoutWidgetState extends State<CheckoutWidget> {
                           color: Theme.of(context).hintColor,
                         ),
                         title: Text(
-                          'Frais de Commande',
+                          'Totale de Commande',
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: Theme.of(context).textTheme.display1,
@@ -350,7 +484,7 @@ class _CheckoutWidgetState extends State<CheckoutWidget> {
                           style: Theme.of(context).textTheme.display1,
                         ),
                         trailing: Text(
-                          (state.zonePrice+state.timePrice).toStringAsFixed(2)+"DA",
+                          (state.delivery.delivery_fee).toStringAsFixed(2)+"DA",
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1,
                           style: Theme.of(context).textTheme.display3,
@@ -358,7 +492,30 @@ class _CheckoutWidgetState extends State<CheckoutWidget> {
                       ),
                     ),
                   ),
-
+                  Container(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: ListTile(
+                        contentPadding: EdgeInsets.symmetric(vertical: 0),
+                        leading: Icon(
+                          Icons.payments_outlined,
+                          color: Theme.of(context).hintColor,
+                        ),
+                        title: Text(
+                          'Remise',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: Theme.of(context).textTheme.display1,
+                        ),
+                        trailing: Text(
+                          (state.delivery.discount).toStringAsFixed(2)+"DA",
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                          style: Theme.of(context).textTheme.display3,
+                        ),
+                      ),
+                    ),
+                  ),
                   SizedBox(height: 20),
                   Stack(
                     fit: StackFit.loose,
@@ -377,7 +534,7 @@ class _CheckoutWidgetState extends State<CheckoutWidget> {
                             width: double.infinity,
                             padding: const EdgeInsets.symmetric(horizontal: 20),
                             child: Text(
-                              'Confirm Order',
+                              'Confirmer',
                               textAlign: TextAlign.start,
                               style: TextStyle(
                                   color: Theme.of(context).primaryColor),
@@ -399,6 +556,7 @@ class _CheckoutWidgetState extends State<CheckoutWidget> {
                       )
                     ],
                   ),
+                  SizedBox(height: 20),
                 ],
               )
           );
@@ -423,7 +581,7 @@ class _CheckoutWidgetState extends State<CheckoutWidget> {
         elevation: 0,
         centerTitle: true,
         title: Text(
-          'Checkout',
+          'Confirmation commande',
           style: Theme.of(context)
               .textTheme
               .title
@@ -435,8 +593,10 @@ class _CheckoutWidgetState extends State<CheckoutWidget> {
   }
   String getFullPrice(CartState cartState,DeliveryState deliveryState) {
     final cartPrice = (cartState as LoadedCartState).currentCartPrice;
-    final deliveryPrice = (deliveryState as LoadedDeliveryState).zonePrice + (deliveryState as LoadedDeliveryState).timePrice;
-    return (cartPrice+ deliveryPrice).toStringAsFixed(2)+"DA";
+    //final totalCartPrice = (cartState as LoadedDeliveryState).delivery.order_fee;
+    final deliveryPrice = (deliveryState as LoadedDeliveryState).delivery.delivery_fee;
+    final discountPrice = (deliveryState as LoadedDeliveryState).delivery.discount;
+    return (cartPrice+ deliveryPrice - discountPrice).toStringAsFixed(2)+"DA";
   }
 }
 

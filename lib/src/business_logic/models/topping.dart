@@ -35,6 +35,7 @@ abstract class ToppingList  extends Equatable{
   Topping getToppingByName(String name);
   Topping getToppingByIndex(int index);
   double getListPrice();
+  List<dynamic> toJson();
 }
 class ToppingListImpl extends ToppingList {
   final List<Topping> _items;
@@ -112,6 +113,11 @@ class ToppingListImpl extends ToppingList {
   @override
   void removeTopping(Topping topping) {
     this._items.remove(topping);
+  }
+
+  @override
+  List<dynamic> toJson() {
+    return this._items.map((e) => e.id).toList();
   }
 
 

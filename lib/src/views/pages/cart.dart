@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:restaurant_rlutter_ui/src/business_logic/blocs/cart/cart.bloc.dart';
 import 'package:restaurant_rlutter_ui/src/business_logic/blocs/cart/cart.event.dart';
 import 'package:restaurant_rlutter_ui/src/business_logic/blocs/cart/cart.state.dart';
+import 'package:restaurant_rlutter_ui/src/business_logic/blocs/delivery/delivery.cubit.dart';
 import 'package:restaurant_rlutter_ui/src/models/food.dart';
 import 'package:restaurant_rlutter_ui/src/views/elements/CartItemWidget.dart';
 import 'package:restaurant_rlutter_ui/src/views/elements/common/loading.dart';
@@ -247,6 +248,7 @@ class _CartWidgetState extends State<CartWidget> {
                                 disabledTextColor: Colors.black54,
                                 onPressed: numberOfOrders != 0
                                     ? () {
+                                        BlocProvider.of<DeliveryCubit>(context).initDelivery();
                                         Navigator.of(context)
                                             .pushNamed('/Checkout');
                                       }

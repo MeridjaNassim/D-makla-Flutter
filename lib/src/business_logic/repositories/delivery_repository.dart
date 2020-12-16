@@ -1,4 +1,5 @@
 import 'package:restaurant_rlutter_ui/src/business_logic/datasources/delivery_datasource.dart';
+import 'package:restaurant_rlutter_ui/src/business_logic/models/cart.dart';
 import 'package:restaurant_rlutter_ui/src/business_logic/models/common/wilaya.dart';
 import 'package:restaurant_rlutter_ui/src/business_logic/models/delivery.dart';
 
@@ -11,28 +12,43 @@ abstract class DeliveryRepository {
 
   Future<List<Wilaya>> getDeliveryWilayas();
 
-  Future<double> getDeliveryPrice(DeliveryLocation location, DeliveryTime time);
+  Future<DeliveryDataResult> getDeliveryPrice(
+      DeliveryLocation location, DeliveryTime time, Cart cart);
 }
 
 class DeliveryRepositoryImpl extends DeliveryRepository {
   final RemoteDeliveryDataSource remoteDeliveryDataSource;
 
-  DeliveryRepositoryImpl({this.remoteDeliveryDataSource}) : assert(remoteDeliveryDataSource != null);
+  DeliveryRepositoryImpl({this.remoteDeliveryDataSource})
+      : assert(remoteDeliveryDataSource != null);
 
   @override
-  Future<List<Commune>> getCommunesOfWilaya(Wilaya wilaya) async{
+  Future<List<Commune>> getCommunesOfWilaya(Wilaya wilaya) async {
     return this.remoteDeliveryDataSource.getDeliveryDataOfWilaya(wilaya.code);
   }
 
   @override
   Future<List<Commune>> getDeliveryLocationDataOfWilaya(Wilaya wilaya) {
-   return remoteDeliveryDataSource.getDeliveryDataOfWilaya(wilaya.code);
+    return remoteDeliveryDataSource.getDeliveryDataOfWilaya(wilaya.code);
   }
 
   @override
-  Future<double> getDeliveryPrice(DeliveryLocation location, DeliveryTime time) {
-    // TODO: implement getDeliveryPrice
-    throw UnimplementedError();
+  Future<DeliveryDataResult> getDeliveryPrice(
+      DeliveryLocation location, DeliveryTime time, Cart cart) async {
+    List<MenuPriceParam> menus = cart.orderList
+        .items()
+        .map<MenuPriceParam>(
+            (order) => MenuPriceParam.fromOrder(order))
+        .toList();
+    try {
+      final data = await  this.remoteDeliveryDataSource.getDeliveryPrice(DeliveryPriceParams(
+          zoneId: location.zone.id, timestamps: time.dateTime, menus: menus));
+      return data;
+    }
+    catch (e) {
+       return DeliveryDataResult(delivery_fee: -1,order_fee: -1,discount: -1);
+    }
+
   }
 
   @override
@@ -46,28 +62,26 @@ class DeliveryRepositoryImpl extends DeliveryRepository {
     // TODO: implement getDeliveryZonesOfWilaya
     throw UnimplementedError();
   }
-
 }
 
 class MockDeliveryRepository extends DeliveryRepository {
   final mockWilayaData = [
     Wilaya(code: "16", name: "Alger", communes: [
-      Commune(id: "1", name: "CommuneAlger1",zones: [
+      Commune(id: "1", name: "CommuneAlger1", zones: [
         DeliveryZone(id: "1", name: "vile1"),
         DeliveryZone(id: "2", name: "vile2")
       ]),
-      Commune(id: "2", name: "CommuneAlger2",
-          zones: [
-            DeliveryZone(id: "3", name: "vile3"),
-            DeliveryZone(id: "4", name: "vile4")
-          ])
+      Commune(id: "2", name: "CommuneAlger2", zones: [
+        DeliveryZone(id: "3", name: "vile3"),
+        DeliveryZone(id: "4", name: "vile4")
+      ])
     ]),
     Wilaya(code: "15", name: "Tizi Ouzou", communes: [
-      Commune(id: "3", name: "CommuneTizi1" , zones: [
+      Commune(id: "3", name: "CommuneTizi1", zones: [
         DeliveryZone(id: "5", name: "vile5"),
         DeliveryZone(id: "6", name: "vile6")
       ]),
-      Commune(id: "4", name: "CommuneTizi2",zones: [
+      Commune(id: "4", name: "CommuneTizi2", zones: [
         DeliveryZone(id: "7", name: "vile7"),
         DeliveryZone(id: "8", name: "vile8")
       ])
@@ -92,9 +106,9 @@ class MockDeliveryRepository extends DeliveryRepository {
   }
 
   @override
-  Future<double> getDeliveryPrice(
-      DeliveryLocation location, DeliveryTime time) async {
-    return 113;
+  Future<DeliveryDataResult> getDeliveryPrice(
+      DeliveryLocation location, DeliveryTime time, Cart cart) async {
+    return null;
   }
 
   @override
@@ -117,7 +131,18 @@ class MockDeliveryRepository extends DeliveryRepository {
   }
 
   @override
-  Future<List<Commune>> getDeliveryLocationDataOfWilaya(Wilaya wilaya) async{
-    return mockWilayaData.firstWhere((element) => element == wilaya, orElse: ()=> Wilaya(communes: [])).communes;
+  Future<List<Commune>> getDeliveryLocationDataOfWilaya(Wilaya wilaya) async {
+    return mockWilayaData
+        .firstWhere((element) => element == wilaya,
+            orElse: () => Wilaya(communes: []))
+        .communes;
   }
+}
+
+class DeliveryDataResult {
+  final double delivery_fee;
+  final double order_fee;
+  final double discount;
+
+  DeliveryDataResult({this.delivery_fee, this.order_fee, this.discount});
 }

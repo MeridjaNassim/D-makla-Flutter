@@ -76,8 +76,9 @@ class _FoodWidgetState extends State<FoodWidget> {
         builder:(context,state){
           if(state is LoadedCartState) {
             final cart = state.cart;
+            final orders = cart.getOrdersByMenu(menu);
             final size = cart.sizeOfOrderByMenu(menu);
-            final ordersCount = cart.numberOfOrderByMenu(menu) ;
+            final ordersCount = orders.length ;
             if(ordersCount > 0){
               return Column(
                 children: [
@@ -105,7 +106,7 @@ class _FoodWidgetState extends State<FoodWidget> {
                   ListView.separated(
                     padding: EdgeInsets.all(0),
                     itemBuilder: (context, index) {
-                      final order = cart.getOrderByIndex(index);
+                      final order = orders[index];
                       return Dismissible(
                           onDismissed: (direction){
                             BlocProvider.of<CartBloc>(context).add(OrderRemoved(order));
@@ -553,30 +554,43 @@ class OrderWidget extends StatelessWidget {
                                       .of(context)
                                       .accentColor,),
                                   SizedBox(width: 10,),
-                                  Text(order.toppingList
-                                      .getToppingByIndex(index)
-                                      .name, style: Theme
-                                      .of(context)
-                                      .textTheme
-                                      .body1,)
+                                  Expanded(
+                                    child: Text(order.toppingList
+                                        .getToppingByIndex(index)
+                                        .name,
+
+                                      style: Theme
+                                        .of(context)
+                                        .textTheme
+                                        .body1,
+                                    overflow: TextOverflow.fade,
+                                    ),
+                                  )
                                 ],
                               );
                             }),
                       ),
-                      Row(children: [
-                        Text("unit : ",style: Theme.of(context).textTheme.body2,),
-                        Text(
-                         order.getUnitPrice().toString() + " DA",
-                          style: Theme.of(context).textTheme.subhead.copyWith(color : Theme.of(context).accentColor),
-                        ),
-                      ],),
-                      Row(children: [
-                        Text("full : ",style: Theme.of(context).textTheme.body2,),
-                        Text(
-                          order.getFullPrice().toString() + " DA",
-                          style: Theme.of(context).textTheme.subhead.copyWith(color : Theme.of(context).accentColor),
-                        ),
-                      ],),
+                      Row(
+                        children: [
+                          Row(children: [
+                            Icon(Icons.payments_outlined,color: Theme.of(context).accentColor,),
+                            SizedBox(width: 5,),
+                            Text(
+                              order.getUnitPrice().toString() + " DA",
+                              style: Theme.of(context).textTheme.subhead.copyWith(color : Theme.of(context).accentColor),
+                            ),
+                          ],),
+                          SizedBox(width: 20,),
+                          Row(children: [
+                            Text("total: ",style: Theme.of(context).textTheme.body2,),
+                            Text(
+                              order.getFullPrice().toString() + " DA",
+                              style: Theme.of(context).textTheme.display2.copyWith(color : Theme.of(context).accentColor),
+                            ),
+                          ],),
+                        ],
+                      ),
+
                     ],
                   ),
                 ),

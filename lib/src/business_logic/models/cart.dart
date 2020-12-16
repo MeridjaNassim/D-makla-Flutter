@@ -19,7 +19,15 @@ class Cart extends Equatable{
   int numberOfOrderByMenu(Menu menu) => this.orderList.countDistinct(menu);
   int sizeOfOrderByMenu(Menu menu) => this.orderList.count(menu);
   Order getOrderByIndex(int index) => this.orderList.getOrderByIndex(index);
+  List<Order> getOrdersByMenu(Menu menu) => this.orderList.getOrdersByMenu(menu);
   @override
   // TODO: implement props
   List<Object> get props => [orderList];
+
+  Map<String,dynamic> toJson() {
+    return {
+      "count" : totalNumberOfOrders(),
+      "orders" : orderList.toJson()
+    };
+  }
 }

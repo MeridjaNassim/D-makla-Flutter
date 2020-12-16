@@ -9,7 +9,6 @@ import 'package:restaurant_rlutter_ui/src/business_logic/models/common/wilaya.da
 import 'package:restaurant_rlutter_ui/src/business_logic/models/delivery.dart';
 import 'package:restaurant_rlutter_ui/src/business_logic/models/user.dart';
 import 'package:restaurant_rlutter_ui/src/business_logic/repositories/delivery_repository.dart';
-import 'dart:math' as math;
 
 import 'package:restaurant_rlutter_ui/src/business_logic/repositories/order_repository.dart';
 abstract class DeliveryState extends Equatable {}
@@ -63,10 +62,10 @@ class LoadedDeliveryState extends DeliveryState {
   final Commune selectedCommune;
   final DeliveryZone selectedZone;
   final DeliveryTime deliveryTime;
-  final double zonePrice;
-  final double timePrice;
+  final bool loadingPrice;
+  final DeliveryDataResult delivery;
   LoadedDeliveryState(this.wilaya, this.deliveryLocations,
-      {this.selectedCommune,this.deliveryTime, this.selectedZone, this.zonePrice, this.timePrice});
+      {this.selectedCommune,this.deliveryTime, this.selectedZone, this.loadingPrice , this.delivery});
 
   @override
   // TODO: implement props
@@ -86,69 +85,74 @@ class DeliveryCubit extends Cubit<DeliveryState> {
         this._deliveryRepository = deliveryRepository,
         this._orderRepository =  orderRepository,
         super(InitialDeliveryState()) {
-    _init();
   }
 
-  void _init() async {
+  void initDelivery() async {
     emit(LoadingDeliveryState());
-    final authState = _authenticationBloc.state;
-    if (authState is AuthenticationAuthenticated) {
-      final userWilaya = authState.user.wilaya;
-      print(userWilaya);
-      final communesData = await _deliveryRepository.getDeliveryLocationDataOfWilaya(userWilaya) ?? [];
-      final communes = communesData.takeWhile((commune) =>commune.zones.length != 0 ).toList();
-      if(communes.isNotEmpty) {
-        final firstCommune = communes.first;
-        final zones = firstCommune.zones;
-        print(zones);
-        final firstZone = zones.first;
-        final deliveryTime = DeliveryTime(DateTime.now());
-        math.Random rand = math.Random();
-        final loadedState = LoadedDeliveryState(userWilaya,communes,
-            deliveryTime: deliveryTime,
-            selectedCommune: firstCommune,
-            selectedZone: firstZone,
-            zonePrice: rand.nextDouble()*100,
-            timePrice: rand.nextDouble()*100);
-        emit(loadedState);
-      }
-
+    final authState = _authenticationBloc.state as AuthenticationAuthenticated;
+    final cartState = _cartBloc.state as LoadedCartState;
+    final userWilaya = authState.user.wilaya;
+    print(userWilaya);
+    final communesData = await _deliveryRepository.getDeliveryLocationDataOfWilaya(userWilaya) ?? [];
+    final communes = communesData.takeWhile((commune) =>commune.zones.length != 0 ).toList();
+    if(communes.isNotEmpty) {
+      final firstCommune = communes.first;
+      final zones = firstCommune.zones;
+      print(zones);
+      final firstZone = zones.first;
+      final deliveryTime = DeliveryTime(DateTime.now().add(Duration(minutes: 30)));
+      final price = await _deliveryRepository.getDeliveryPrice(DeliveryLocation(wilaya: userWilaya,zone: firstZone), deliveryTime,cartState.cart);
+      final loadedState = LoadedDeliveryState(userWilaya,communes,
+          deliveryTime: deliveryTime,
+          selectedCommune: firstCommune,
+          selectedZone: firstZone,
+          loadingPrice: false,
+          delivery: price
+      );
+      emit(loadedState);
     }
   }
-  void setSelectedCommune(Commune commune) {
+  void setSelectedCommune(Commune commune) async{
     final state = this.state as LoadedDeliveryState;
     print(commune);
     final firstZone = commune.zones[0];
-    ///TODO : get price of this zone;
-    math.Random rand = math.Random();
+    final authState = _authenticationBloc.state as AuthenticationAuthenticated;
+    final cartState = _cartBloc.state as LoadedCartState;
+    final delivery = await _deliveryRepository.getDeliveryPrice(DeliveryLocation(wilaya: authState.user.wilaya,zone: firstZone), state.deliveryTime,cartState.cart);
     emit(LoadedDeliveryState(state.wilaya, state.deliveryLocations,
         selectedCommune: commune,
         deliveryTime: state.deliveryTime,
         selectedZone: firstZone,
-        zonePrice: rand.nextDouble()*100,
-        timePrice: rand.nextDouble()*100));
+        loadingPrice: false,
+      delivery: delivery));
   }
   void setDeliveryZone(DeliveryZone zone) async {
     final state = this.state as LoadedDeliveryState;
     print(zone);
-    math.Random rand = math.Random();
+    final authState = _authenticationBloc.state as AuthenticationAuthenticated;
+    final cartState = _cartBloc.state as LoadedCartState;
+    final delivery = await _deliveryRepository.getDeliveryPrice(DeliveryLocation(wilaya: authState.user.wilaya,zone: zone), state.deliveryTime,cartState.cart);
     emit(LoadedDeliveryState(state.wilaya, state.deliveryLocations,
         selectedCommune: state.selectedCommune,
         deliveryTime: state.deliveryTime,
         selectedZone: zone,
-        zonePrice: rand.nextDouble()*100,
-        timePrice: rand.nextDouble()*100));
+        loadingPrice: false,
+        delivery: delivery
+    ));
   }
   void setDeliveryTime(DeliveryTime time) async {
     final state = this.state as LoadedDeliveryState;
+    final authState = _authenticationBloc.state as AuthenticationAuthenticated;
+    final cartState = _cartBloc.state as LoadedCartState;
     print(time);
-    math.Random rand = math.Random();
+    final delivery = await _deliveryRepository.getDeliveryPrice(DeliveryLocation(wilaya: authState.user.wilaya,zone: state.selectedZone), time,cartState.cart);
     emit(LoadedDeliveryState(state.wilaya,state.deliveryLocations,
         deliveryTime: time,
         selectedZone: state.selectedZone,
         selectedCommune:  state.selectedCommune,
-        zonePrice: rand.nextDouble()*100,
-        timePrice: rand.nextDouble()*100));
+        loadingPrice: false,
+        delivery: delivery
+    ));
   }
 
   void confirmDelivery() async{
@@ -169,6 +173,6 @@ class DeliveryCubit extends Cubit<DeliveryState> {
     /// we tell the cart to clear
     _cartBloc.add(CartCleared());
     /// we reinitialize the delivery state to starting data
-    _init();
+    initDelivery();
   }
 }

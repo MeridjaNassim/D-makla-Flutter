@@ -61,11 +61,12 @@ abstract class OrderList extends Equatable {
   void decrementQuantityByIndex(int index, int amount);
 
   void setQuantity(Order order, int value);
-
+  List<Order> getOrdersByMenu(Menu menu);
   void setQuantityByIndex(int index, int value);
   int numberOfDistinctOrders();
   int countDistinct(Menu menu);
   int count(Menu menu);
+  List<dynamic> toJson();
 }
 
 class OrderListImpl extends OrderList {
@@ -187,5 +188,28 @@ class OrderListImpl extends OrderList {
       if(element.menu == menu) _count+=element.quantity;
     });
     return _count;
+  }
+
+  @override
+  List<dynamic> toJson() {
+   if(this._items.isEmpty) return [];
+   return this._items.map((item) => {
+      "createdAt" : item.creationDate.millisecondsSinceEpoch,
+       "quantity" : item.quantity,
+        "menu_id" : item.menu.id,
+        "variante_id" : item.variant.id,
+        "garnitures_ids" : item.toppingList.toJson(),
+        "note" : item.note
+   }).toList();
+  }
+
+  @override
+  List<Order> getOrdersByMenu(Menu menu) {
+    List<Order> list = [];
+    this._items.forEach((element) {
+      if(element.menu == menu)
+        list.add(element);
+    });
+    return list;
   }
 }
