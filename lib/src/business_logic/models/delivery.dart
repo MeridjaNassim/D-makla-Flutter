@@ -29,4 +29,9 @@ class DeliveryTime extends Equatable {
   @override
   // TODO: implement props
   List<Object> get props => [dateTime.millisecondsSinceEpoch];
+
+  static DeliveryTime  getNextClosestDeliveryTime() {
+    final time = DateTime.now().add(Duration(minutes: 30));
+    return DeliveryTime(time);
+  }
 }

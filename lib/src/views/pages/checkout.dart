@@ -254,6 +254,11 @@ class _CheckoutWidgetState extends State<CheckoutWidget> {
                               print('change $date');
                             }, onConfirm: (date) {
                               print('confirm $date');
+                              if(date.hour > 20 || date.hour < 10){
+                                return Scaffold.of(context).showSnackBar(SnackBar(
+                                    backgroundColor: Theme.of(context).accentColor,
+                                    content: Text("Heure de livraison doit être entre 10:00 et 20:00")));
+                              }
                               BlocProvider.of<DeliveryCubit>(context).setDeliveryTime(DeliveryTime(date));
                             }, currentTime: starting, locale: LocaleType.fr);
                       },

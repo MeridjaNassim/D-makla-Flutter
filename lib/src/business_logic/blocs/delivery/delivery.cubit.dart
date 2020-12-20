@@ -84,8 +84,7 @@ class DeliveryCubit extends Cubit<DeliveryState> {
         this._cartBloc = cartBloc,
         this._deliveryRepository = deliveryRepository,
         this._orderRepository =  orderRepository,
-        super(InitialDeliveryState()) {
-  }
+        super(InitialDeliveryState()) ;
 
   void initDelivery() async {
     emit(LoadingDeliveryState());
@@ -100,7 +99,7 @@ class DeliveryCubit extends Cubit<DeliveryState> {
       final zones = firstCommune.zones;
       print(zones);
       final firstZone = zones.first;
-      final deliveryTime = DeliveryTime(DateTime.now().add(Duration(minutes: 30)));
+      final deliveryTime = DeliveryTime.getNextClosestDeliveryTime();
       final price = await _deliveryRepository.getDeliveryPrice(DeliveryLocation(wilaya: userWilaya,zone: firstZone), deliveryTime,cartState.cart);
       final loadedState = LoadedDeliveryState(userWilaya,communes,
           deliveryTime: deliveryTime,
