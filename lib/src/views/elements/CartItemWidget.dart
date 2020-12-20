@@ -106,6 +106,17 @@ class _CartItemWidgetState extends State<CartItemWidget> {
                               ],
                             );
                           }),
+                      widget.order.note.isNotEmpty ? Row(
+                        children: [
+                          Icon(Icons.chat,size: 14,color: Theme.of(context).accentColor,),
+                          SizedBox(width: 5,),
+                          Text(
+                              widget.order.note,
+                              style: Theme.of(context).textTheme.caption),
+
+                        ],
+                      ) : SizedBox(),
+                      SizedBox(height: 5,),
                       Row(children: [
                         Text("unit : ",style: Theme.of(context).textTheme.body2,),
                         Text(

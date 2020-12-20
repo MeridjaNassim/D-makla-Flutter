@@ -13,6 +13,7 @@ import 'package:restaurant_rlutter_ui/src/business_logic/blocs/store/store.cubit
 import 'package:restaurant_rlutter_ui/src/business_logic/datasources/category_datasource.dart';
 import 'package:restaurant_rlutter_ui/src/business_logic/datasources/delivery_datasource.dart';
 import 'package:restaurant_rlutter_ui/src/business_logic/datasources/menu_datasource.dart';
+import 'package:restaurant_rlutter_ui/src/business_logic/datasources/order_datasource.dart';
 import 'package:restaurant_rlutter_ui/src/business_logic/datasources/restaurant_datasource.dart';
 import 'package:restaurant_rlutter_ui/src/business_logic/repositories/category_repository.dart';
 import 'package:restaurant_rlutter_ui/src/business_logic/repositories/delivery_repository.dart';
@@ -37,7 +38,7 @@ class DmaklaApp extends StatelessWidget {
       RemoteRestaurantDataSource();
   final RemoteDeliveryDataSource remoteDeliveryDataSource =
       RemoteDeliveryDataSource();
-
+  final RemoteOrderDataSource remoteOrderDataSource = RemoteOrderDataSource();
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -59,7 +60,7 @@ class DmaklaApp extends StatelessWidget {
                     BlocProvider.of<AuthenticationBloc>(context),
                     BlocProvider.of<CartBloc>(context),
                     DeliveryRepositoryImpl(remoteDeliveryDataSource: remoteDeliveryDataSource),
-                    MockOrderRepository(),
+                    OrderRepositoryImpl(remoteOrderDataSource),
                   )),
           BlocProvider<RestaurantCubit>(
               create: (context) => RestaurantCubit(categoryRepository)),

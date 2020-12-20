@@ -12,36 +12,39 @@ class Order extends Equatable {
   final DateTime creationDate;
   int quantity;
   double price;
+
   Order(
-      {
-        this.id,
+      {this.id,
       this.menu,
-        this.note,
+      this.note,
       this.variant,
       this.toppingList,
-        this.creationDate,
+      this.creationDate,
       this.quantity = 1});
 
   @override
   List<Object> get props {
-    return [id,menu,variant,toppingList,creationDate];
+    return [id, menu, variant, toppingList, creationDate, note];
   }
 
   double getUnitPrice() {
     final variantPrice = this.menu.pricings.getPriceOfVariant(this.variant);
     final toppingsPrice = this.toppingList.getListPrice();
-    if(variantPrice != null && toppingsPrice != null) return (variantPrice+toppingsPrice);
+    if (variantPrice != null && toppingsPrice != null)
+      return (variantPrice + toppingsPrice);
     return 0;
   }
-  double getFullPrice() {
-    return this.getUnitPrice() *this.quantity;
-  }
 
+  double getFullPrice() {
+    return this.getUnitPrice() * this.quantity;
+  }
 }
 
 abstract class OrderList extends Equatable {
   void clear();
+
   int size();
+
   Iterable<Order> items();
 
   void addNewOrder(Order order);
@@ -61,11 +64,17 @@ abstract class OrderList extends Equatable {
   void decrementQuantityByIndex(int index, int amount);
 
   void setQuantity(Order order, int value);
+
   List<Order> getOrdersByMenu(Menu menu);
+
   void setQuantityByIndex(int index, int value);
+
   int numberOfDistinctOrders();
+
   int countDistinct(Menu menu);
+
   int count(Menu menu);
+
   List<dynamic> toJson();
 }
 
@@ -80,18 +89,21 @@ class OrderListImpl extends OrderList {
 
   @override
   void addNewOrder(Order order) {
-    if(_items.isEmpty) return _items.add(order);
+    if (_items.isEmpty) return _items.add(order);
     // check if this order exists first
     print("checking if exists");
-    Order existOrder = _items.firstWhere((element){
-      return element.menu == order.menu && element.variant == order.variant && element.toppingList == order.toppingList;
-    },orElse: ()=>null);
-    if(existOrder == null) {
+    Order existOrder = _items.firstWhere((element) {
+      return element.menu == order.menu &&
+          element.variant == order.variant &&
+          element.toppingList == order.toppingList &&
+          element.note == order.note;
+    }, orElse: () => null);
+    if (existOrder == null) {
       print("order does not exist");
       return _items.add(order);
     }
     int quantity = existOrder.quantity;
-    order.quantity = order.quantity+quantity;
+    order.quantity = order.quantity + quantity;
     removeOrder(existOrder);
     return _items.add(order);
   }
@@ -99,7 +111,8 @@ class OrderListImpl extends OrderList {
   @override
   void removeOrder(Order order) {
     // TODO: implement removeOrder
-    if(this._items != null && this._items.isNotEmpty) this._items.remove(order);
+    if (this._items != null && this._items.isNotEmpty)
+      this._items.remove(order);
   }
 
   @override
@@ -121,9 +134,9 @@ class OrderListImpl extends OrderList {
 
   @override
   void decrementQuantity(Order order, int amount) {
-      print("current order quantity:"+ order.quantity.toString());
-      if(order.quantity > amount) order.quantity = order.quantity -amount;
-      print("current order quantity:"+ order.quantity.toString());
+    print("current order quantity:" + order.quantity.toString());
+    if (order.quantity > amount) order.quantity = order.quantity - amount;
+    print("current order quantity:" + order.quantity.toString());
   }
 
   @override
@@ -133,16 +146,16 @@ class OrderListImpl extends OrderList {
 
   @override
   Order getOrderByIndex(int index) {
-    if(_items.length > index) return _items[index];
+    if (_items.length > index) return _items[index];
     return null;
   }
 
   @override
   void incrementQuantity(Order order, int amount) {
-    print("current order quantity:"+ order.quantity.toString());
-    int value = order.quantity+amount;
-    if(value < 99) order.quantity = value;
-    print("current order quantity:"+ order.quantity.toString());
+    print("current order quantity:" + order.quantity.toString());
+    int value = order.quantity + amount;
+    if (value < 99) order.quantity = value;
+    print("current order quantity:" + order.quantity.toString());
   }
 
   @override
@@ -163,11 +176,12 @@ class OrderListImpl extends OrderList {
   @override
   int size() {
     int size = 0;
-    for(Order order in _items) {
+    for (Order order in _items) {
       size = size + order.quantity;
     }
     return size;
   }
+
   @override
   int numberOfDistinctOrders() {
     return this._items.length;
@@ -177,38 +191,41 @@ class OrderListImpl extends OrderList {
   int countDistinct(Menu menu) {
     int _count = 0;
     this._items.forEach((element) {
-      if(element.menu == menu) _count++;
+      if (element.menu == menu) _count++;
     });
     return _count;
   }
+
   @override
   int count(Menu menu) {
     int _count = 0;
     this._items.forEach((element) {
-      if(element.menu == menu) _count+=element.quantity;
+      if (element.menu == menu) _count += element.quantity;
     });
     return _count;
   }
 
   @override
   List<dynamic> toJson() {
-   if(this._items.isEmpty) return [];
-   return this._items.map((item) => {
-      "createdAt" : item.creationDate.millisecondsSinceEpoch,
-       "quantity" : item.quantity,
-        "menu_id" : item.menu.id,
-        "variante_id" : item.variant.id,
-        "garnitures_ids" : item.toppingList.toJson(),
-        "note" : item.note
-   }).toList();
+    if (this._items.isEmpty) return [];
+    return this
+        ._items
+        .map((item) => {
+              "createdAt": item.creationDate.millisecondsSinceEpoch,
+              "menu_qty": item.quantity,
+              "menu_id": item.menu.id,
+              "variant_id": item.variant.id,
+              "garnitures_list": item.toppingList.toJson(),
+              "menu_note": item.note
+            })
+        .toList();
   }
 
   @override
   List<Order> getOrdersByMenu(Menu menu) {
     List<Order> list = [];
     this._items.forEach((element) {
-      if(element.menu == menu)
-        list.add(element);
+      if (element.menu == menu) list.add(element);
     });
     return list;
   }

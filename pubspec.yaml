@@ -22,9 +22,9 @@ dependencies:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^0.1.2
+  cupertino_icons: ^1.0.0
   flutter_swiper: ^1.1.6
-  google_maps_flutter: ^0.5.20+2
+  google_maps_flutter: ^1.0.6
   datetime_picker_formfield: ^0.4.2
   bloc: ^6.1.0
   flutter_bloc: ^6.1.1
@@ -35,7 +35,10 @@ dependencies:
   shared_preferences: ^0.5.12+4
   # http requests
   http: ^0.12.2
-
+  # html paring
+  #flutter_html: ^1.1.1
+  # geolocalisation
+  geolocator: ^6.1.13
 #  location: ^2.3.5
 
 dev_dependencies:

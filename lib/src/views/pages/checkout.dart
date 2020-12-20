@@ -530,7 +530,14 @@ class _CheckoutWidgetState extends State<CheckoutWidget> {
                         width: 320,
                         child: FlatButton(
                           onPressed: () {
-                            BlocProvider.of<DeliveryCubit>(context).confirmDelivery();
+                            final payload = ConfirmDeliveryPayload(
+                              contactPhoneNumber: _phoneNumberValue,
+                              address: _addressValue,
+                              deliveryComment: _commentaireLivraison
+                            );
+                            BlocProvider.of<DeliveryCubit>(context).confirmDelivery(
+                              payload: payload
+                            );
                           },
                           padding: EdgeInsets.symmetric(vertical: 14),
                           color: Theme.of(context).accentColor,

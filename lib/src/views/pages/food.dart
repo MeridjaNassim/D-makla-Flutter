@@ -570,6 +570,17 @@ class OrderWidget extends StatelessWidget {
                               );
                             }),
                       ),
+                      order.note.isNotEmpty ? Row(
+                        children: [
+                          Icon(Icons.chat,color: Theme.of(context).hintColor, ),
+                          SizedBox(width: 5,),
+                          Text(
+                              order.note,
+                              style: Theme.of(context).textTheme.bodyText1),
+
+                        ],
+                      ): SizedBox(),
+                      SizedBox(height: 5,),
                       Row(
                         children: [
                           Row(children: [
@@ -590,6 +601,7 @@ class OrderWidget extends StatelessWidget {
                           ],),
                         ],
                       ),
+
 
                     ],
                   ),
