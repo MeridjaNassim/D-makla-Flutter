@@ -17,6 +17,7 @@ class CheckoutWidget extends StatefulWidget {
 }
 
 class _CheckoutWidgetState extends State<CheckoutWidget> {
+  bool useMyGeoLocalisationPosition;
   String _addressValue;
   String _phoneNumberValue;
   String _commentaireLivraison;
@@ -29,6 +30,7 @@ class _CheckoutWidgetState extends State<CheckoutWidget> {
     super.initState();
     User user = (BlocProvider.of<AuthenticationBloc>(context).state as AuthenticationAuthenticated).user;
     _addressValue = user.address;
+    useMyGeoLocalisationPosition= true;
     _phoneNumberValue = user.phoneNumber;
     _commentaireLivraison = "";
     _addressController = new TextEditingController();
@@ -103,6 +105,24 @@ class _CheckoutWidgetState extends State<CheckoutWidget> {
                         style: Theme.of(context).textTheme.caption,
                       ),
                     ),
+                  ),
+                  SizedBox(height: 20),
+                  CheckboxListTile(
+
+                    title: Row(
+                      children: [
+                        Icon(Icons.gps_fixed,color: Theme.of(context).accentColor),
+                        SizedBox(width: 20,),
+                        Expanded(child: Text("Utiliser ma position GPS pour la livraison"))
+                      ],
+                    ),
+                    value: useMyGeoLocalisationPosition,
+                    onChanged: (newValue) {
+                      setState(() {
+                        useMyGeoLocalisationPosition = newValue;
+                      });
+                    },
+                    controlAffinity: ListTileControlAffinity.trailing,  //  <-- leading Checkbox
                   ),
                   SizedBox(height: 20),
                   Padding(
@@ -434,7 +454,7 @@ class _CheckoutWidgetState extends State<CheckoutWidget> {
                         color: Theme.of(context).hintColor,
                       ),
                       title: Text(
-                        'Frais totale',
+                        'Payement',
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: Theme.of(context).textTheme.display1,
@@ -531,6 +551,7 @@ class _CheckoutWidgetState extends State<CheckoutWidget> {
                         child: FlatButton(
                           onPressed: () {
                             final payload = ConfirmDeliveryPayload(
+                              useGpsPosition: useMyGeoLocalisationPosition,
                               contactPhoneNumber: _phoneNumberValue,
                               address: _addressValue,
                               deliveryComment: _commentaireLivraison

@@ -11,6 +11,7 @@ import 'package:restaurant_rlutter_ui/src/business_logic/models/user.dart';
 import 'package:restaurant_rlutter_ui/src/business_logic/repositories/delivery_repository.dart';
 
 import 'package:restaurant_rlutter_ui/src/business_logic/repositories/order_repository.dart';
+import 'package:restaurant_rlutter_ui/src/business_logic/services/geolocalisation.service.dart';
 
 abstract class DeliveryState extends Equatable {}
 
@@ -84,10 +85,11 @@ class DeliveryCubit extends Cubit<DeliveryState> {
   final CartBloc _cartBloc;
   final DeliveryRepository _deliveryRepository;
   final OrderRepository _orderRepository;
-
+  final GeoLocalisationService geoLocalisationService;
   DeliveryCubit(AuthenticationBloc authenticationBloc, CartBloc cartBloc,
-      DeliveryRepository deliveryRepository, OrderRepository orderRepository)
+      DeliveryRepository deliveryRepository, OrderRepository orderRepository, GeoLocalisationService geoLocalisationService)
       : this._authenticationBloc = authenticationBloc,
+        this.geoLocalisationService = geoLocalisationService,
         this._cartBloc = cartBloc,
         this._deliveryRepository = deliveryRepository,
         this._orderRepository = orderRepository,
@@ -178,6 +180,13 @@ class DeliveryCubit extends Cubit<DeliveryState> {
   }
 
   void confirmDelivery({ConfirmDeliveryPayload payload}) async {
+    GeoLocalisationPosition position ;
+    if(payload.useGpsPosition)
+      {
+        position = await geoLocalisationService.getCurrentPosition();
+        print("position:"+ position.toString());
+
+      }
     final authState = _authenticationBloc.state;
     if (authState is AuthenticationAuthenticated) {
       print("confirming delivery");
@@ -188,7 +197,7 @@ class DeliveryCubit extends Cubit<DeliveryState> {
           DeliveryLocation(wilaya: user.wilaya, zone: state.selectedZone);
       await this
           ._orderRepository
-          .createNewOrder(user, cart, location, state.deliveryTime, additionalInfo: payload);
+          .createNewOrder(user, cart, location, state.deliveryTime, additionalInfo: AdditionalDataPayload.fromConfirmDeliveryPayload(payload:payload,position: position));
       emit(ApprovedDeliveryState());
     }
   }
@@ -201,12 +210,26 @@ class DeliveryCubit extends Cubit<DeliveryState> {
     initDelivery();
   }
 }
+class AdditionalDataPayload {
+  final String address;
+  final String contactPhoneNumber;
+  final String deliveryComment;
+  final GeoLocalisationPosition gpsPosition;
+
+  AdditionalDataPayload(this.address, this.contactPhoneNumber,
+      this.deliveryComment, this.gpsPosition);
+
+  factory AdditionalDataPayload.fromConfirmDeliveryPayload(
+      {ConfirmDeliveryPayload payload, GeoLocalisationPosition position}) {
+    return AdditionalDataPayload(payload?.address,payload?.contactPhoneNumber,payload?.deliveryComment,position);
+  }
+}
 
 class ConfirmDeliveryPayload {
   final String address;
   final String contactPhoneNumber;
   final String deliveryComment;
-
+  final bool useGpsPosition;
   ConfirmDeliveryPayload(
-      {this.address, this.contactPhoneNumber, this.deliveryComment});
+      {this.address, this.contactPhoneNumber, this.deliveryComment,this.useGpsPosition});
 }

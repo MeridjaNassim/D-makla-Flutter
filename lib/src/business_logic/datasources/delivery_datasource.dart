@@ -51,13 +51,10 @@ class RemoteDeliveryDataSource extends DeliveryDataSource {
     final data = deliveryPriceParams.toJson();
     final jsonEncoded = json.encode(data);
     print(jsonEncoded);
-    final response = await http.post(this.delivery_fees_endpoint, body: jsonEncoded , headers: {
-      "content-type" : "application/json"
-    });
+    final response = await http.post(this.delivery_fees_endpoint, body: jsonEncoded );
     if (response.body.isNotEmpty) {
-      final jsonData = json.decode(response.body);
-      print(jsonData);
-      final data = jsonData["DELIVERY_ESTIMATED_FEES"];
+      final data = json.decode(response.body);
+      print(data);
       if (data != null) {
         print(data);
        return DeliveryDataResult(

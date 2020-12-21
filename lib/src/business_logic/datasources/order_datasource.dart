@@ -7,7 +7,7 @@ import 'dart:convert';
 abstract class OrderDataSource {
   Future<bool> createNewOrder(
       User user, Cart cart, DeliveryLocation location, DeliveryTime time,
-      {ConfirmDeliveryPayload additionalInfo});
+      {AdditionalDataPayload additionalInfo});
 }
 
 class RemoteOrderDataSource extends OrderDataSource {
@@ -20,18 +20,18 @@ class RemoteOrderDataSource extends OrderDataSource {
   @override
   Future<bool> createNewOrder(
       User user, Cart cart, DeliveryLocation location, DeliveryTime time,
-      {ConfirmDeliveryPayload additionalInfo}) async{
+      {AdditionalDataPayload additionalInfo}) async{
       /// TODO: convert data to json;
       final body = {
         "user_id" : user.id,
         "timestamps" : time.dateTime.millisecondsSinceEpoch,
         "orders" : cart.orderList.toJson(),
         "zone_id" : location.zone.id,
-        "order_place_latitude" : 36.77558,
-        "order_place_longitude" : 3.060501,
-        "delivery_address_latitude" : 36.77558,
-        "delivery_address_longitude" : 3.060501,
-        "name_adr_livr" : additionalInfo.address,
+        "order_place_latitude" : additionalInfo.gpsPosition.latitude,
+        "order_place_longitude" : additionalInfo.gpsPosition.longitude,
+        "delivery_address_latitude" : additionalInfo.gpsPosition.latitude,
+        "delivery_address_longitude" : additionalInfo.gpsPosition.longitude,
+        "name_adr_livr" : "",
         "mobile_adr_livr" : additionalInfo.contactPhoneNumber,
         "adresse_text" : additionalInfo.address,
         "comment_livr" : additionalInfo.deliveryComment,

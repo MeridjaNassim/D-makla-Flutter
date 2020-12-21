@@ -10,7 +10,7 @@ abstract class OrderRepository {
   Future<List<Order>> getOrders(User user);
   Future<Order> getOrderDetails(User user, Order order);
   Future<bool> createNewOrder(User user,Cart cart,DeliveryLocation location , DeliveryTime time,
-      {ConfirmDeliveryPayload additionalInfo});
+      {AdditionalDataPayload additionalInfo});
 }
 
 
@@ -20,7 +20,7 @@ class OrderRepositoryImpl  extends OrderRepository{
   OrderRepositoryImpl(this.orderDataSource);
 
   @override
-  Future<bool> createNewOrder(User user, Cart cart, DeliveryLocation location, DeliveryTime time, {ConfirmDeliveryPayload additionalInfo}) async{
+  Future<bool> createNewOrder(User user, Cart cart, DeliveryLocation location, DeliveryTime time, {AdditionalDataPayload additionalInfo}) async{
     return this.orderDataSource.createNewOrder(user, cart, location, time,additionalInfo: additionalInfo);
   }
 
@@ -41,7 +41,7 @@ class OrderRepositoryImpl  extends OrderRepository{
 
 class MockOrderRepository extends OrderRepository {
   @override
-  Future<bool> createNewOrder(User user, Cart cart, DeliveryLocation location , DeliveryTime time, {ConfirmDeliveryPayload additionalInfo}) async{
+  Future<bool> createNewOrder(User user, Cart cart, DeliveryLocation location , DeliveryTime time, {AdditionalDataPayload additionalInfo}) async{
     print("Ordering ... ");
     print("User : " + user.toString());
     print("Cart : " +cart.toString());

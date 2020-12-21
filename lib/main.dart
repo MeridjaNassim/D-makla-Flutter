@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:restaurant_rlutter_ui/config/app_config.dart' as config;
 import 'package:restaurant_rlutter_ui/route_generator.dart';
@@ -21,6 +22,7 @@ import 'package:restaurant_rlutter_ui/src/business_logic/repositories/menu_repos
 import 'package:restaurant_rlutter_ui/src/business_logic/repositories/order_repository.dart';
 import 'package:restaurant_rlutter_ui/src/business_logic/repositories/restaurant_repository.dart';
 import 'package:restaurant_rlutter_ui/src/business_logic/services/auth.service.dart';
+import 'package:restaurant_rlutter_ui/src/business_logic/services/geolocalisation.service.dart';
 
 void main() {
   //TODO get boolean from shared prefs and check if its first
@@ -42,6 +44,10 @@ class DmaklaApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    //     statusBarColor: Colors.white
+    //
+    // ));
     final menuRepository = MenuRepositoryImpl(RemoteMenuDataSourceImpl());
     final mockCategoryRepository = MockCategoryRepository();
     final restaurantRepository = RestaurantRepositoryImpl(
@@ -61,6 +67,7 @@ class DmaklaApp extends StatelessWidget {
                     BlocProvider.of<CartBloc>(context),
                     DeliveryRepositoryImpl(remoteDeliveryDataSource: remoteDeliveryDataSource),
                     OrderRepositoryImpl(remoteOrderDataSource),
+                    GeoLocalisationImplGeolocator()
                   )),
           BlocProvider<RestaurantCubit>(
               create: (context) => RestaurantCubit(categoryRepository)),

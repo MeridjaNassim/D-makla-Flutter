@@ -40,7 +40,8 @@ dependencies:
   # geolocalisation
   geolocator: ^6.1.13
 #  location: ^2.3.5
-
+  # images
+  optimized_cached_image: ^1.0.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
