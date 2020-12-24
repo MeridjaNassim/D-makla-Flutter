@@ -5,7 +5,8 @@ ImageProvider getImageProvider(businessImage.Image image){
   if( image is businessImage.NetworkImage) return NetworkImage(image.url);
 }
 String getImageUrl(businessImage.Image image) {
-
+  print("getting image");
+  print(image);
   if( image is businessImage.NetworkImage) return image.url;
   return "";
 }

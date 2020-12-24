@@ -33,7 +33,6 @@ void main() {
 class DmaklaApp extends StatelessWidget {
   DmaklaApp();
 
-  final GlobalKey<NavigatorState> _navigatorKey = GlobalKey();
   final RemoteCategoryDataSource remoteCategoryDataSource =
       RemoteCategoryDataSource();
   final RemoteRestaurantDataSource remoteRestaurantDataSource =

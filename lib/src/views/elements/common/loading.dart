@@ -1,5 +1,17 @@
 import 'package:flutter/material.dart';
 
+class LoadingImage extends StatelessWidget {
+  final double size;
+
+  LoadingImage({this.size = 20 });
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(child: Icon(Icons.image,size: this.size, color: Theme.of(context).accentColor,),);
+  }
+}
+
+
 class LoadingIndicator extends StatelessWidget {
   final String loadingText;
 

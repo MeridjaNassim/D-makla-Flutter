@@ -33,10 +33,10 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => LoginWidget());
       case '/SignUp':
         return MaterialPageRoute(builder: (_) => SignUpWidget());
-      case '/MobileVerification':
-        return MaterialPageRoute(builder: (_) => MobileVerification());
-      case '/MobileVerification2':
-        return MaterialPageRoute(builder: (_) => MobileVerification2());
+      // case '/MobileVerification':
+      //   return MaterialPageRoute(builder: (_) => MobileVerification());
+      // case '/MobileVerification2':
+      //   return MaterialPageRoute(builder: (_) => MobileVerification2());
       case '/Pages':
         return MaterialPageRoute(
             builder: (_) => PagesTestWidget(
@@ -59,18 +59,18 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => CheckoutWidget());
       case '/Delivery':
         return MaterialPageRoute(builder: (_) => DeliveryScreen());
-      case '/Help':
-        return MaterialPageRoute(builder: (_) => HelpWidget());
-      case '/Languages':
-        return MaterialPageRoute(builder: (_) => LanguagesWidget());
-      case '/Messages':
-        return MaterialPageRoute(builder: (_) => MessagesWidget());
-      case '/Chat':
-        return MaterialPageRoute(builder: (_) => ChatWidget());
-      case '/Settings':
-        return MaterialPageRoute(builder: (_) => AccountWidget());
-      case '/Tracking':
-        return MaterialPageRoute(builder: (_) => TrackingWidget());
+      // case '/Help':
+      //   return MaterialPageRoute(builder: (_) => HelpWidget());
+      // case '/Languages':
+      //   return MaterialPageRoute(builder: (_) => LanguagesWidget());
+      // case '/Messages':
+      //   return MaterialPageRoute(builder: (_) => MessagesWidget());
+      // case '/Chat':
+      //   return MaterialPageRoute(builder: (_) => ChatWidget());
+      // case '/Settings':
+      //   return MaterialPageRoute(builder: (_) => AccountWidget());
+      // case '/Tracking':
+      //   return MaterialPageRoute(builder: (_) => TrackingWidget());
 //      case '/second':
 //      // Validation of correct data type
 //        if (args is String) {
