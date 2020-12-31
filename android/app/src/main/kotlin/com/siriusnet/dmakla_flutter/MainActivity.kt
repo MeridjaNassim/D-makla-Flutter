@@ -1,4 +1,4 @@
-package com.smartervision.restaurant_rlutter_ui
+package com.siriusnet.dmakla_flutter
 
 import io.flutter.embedding.android.FlutterActivity
 class MainActivity: FlutterActivity() {
