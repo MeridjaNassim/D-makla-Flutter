@@ -1,3 +1,5 @@
+import 'package:dmakla_flutter/src/views/blocs/tabNavigation.cubit.dart';
+import 'package:dmakla_flutter/src/views/constants/navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dmakla_flutter/src/business_logic/blocs/auth/auth.bloc.dart';
@@ -33,26 +35,22 @@ class _DrawerWidgetState extends State<DrawerWidget> {
     return Drawer(
       child: ListView(
         children: <Widget>[
-          GestureDetector(
-            onTap: () {
-              Navigator.of(context).pushNamed('/Pages', arguments: 1);
-            },
-            child: UserAccountsDrawerHeader(
-              decoration: BoxDecoration(
+          UserAccountsDrawerHeader(
+            decoration: BoxDecoration(
                 image: DecorationImage(
-                  fit: BoxFit.cover,
-                  image: AssetImage("img/food5.jpg")
+                    fit: BoxFit.cover,
+                    image: AssetImage("img/food5.jpg")
                 )
 //              borderRadius: BorderRadius.only(bottomLeft: Radius.circular(35)),
-              ),
-              currentAccountPicture: CircleAvatar(
+            ),
+            currentAccountPicture: CircleAvatar(
                 backgroundColor: Theme.of(context).accentColor,
                 backgroundImage: NetworkImage("https://scontent-mrs2-2.xx.fbcdn.net/v/t1.0-9/122494003_105148951389175_3661855520522376578_n.jpg?_nc_cat=102&ccb=2&_nc_sid=09cbfe&_nc_eui2=AeFxcuRlac4GH3vpvnSMNWlJTwaMXICKbSVPBoxcgIptJfrGHjEXcfBlob9Lk5qIFCD9_84FZKPBIPxDzuh8-L_Z&_nc_ohc=UxyCB4YJtzkAX9vPEzU&_nc_ht=scontent-mrs2-2.xx&oh=2b84f309b844e2c823fb231fbbda8b47&oe=6016F5C1")              ),
-            ),
           ),
           ListTile(
             onTap: () {
-              Navigator.of(context).pushNamed('/Pages', arguments: 2);
+              _setTab(HOME_TAB_INDEX);
+              Navigator.of(context).pop();
             },
             leading: Icon(
               Icons.home,
@@ -78,7 +76,8 @@ class _DrawerWidgetState extends State<DrawerWidget> {
           // ),
           ListTile(
             onTap: () {
-              Navigator.of(context).pushNamed('/Pages', arguments: 3);
+              _setTab(ORDERS_TAB_INDEX);
+              Navigator.of(context).pop();
             },
             leading: Icon(
               Icons.fastfood,
@@ -91,7 +90,8 @@ class _DrawerWidgetState extends State<DrawerWidget> {
           ),
           ListTile(
             onTap: () {
-              Navigator.of(context).pushNamed('/Pages', arguments: 1);
+              _setTab(PROFILE_TAB_INDEX);
+              Navigator.of(context).pop();
             },
             leading: Icon(
               Icons.person,
@@ -167,6 +167,10 @@ class _DrawerWidgetState extends State<DrawerWidget> {
         ],
       ),
     );
+  }
+
+  void _setTab(int index) {
+    BlocProvider.of<TabNavigationCubit>(context).setTabIndex(index);
   }
 
 

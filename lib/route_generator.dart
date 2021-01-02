@@ -38,9 +38,7 @@ class RouteGenerator {
       //   return MaterialPageRoute(builder: (_) => MobileVerification2());
       case '/Pages':
         return MaterialPageRoute(
-            builder: (_) => PagesTestWidget(
-                  currentTab: args,
-                ));
+            builder: (_) => PagesTestWidget());
 //      case '/Home':
 //        return MaterialPageRoute(builder: (_) => HomeWidget());
       case '/Details':

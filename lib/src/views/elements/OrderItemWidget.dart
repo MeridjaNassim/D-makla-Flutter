@@ -20,6 +20,7 @@ class OrderItemWidget extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
         decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(10)),
           color: Theme.of(context).primaryColor.withOpacity(0.9),
           boxShadow: [
             BoxShadow(color: Theme.of(context).focusColor.withOpacity(0.2), blurRadius: 5, offset: Offset(0, 2)),

@@ -32,8 +32,7 @@ class OrderRepositoryImpl  extends OrderRepository{
 
   @override
   Future<List<ConfirmedOrder>> getOrders(User user) {
-    // TODO: implement getOrders
-    throw UnimplementedError();
+    return orderDataSource.getOrders(user.id);
   }
 
 }

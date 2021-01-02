@@ -1,4 +1,5 @@
 import 'package:dmakla_flutter/src/business_logic/blocs/orders/orders.cubit.dart';
+import 'package:dmakla_flutter/src/views/blocs/tabNavigation.cubit.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -42,6 +43,7 @@ class DmaklaApp extends StatelessWidget {
       RemoteDeliveryDataSource();
   final RemoteOrderDataSource remoteOrderDataSource = RemoteOrderDataSource();
   // This widget is the root of your application.
+
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
@@ -50,6 +52,7 @@ class DmaklaApp extends StatelessWidget {
     ));
     final menuRepository = MenuRepositoryImpl(RemoteMenuDataSourceImpl());
     final mockCategoryRepository = MockCategoryRepository();
+    final OrderRepository orderRepository = OrderRepositoryImpl(remoteOrderDataSource);
     final restaurantRepository = RestaurantRepositoryImpl(
         remoteRestaurantDataSource: remoteRestaurantDataSource);
     final categoryRepository = CategoryRespositoryImpl(
@@ -58,7 +61,8 @@ class DmaklaApp extends StatelessWidget {
       create: (context) => AuthenticationBloc(AuthenticationServiceImpl()),
       child: MultiBlocProvider(
         providers: [
-          BlocProvider(create: (context)=> OrdersCubit(BlocProvider.of<AuthenticationBloc>(context),MockOrderRepository())),
+          BlocProvider(create: (context)=> OrdersCubit(BlocProvider.of<AuthenticationBloc>(context),orderRepository)),
+          BlocProvider(create: (context)=> TabNavigationCubit()),
           BlocProvider<CartBloc>(
               create: (context) =>
                   CartBloc(BlocProvider.of<AuthenticationBloc>(context))),
@@ -67,7 +71,7 @@ class DmaklaApp extends StatelessWidget {
                     BlocProvider.of<AuthenticationBloc>(context),
                     BlocProvider.of<CartBloc>(context),
                     DeliveryRepositoryImpl(remoteDeliveryDataSource: remoteDeliveryDataSource),
-                    OrderRepositoryImpl(remoteOrderDataSource),
+                    orderRepository,
                     GeoLocalisationImplGeolocator()
                   )),
           BlocProvider<RestaurantCubit>(
