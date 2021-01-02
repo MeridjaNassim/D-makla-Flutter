@@ -1,8 +1,8 @@
 import 'package:http/http.dart' as http;
-import 'package:restaurant_rlutter_ui/src/business_logic/models/common/wilaya.dart' ;
+import 'package:dmakla_flutter/src/business_logic/models/common/wilaya.dart' ;
 import 'dart:convert';
 
-import 'package:restaurant_rlutter_ui/src/business_logic/models/user.dart';
+import 'package:dmakla_flutter/src/business_logic/models/user.dart';
 const String login_url_dev = "https://www.d-makla.com/nassim_api/AppAndroid_all_apiBis.php?login";
 const String RES_ATR = "LOGGED_IN_USER";
 class LoginManager {

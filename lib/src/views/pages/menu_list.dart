@@ -1,16 +1,17 @@
+import 'package:dmakla_flutter/src/views/elements/common/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lazy_load_refresh_indicator/lazy_load_refresh_indicator.dart';
 
-import 'package:restaurant_rlutter_ui/src/business_logic/blocs/store/menu.cubit.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/models/menu.dart';
+import 'package:dmakla_flutter/src/business_logic/blocs/store/menu.cubit.dart';
+import 'package:dmakla_flutter/src/business_logic/models/menu.dart';
 
-import 'package:restaurant_rlutter_ui/src/views/elements/DrawerWidget.dart';
-import 'package:restaurant_rlutter_ui/src/views/elements/FoodsCarouselWidget.dart';
-import 'package:restaurant_rlutter_ui/src/views/elements/MenuItemWidget.dart';
+import 'package:dmakla_flutter/src/views/elements/DrawerWidget.dart';
+import 'package:dmakla_flutter/src/views/elements/FoodsCarouselWidget.dart';
+import 'package:dmakla_flutter/src/views/elements/MenuItemWidget.dart';
 import 'package:octo_image/octo_image.dart';
-import 'package:restaurant_rlutter_ui/src/views/elements/ShoppingCartButtonWidget.dart';
-import 'package:restaurant_rlutter_ui/src/views/elements/common/loading.dart';
+import 'package:dmakla_flutter/src/views/elements/ShoppingCartButtonWidget.dart';
+import 'package:dmakla_flutter/src/views/elements/common/loading.dart';
 // class MenuListWidget extends StatefulWidget {
 //   final List<Menu> menus;
 //
@@ -139,8 +140,7 @@ class MenuWidget extends StatelessWidget {
               width: 160,
               child: OctoImage(
                 fit: BoxFit.cover,
-                image: NetworkImage("https://scontent-mrs2-2.xx.fbcdn.net/v/t1.0-9/122494003_105148951389175_3661855520522376578_n.jpg?_nc_cat=102&ccb=2&_nc_sid=09cbfe&_nc_eui2=AeFxcuRlac4GH3vpvnSMNWlJTwaMXICKbSVPBoxcgIptJfrGHjEXcfBlob9Lk5qIFCD9_84FZKPBIPxDzuh8-L_Z&_nc_ohc=GnQTehWWkuUAX9YpUPA&_nc_ht=scontent-mrs2-2.xx&oh=5b069011fd606cd7b3182cd228beb4f1&oe=600723C1")              ),
-            ),
+                image: FAILED_TO_LOAD_FOOD_IMAGE)),
             SizedBox(height: 20,),
             Center(
                 child: Text(

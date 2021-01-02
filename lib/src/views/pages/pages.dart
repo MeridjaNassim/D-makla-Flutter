@@ -1,8 +1,10 @@
+import 'package:dmakla_flutter/src/business_logic/blocs/orders/orders.cubit.dart';
 import 'package:flutter/material.dart';
-import 'package:restaurant_rlutter_ui/src/views/elements/DrawerWidget.dart';
-import 'package:restaurant_rlutter_ui/src/views/elements/ShoppingCartButtonWidget.dart';
-import 'package:restaurant_rlutter_ui/src/views/pages/home.dart';
-import 'package:restaurant_rlutter_ui/src/views/pages/profile.dart';
+import 'package:dmakla_flutter/src/views/elements/DrawerWidget.dart';
+import 'package:dmakla_flutter/src/views/elements/ShoppingCartButtonWidget.dart';
+import 'package:dmakla_flutter/src/views/pages/home.dart';
+import 'package:dmakla_flutter/src/views/pages/profile.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'favorites.dart';
 import 'notifications.dart';
@@ -51,6 +53,7 @@ class _PagesTestWidgetState extends State<PagesTestWidget> {
           break;
         case 3:
           widget.currentTitle = 'My Orders';
+          BlocProvider.of<OrdersCubit>(context).loadOrders();
           widget.currentPage = OrdersWidget();
           break;
         case 4:

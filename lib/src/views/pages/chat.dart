@@ -1,10 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:restaurant_rlutter_ui/src/models/chat.dart';
-import 'package:restaurant_rlutter_ui/src/models/conversation.dart';
-import 'package:restaurant_rlutter_ui/src/models/user.dart';
-import 'package:restaurant_rlutter_ui/src/views/elements/ChatMessageListItemWidget.dart';
+import 'package:dmakla_flutter/src/models/chat.dart';
+import 'package:dmakla_flutter/src/models/conversation.dart';
+import 'package:dmakla_flutter/src/models/user.dart';
+import 'package:dmakla_flutter/src/views/elements/ChatMessageListItemWidget.dart';
 
 class ChatWidget extends StatefulWidget {
   @override

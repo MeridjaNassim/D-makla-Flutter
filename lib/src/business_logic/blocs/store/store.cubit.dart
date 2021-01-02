@@ -1,13 +1,13 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/blocs/auth/auth.bloc.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/blocs/auth/auth.state.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/blocs/cart/cart.bloc.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/models/store.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/models/user.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/repositories/category_repository.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/repositories/menu_repository.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/repositories/restaurant_repository.dart';
+import 'package:dmakla_flutter/src/business_logic/blocs/auth/auth.bloc.dart';
+import 'package:dmakla_flutter/src/business_logic/blocs/auth/auth.state.dart';
+import 'package:dmakla_flutter/src/business_logic/blocs/cart/cart.bloc.dart';
+import 'package:dmakla_flutter/src/business_logic/models/store.dart';
+import 'package:dmakla_flutter/src/business_logic/models/user.dart';
+import 'package:dmakla_flutter/src/business_logic/repositories/category_repository.dart';
+import 'package:dmakla_flutter/src/business_logic/repositories/menu_repository.dart';
+import 'package:dmakla_flutter/src/business_logic/repositories/restaurant_repository.dart';
 
 abstract class StoreState extends Equatable {
 

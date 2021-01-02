@@ -1,5 +1,5 @@
-name: restaurant_rlutter_ui
-description: restaurant_rlutter_ui
+name: dmakla_flutter
+description: Flutter application version of D-makla
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -41,6 +41,8 @@ dependencies:
   # geolocalisation
   geolocator: ^6.1.13
 #  location: ^2.3.5
+  # webview
+  webview_flutter: ^1.0.7
   # images
   optimized_cached_image: ^1.0.0
 dev_dependencies:
@@ -84,6 +86,7 @@ flutter:
     - img/united-arab-emirates.png
     - img/united-states-of-america.png
     - img/marker.png
+    - img/placeholder_food.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

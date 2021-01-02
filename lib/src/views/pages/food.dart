@@ -2,17 +2,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/blocs/cart/cart.bloc.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/blocs/cart/cart.event.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/blocs/cart/cart.state.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/blocs/store/order.cubit.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/models/menu.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/models/order.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/models/variant.dart';
-import 'package:restaurant_rlutter_ui/src/models/route_argument.dart';
-import 'package:restaurant_rlutter_ui/src/views/elements/ExtraItemWidget.dart';
-import 'package:restaurant_rlutter_ui/src/views/elements/ShoppingCartFloatButtonWidget.dart';
-import 'package:restaurant_rlutter_ui/src/views/utils/image_handling.dart';
+import 'package:dmakla_flutter/src/business_logic/blocs/cart/cart.bloc.dart';
+import 'package:dmakla_flutter/src/business_logic/blocs/cart/cart.event.dart';
+import 'package:dmakla_flutter/src/business_logic/blocs/cart/cart.state.dart';
+import 'package:dmakla_flutter/src/business_logic/blocs/store/order.cubit.dart';
+import 'package:dmakla_flutter/src/business_logic/models/menu.dart';
+import 'package:dmakla_flutter/src/business_logic/models/order.dart';
+import 'package:dmakla_flutter/src/business_logic/models/variant.dart';
+import 'package:dmakla_flutter/src/models/route_argument.dart';
+import 'package:dmakla_flutter/src/views/elements/ExtraItemWidget.dart';
+import 'package:dmakla_flutter/src/views/elements/ShoppingCartFloatButtonWidget.dart';
+import 'package:dmakla_flutter/src/views/utils/image_handling.dart';
 import 'package:octo_image/octo_image.dart';
 // ignore: must_be_immutable
 class FoodWidget extends StatefulWidget {
@@ -456,7 +456,7 @@ class _FoodWidgetState extends State<FoodWidget> {
                                     padding: const EdgeInsets.symmetric(
                                         horizontal: 20),
                                     child: Text(
-                                      'Add new order',
+                                      'Ajouter commande',
                                       textAlign: TextAlign.start,
                                       style: TextStyle(
                                           color: Theme.of(context).primaryColor),

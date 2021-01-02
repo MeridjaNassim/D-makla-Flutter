@@ -1,5 +1,5 @@
-import 'package:restaurant_rlutter_ui/src/business_logic/models/common/wilaya.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/models/user.dart';
+import 'package:dmakla_flutter/src/business_logic/models/common/wilaya.dart';
+import 'package:dmakla_flutter/src/business_logic/models/user.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 

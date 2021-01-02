@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:restaurant_rlutter_ui/src/models/notification.dart' as model;
+import 'package:dmakla_flutter/src/models/notification.dart' as model;
 
 class NotificationItemWidget extends StatelessWidget {
   NotificationItemWidget({Key key, this.notification}) : super(key: key);

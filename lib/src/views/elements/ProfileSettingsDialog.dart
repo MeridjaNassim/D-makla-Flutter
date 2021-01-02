@@ -1,7 +1,7 @@
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' show DateFormat;
-import 'package:restaurant_rlutter_ui/src/models/user.dart';
+import 'package:dmakla_flutter/src/models/user.dart';
 
 class ProfileSettingsDialog extends StatefulWidget {
   User user;

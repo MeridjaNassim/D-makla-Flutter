@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:restaurant_rlutter_ui/src/models/language.dart';
+import 'package:dmakla_flutter/src/models/language.dart';
 
 class LanguageItemWidget extends StatefulWidget {
   final Language language;

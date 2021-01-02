@@ -1,13 +1,13 @@
 import 'package:bloc/bloc.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/blocs/auth/auth.bloc.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/blocs/auth/auth.event.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/blocs/signup/bloc/signup_event.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/blocs/signup/bloc/signup_state.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/blocs/signup/domain/signup.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/models/common/wilaya.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/models/user.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/utils/conversion.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/utils/validation.dart';
+import 'package:dmakla_flutter/src/business_logic/blocs/auth/auth.bloc.dart';
+import 'package:dmakla_flutter/src/business_logic/blocs/auth/auth.event.dart';
+import 'package:dmakla_flutter/src/business_logic/blocs/signup/bloc/signup_event.dart';
+import 'package:dmakla_flutter/src/business_logic/blocs/signup/bloc/signup_state.dart';
+import 'package:dmakla_flutter/src/business_logic/blocs/signup/domain/signup.dart';
+import 'package:dmakla_flutter/src/business_logic/models/common/wilaya.dart';
+import 'package:dmakla_flutter/src/business_logic/models/user.dart';
+import 'package:dmakla_flutter/src/business_logic/utils/conversion.dart';
+import 'package:dmakla_flutter/src/business_logic/utils/validation.dart';
 
 
 class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {

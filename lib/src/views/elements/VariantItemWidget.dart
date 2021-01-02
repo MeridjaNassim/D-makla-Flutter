@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/models/variant.dart';
+import 'package:dmakla_flutter/src/business_logic/models/variant.dart';
 
 class VariantItemWidget extends StatefulWidget {
   Variant variant;

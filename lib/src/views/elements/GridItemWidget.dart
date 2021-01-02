@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/models/restaurant.dart';
-import 'package:restaurant_rlutter_ui/src/models/restaurant.dart';
-import 'package:restaurant_rlutter_ui/src/views/utils/image_handling.dart';
+import 'package:dmakla_flutter/src/business_logic/models/restaurant.dart';
+import 'package:dmakla_flutter/src/models/restaurant.dart';
+import 'package:dmakla_flutter/src/views/utils/image_handling.dart';
 
 class GridItemWidget extends StatelessWidget {
   Restaurant restaurant;

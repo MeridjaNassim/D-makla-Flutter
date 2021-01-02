@@ -1,11 +1,11 @@
-import 'package:restaurant_rlutter_ui/src/business_logic/models/category.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/models/common/image.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/models/menu.dart';
+import 'package:dmakla_flutter/src/business_logic/models/category.dart';
+import 'package:dmakla_flutter/src/business_logic/models/common/image.dart';
+import 'package:dmakla_flutter/src/business_logic/models/menu.dart';
 import 'package:http/http.dart' as http;
-import 'package:restaurant_rlutter_ui/src/business_logic/models/topping.dart';
+import 'package:dmakla_flutter/src/business_logic/models/topping.dart';
 import 'dart:convert';
 
-import 'package:restaurant_rlutter_ui/src/business_logic/models/variant.dart';
+import 'package:dmakla_flutter/src/business_logic/models/variant.dart';
 
 abstract class MenuDataSource {
   Future<List<Menu>> getTrendingMenus(String city_id);

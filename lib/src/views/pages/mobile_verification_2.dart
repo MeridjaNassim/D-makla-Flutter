@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:restaurant_rlutter_ui/config/app_config.dart' as config;
-import 'package:restaurant_rlutter_ui/src/views/elements/BlockButtonWidget.dart';
+import 'package:dmakla_flutter/config/app_config.dart' as config;
+import 'package:dmakla_flutter/src/views/elements/BlockButtonWidget.dart';
 
 class MobileVerification2 extends StatelessWidget {
   @override

@@ -1,7 +1,54 @@
 import 'package:equatable/equatable.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/models/menu.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/models/topping.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/models/variant.dart';
+import 'package:dmakla_flutter/src/business_logic/models/menu.dart';
+import 'package:dmakla_flutter/src/business_logic/models/topping.dart';
+import 'package:dmakla_flutter/src/business_logic/models/variant.dart';
+
+class OrderedMenuData {
+  final String menuName;
+  final int quantity;
+  final String restaurantName;
+  final double price;
+
+  OrderedMenuData(
+      {this.menuName, this.quantity, this.restaurantName, this.price});
+}
+
+class ConfirmedOrder extends Equatable {
+  final String id;
+  final String status;
+  final String statusText;
+  final String imageUrl;
+  final List<OrderedMenuData> orderedMenus;
+  final String date;
+  final String time;
+  final String deliveryLocation;
+  final double deliveryPrice;
+  final double totalPrice;
+  final double discount;
+  final String webViewUrl;
+
+
+  ConfirmedOrder(
+      {this.id,
+      this.status,
+      this.statusText,
+      this.imageUrl,
+      this.orderedMenus,
+      this.date,
+      this.time,
+      this.deliveryLocation,
+      this.deliveryPrice,
+      this.totalPrice,
+      this.discount
+      ,
+      this.webViewUrl});
+
+  @override
+  // TODO: implement props
+  List<Object> get props => [id];
+}
+
+
 
 class Order extends Equatable {
   final String id;

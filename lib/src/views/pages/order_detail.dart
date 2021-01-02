@@ -1,21 +1,37 @@
 import 'dart:math';
-
+import 'dart:async';
+import 'package:dmakla_flutter/src/business_logic/models/order.dart';
+import 'package:dmakla_flutter/src/views/elements/common/loading.dart';
+import 'package:dmakla_flutter/src/views/elements/common/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:dmakla_flutter/src/models/order.dart';
 import 'package:dmakla_flutter/src/models/user.dart';
 import 'package:dmakla_flutter/src/views/elements/OrderItemWidget.dart';
 import 'package:dmakla_flutter/src/views/elements/ShoppingCartButtonWidget.dart';
 
-class TrackingWidget extends StatefulWidget {
+import 'package:octo_image/octo_image.dart';
+import 'package:webview_flutter/webview_flutter.dart';
+class OrderDetailArguments {
+  final ConfirmedOrder order;
+
+  OrderDetailArguments(this.order);
+}
+
+
+class OrderDetailWidget extends StatefulWidget {
+  final OrderDetailArguments arguments;
+
+  OrderDetailWidget({this.arguments});
+
   @override
   _TrackingWidgetState createState() => _TrackingWidgetState();
 }
 
-class _TrackingWidgetState extends State<TrackingWidget> {
+class _TrackingWidgetState extends State<OrderDetailWidget> {
   User _user = new User.init().getCurrentUser();
   OrdersList _ordersList = new OrdersList();
   int _currentStep = Random().nextInt(4);
-
+  Completer<WebViewController> _controller = Completer<WebViewController>();
   List<Step> _mySteps() {
     List<Step> _steps = [
       Step(
@@ -95,7 +111,7 @@ class _TrackingWidgetState extends State<TrackingWidget> {
           elevation: 0,
           centerTitle: true,
           title: Text(
-            'Tracking Order',
+            'Details commande',
             style: Theme.of(context).textTheme.title.merge(TextStyle(letterSpacing: 1.3)),
           ),
           actions: <Widget>[
@@ -103,26 +119,12 @@ class _TrackingWidgetState extends State<TrackingWidget> {
                 iconColor: Theme.of(context).hintColor, labelColor: Theme.of(context).accentColor),
           ],
         ),
-        body: SingleChildScrollView(
-          padding: EdgeInsets.symmetric(vertical: 7),
-          child: Column(
-            children: <Widget>[
-              // OrderItemWidget(heroTag: 'my_orders', order: _ordersList.orderedList.elementAt(0)),
-              SizedBox(height: 20),
-              Theme(
-                data: ThemeData(
-                  primaryColor: Theme.of(context).accentColor,
-                ),
-                child: Stepper(
-                  controlsBuilder: (BuildContext context, {VoidCallback onStepContinue, VoidCallback onStepCancel}) {
-                    return SizedBox(height: 0);
-                  },
-                  steps: _mySteps(),
-                  currentStep: this._currentStep,
-                ),
-              ),
-            ],
-          ),
+        body: WebView(
+          javascriptMode: JavascriptMode.unrestricted,
+          initialUrl: widget.arguments.order.webViewUrl,
+          onWebViewCreated: (controller) {
+            _controller.complete(controller);
+          },
         ));
   }
 }

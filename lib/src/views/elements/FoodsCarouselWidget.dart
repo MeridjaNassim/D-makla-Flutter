@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/models/menu.dart';
-import 'package:restaurant_rlutter_ui/src/models/food.dart';
+import 'package:dmakla_flutter/src/business_logic/models/menu.dart';
+import 'package:dmakla_flutter/src/models/food.dart';
 
 import 'FoodsCarouselItemWidget.dart';
 

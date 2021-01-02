@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/blocs/cart/cart.bloc.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/blocs/cart/cart.event.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/blocs/cart/cart.state.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/blocs/delivery/delivery.cubit.dart';
-import 'package:restaurant_rlutter_ui/src/models/food.dart';
-import 'package:restaurant_rlutter_ui/src/views/elements/CartItemWidget.dart';
-import 'package:restaurant_rlutter_ui/src/views/elements/common/loading.dart';
+import 'package:dmakla_flutter/src/business_logic/blocs/cart/cart.bloc.dart';
+import 'package:dmakla_flutter/src/business_logic/blocs/cart/cart.event.dart';
+import 'package:dmakla_flutter/src/business_logic/blocs/cart/cart.state.dart';
+import 'package:dmakla_flutter/src/business_logic/blocs/delivery/delivery.cubit.dart';
+import 'package:dmakla_flutter/src/models/food.dart';
+import 'package:dmakla_flutter/src/views/elements/CartItemWidget.dart';
+import 'package:dmakla_flutter/src/views/elements/common/loading.dart';
 
 class CartWidget extends StatefulWidget {
   @override

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'package:restaurant_rlutter_ui/src/models/user.dart';
-import 'package:restaurant_rlutter_ui/src/views/elements/ProfileSettingsDialog.dart';
-import 'package:restaurant_rlutter_ui/src/views/elements/SearchBarWidget.dart';
-import 'package:restaurant_rlutter_ui/src/views/elements/ShoppingCartButtonWidget.dart';
+import 'package:dmakla_flutter/src/models/user.dart';
+import 'package:dmakla_flutter/src/views/elements/ProfileSettingsDialog.dart';
+import 'package:dmakla_flutter/src/views/elements/SearchBarWidget.dart';
+import 'package:dmakla_flutter/src/views/elements/ShoppingCartButtonWidget.dart';
 
 class AccountWidget extends StatefulWidget {
   @override

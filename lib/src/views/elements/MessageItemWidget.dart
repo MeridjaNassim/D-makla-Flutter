@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:restaurant_rlutter_ui/src/models/conversation.dart' as model;
-import 'package:restaurant_rlutter_ui/src/models/user.dart';
+import 'package:dmakla_flutter/src/models/conversation.dart' as model;
+import 'package:dmakla_flutter/src/models/user.dart';
 
 class MessageItemWidget extends StatefulWidget {
   MessageItemWidget({Key key, this.message, this.onDismissed}) : super(key: key);

@@ -1,7 +1,7 @@
-import 'package:restaurant_rlutter_ui/src/business_logic/datasources/delivery_datasource.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/models/cart.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/models/common/wilaya.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/models/delivery.dart';
+import 'package:dmakla_flutter/src/business_logic/datasources/delivery_datasource.dart';
+import 'package:dmakla_flutter/src/business_logic/models/cart.dart';
+import 'package:dmakla_flutter/src/business_logic/models/common/wilaya.dart';
+import 'package:dmakla_flutter/src/business_logic/models/delivery.dart';
 
 abstract class DeliveryRepository {
   Future<List<Commune>> getDeliveryLocationDataOfWilaya(Wilaya wilaya);
@@ -46,6 +46,8 @@ class DeliveryRepositoryImpl extends DeliveryRepository {
       return data;
     }
     catch (e) {
+      print("exception ");
+      print(e);
        return DeliveryDataResult(delivery_fee: -1,order_fee: -1,discount: -1);
     }
 

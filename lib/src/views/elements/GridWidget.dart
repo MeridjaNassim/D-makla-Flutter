@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:restaurant_rlutter_ui/src/models/restaurant.dart';
+import 'package:dmakla_flutter/src/models/restaurant.dart';
 
 import 'GridItemWidget.dart';
 

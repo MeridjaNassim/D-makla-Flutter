@@ -1,17 +1,17 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/blocs/auth/auth.bloc.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/blocs/auth/auth.state.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/blocs/cart/cart.bloc.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/blocs/cart/cart.event.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/blocs/cart/cart.state.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/models/common/wilaya.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/models/delivery.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/models/user.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/repositories/delivery_repository.dart';
+import 'package:dmakla_flutter/src/business_logic/blocs/auth/auth.bloc.dart';
+import 'package:dmakla_flutter/src/business_logic/blocs/auth/auth.state.dart';
+import 'package:dmakla_flutter/src/business_logic/blocs/cart/cart.bloc.dart';
+import 'package:dmakla_flutter/src/business_logic/blocs/cart/cart.event.dart';
+import 'package:dmakla_flutter/src/business_logic/blocs/cart/cart.state.dart';
+import 'package:dmakla_flutter/src/business_logic/models/common/wilaya.dart';
+import 'package:dmakla_flutter/src/business_logic/models/delivery.dart';
+import 'package:dmakla_flutter/src/business_logic/models/user.dart';
+import 'package:dmakla_flutter/src/business_logic/repositories/delivery_repository.dart';
 
-import 'package:restaurant_rlutter_ui/src/business_logic/repositories/order_repository.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/services/geolocalisation.service.dart';
+import 'package:dmakla_flutter/src/business_logic/repositories/order_repository.dart';
+import 'package:dmakla_flutter/src/business_logic/services/geolocalisation.service.dart';
 
 abstract class DeliveryState extends Equatable {}
 

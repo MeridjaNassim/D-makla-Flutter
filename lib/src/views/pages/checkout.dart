@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/blocs/auth/auth.bloc.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/blocs/auth/auth.state.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/blocs/cart/cart.bloc.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/blocs/cart/cart.state.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/blocs/delivery/delivery.cubit.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/models/common/wilaya.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/models/delivery.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/models/user.dart';
-import 'package:restaurant_rlutter_ui/src/views/elements/common/loading.dart';
+import 'package:dmakla_flutter/src/business_logic/blocs/auth/auth.bloc.dart';
+import 'package:dmakla_flutter/src/business_logic/blocs/auth/auth.state.dart';
+import 'package:dmakla_flutter/src/business_logic/blocs/cart/cart.bloc.dart';
+import 'package:dmakla_flutter/src/business_logic/blocs/cart/cart.state.dart';
+import 'package:dmakla_flutter/src/business_logic/blocs/delivery/delivery.cubit.dart';
+import 'package:dmakla_flutter/src/business_logic/models/common/wilaya.dart';
+import 'package:dmakla_flutter/src/business_logic/models/delivery.dart';
+import 'package:dmakla_flutter/src/business_logic/models/user.dart';
+import 'package:dmakla_flutter/src/views/elements/common/loading.dart';
 
 class CheckoutWidget extends StatefulWidget {
   @override
@@ -461,7 +461,7 @@ class _CheckoutWidgetState extends State<CheckoutWidget> {
                       ),
                       subtitle: Text(
                         'confirmez votre commande après vérification des informations',
-                        maxLines: 1,
+                        maxLines: 3,
                         overflow: TextOverflow.ellipsis,
                         style: Theme.of(context).textTheme.caption,
                       ),

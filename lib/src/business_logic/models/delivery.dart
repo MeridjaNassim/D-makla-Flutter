@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/models/common/wilaya.dart';
+import 'package:dmakla_flutter/src/business_logic/models/common/wilaya.dart';
 
 class DeliveryLocation extends Equatable {
 final Wilaya wilaya;

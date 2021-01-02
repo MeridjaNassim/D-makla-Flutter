@@ -1,25 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:restaurant_rlutter_ui/src/models/route_argument.dart';
-import 'package:restaurant_rlutter_ui/src/views/pages/account.dart';
-import 'package:restaurant_rlutter_ui/src/views/pages/cart.dart';
-import 'package:restaurant_rlutter_ui/src/views/pages/chat.dart';
-import 'package:restaurant_rlutter_ui/src/views/pages/checkout.dart';
-import 'package:restaurant_rlutter_ui/src/views/pages/delivery.dart';
-import 'package:restaurant_rlutter_ui/src/views/pages/details.dart';
-import 'package:restaurant_rlutter_ui/src/views/pages/food.dart';
-import 'package:restaurant_rlutter_ui/src/views/pages/help.dart';
-import 'package:restaurant_rlutter_ui/src/views/pages/languages.dart';
-import 'package:restaurant_rlutter_ui/src/views/pages/login.dart';
-import 'package:restaurant_rlutter_ui/src/views/pages/menu_list.dart';
-import 'package:restaurant_rlutter_ui/src/views/pages/messages.dart';
-import 'package:restaurant_rlutter_ui/src/views/pages/mobile_verification.dart';
-import 'package:restaurant_rlutter_ui/src/views/pages/mobile_verification_2.dart';
-import 'package:restaurant_rlutter_ui/src/views/pages/pages.dart';
-import 'package:restaurant_rlutter_ui/src/views/pages/signup.dart';
-import 'package:restaurant_rlutter_ui/src/views/pages/splash.dart';
-import 'package:restaurant_rlutter_ui/src/views/pages/tracking.dart';
-import 'package:restaurant_rlutter_ui/src/views/pages/walkthrough.dart';
-
+import 'package:dmakla_flutter/src/models/route_argument.dart';
+import 'package:dmakla_flutter/src/views/pages/account.dart';
+import 'package:dmakla_flutter/src/views/pages/cart.dart';
+import 'package:dmakla_flutter/src/views/pages/chat.dart';
+import 'package:dmakla_flutter/src/views/pages/checkout.dart';
+import 'package:dmakla_flutter/src/views/pages/delivery.dart';
+import 'package:dmakla_flutter/src/views/pages/details.dart';
+import 'package:dmakla_flutter/src/views/pages/food.dart';
+import 'package:dmakla_flutter/src/views/pages/help.dart';
+import 'package:dmakla_flutter/src/views/pages/languages.dart';
+import 'package:dmakla_flutter/src/views/pages/login.dart';
+import 'package:dmakla_flutter/src/views/pages/menu_list.dart';
+import 'package:dmakla_flutter/src/views/pages/messages.dart';
+import 'package:dmakla_flutter/src/views/pages/mobile_verification.dart';
+import 'package:dmakla_flutter/src/views/pages/mobile_verification_2.dart';
+import 'package:dmakla_flutter/src/views/pages/pages.dart';
+import 'package:dmakla_flutter/src/views/pages/signup.dart';
+import 'package:dmakla_flutter/src/views/pages/splash.dart';
+import 'package:dmakla_flutter/src/views/pages/order_detail.dart';
+import 'package:dmakla_flutter/src/views/pages/walkthrough.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -69,8 +68,10 @@ class RouteGenerator {
       //   return MaterialPageRoute(builder: (_) => ChatWidget());
       // case '/Settings':
       //   return MaterialPageRoute(builder: (_) => AccountWidget());
-      // case '/Tracking':
-      //   return MaterialPageRoute(builder: (_) => TrackingWidget());
+      case '/OrderDetail':
+        return MaterialPageRoute(builder: (_) => OrderDetailWidget(
+          arguments : args
+        ));
 //      case '/second':
 //      // Validation of correct data type
 //        if (args is String) {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:restaurant_rlutter_ui/src/views/elements/DrawerWidget.dart';
-import 'package:restaurant_rlutter_ui/src/views/elements/FaqItemWidget.dart';
-import 'package:restaurant_rlutter_ui/src/views/elements/ShoppingCartButtonWidget.dart';
+import 'package:dmakla_flutter/src/views/elements/DrawerWidget.dart';
+import 'package:dmakla_flutter/src/views/elements/FaqItemWidget.dart';
+import 'package:dmakla_flutter/src/views/elements/ShoppingCartButtonWidget.dart';
 
 class HelpWidget extends StatefulWidget {
   @override

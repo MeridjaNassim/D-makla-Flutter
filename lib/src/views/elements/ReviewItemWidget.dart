@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:restaurant_rlutter_ui/src/models/review.dart';
+import 'package:dmakla_flutter/src/models/review.dart';
 
 // ignore: must_be_immutable
 class ReviewItemWidget extends StatelessWidget {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:restaurant_rlutter_ui/src/models/notification.dart';
-import 'package:restaurant_rlutter_ui/src/views/elements/NotificationItemWidget.dart';
+import 'package:dmakla_flutter/src/models/notification.dart';
+import 'package:dmakla_flutter/src/views/elements/NotificationItemWidget.dart';
 
 class NotificationsWidget extends StatefulWidget {
   @override

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class LoadingImage extends StatelessWidget {
   final double size;
 
-  LoadingImage({this.size = 20 });
+  LoadingImage({this.size = 35 });
 
   @override
   Widget build(BuildContext context) {

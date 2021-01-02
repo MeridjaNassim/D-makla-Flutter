@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:restaurant_rlutter_ui/src/models/food.dart';
-import 'package:restaurant_rlutter_ui/src/models/route_argument.dart';
+import 'package:dmakla_flutter/src/models/food.dart';
+import 'package:dmakla_flutter/src/models/route_argument.dart';
 
 // ignore: must_be_immutable
 class FavoriteListItemWidget extends StatelessWidget {

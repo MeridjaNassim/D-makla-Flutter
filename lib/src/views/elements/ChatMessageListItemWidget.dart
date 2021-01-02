@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:restaurant_rlutter_ui/src/models/chat.dart';
-import 'package:restaurant_rlutter_ui/src/models/user.dart';
+import 'package:dmakla_flutter/src/models/chat.dart';
+import 'package:dmakla_flutter/src/models/user.dart';
 
 class ChatMessageListItem extends StatelessWidget {
   Chat chat;

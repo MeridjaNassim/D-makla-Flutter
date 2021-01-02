@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/blocs/store/order.cubit.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/models/topping.dart';
-import 'package:restaurant_rlutter_ui/src/views/utils/image_handling.dart';
+import 'package:dmakla_flutter/src/business_logic/blocs/store/order.cubit.dart';
+import 'package:dmakla_flutter/src/business_logic/models/topping.dart';
+import 'package:dmakla_flutter/src/views/utils/image_handling.dart';
 
 class ExtraItemWidget extends StatefulWidget {
   Topping topping;

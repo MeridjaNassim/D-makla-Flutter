@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/models/cart.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/models/common/localisation.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/models/common/wilaya.dart';
+import 'package:dmakla_flutter/src/business_logic/models/cart.dart';
+import 'package:dmakla_flutter/src/business_logic/models/common/localisation.dart';
+import 'package:dmakla_flutter/src/business_logic/models/common/wilaya.dart';
 
 
 

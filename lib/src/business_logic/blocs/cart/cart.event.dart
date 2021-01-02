@@ -1,9 +1,9 @@
 import 'package:equatable/equatable.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/models/cart.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/models/menu.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/models/order.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/models/topping.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/models/variant.dart';
+import 'package:dmakla_flutter/src/business_logic/models/cart.dart';
+import 'package:dmakla_flutter/src/business_logic/models/menu.dart';
+import 'package:dmakla_flutter/src/business_logic/models/order.dart';
+import 'package:dmakla_flutter/src/business_logic/models/topping.dart';
+import 'package:dmakla_flutter/src/business_logic/models/variant.dart';
 
 abstract class CartEvent extends Equatable{
 

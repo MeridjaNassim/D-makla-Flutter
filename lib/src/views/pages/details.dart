@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/blocs/store/menu.cubit.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/blocs/store/restaurant.cubit.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/blocs/store/store.cubit.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/models/category.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/models/restaurant.dart';
-import 'package:restaurant_rlutter_ui/src/models/order.dart';
-import 'package:restaurant_rlutter_ui/src/models/restaurant.dart';
-import 'package:restaurant_rlutter_ui/src/models/route_argument.dart';
-import 'package:restaurant_rlutter_ui/src/views/elements/CategoriesGridtemWidget.dart';
-import 'package:restaurant_rlutter_ui/src/views/elements/GalleryCarouselWidget.dart';
-import 'package:restaurant_rlutter_ui/src/views/elements/OrderItemWidget.dart';
-import 'package:restaurant_rlutter_ui/src/views/elements/ReviewsListWidget.dart';
-import 'package:restaurant_rlutter_ui/src/views/elements/ShoppingCartFloatButtonWidget.dart';
-import 'package:restaurant_rlutter_ui/src/views/elements/common/loading.dart';
-import 'package:restaurant_rlutter_ui/src/views/utils/image_handling.dart';
+import 'package:dmakla_flutter/src/business_logic/blocs/store/menu.cubit.dart';
+import 'package:dmakla_flutter/src/business_logic/blocs/store/restaurant.cubit.dart';
+import 'package:dmakla_flutter/src/business_logic/blocs/store/store.cubit.dart';
+import 'package:dmakla_flutter/src/business_logic/models/category.dart';
+import 'package:dmakla_flutter/src/business_logic/models/restaurant.dart';
+import 'package:dmakla_flutter/src/models/order.dart';
+import 'package:dmakla_flutter/src/models/restaurant.dart';
+import 'package:dmakla_flutter/src/models/route_argument.dart';
+import 'package:dmakla_flutter/src/views/elements/CategoriesGridtemWidget.dart';
+import 'package:dmakla_flutter/src/views/elements/GalleryCarouselWidget.dart';
+import 'package:dmakla_flutter/src/views/elements/OrderItemWidget.dart';
+import 'package:dmakla_flutter/src/views/elements/ReviewsListWidget.dart';
+import 'package:dmakla_flutter/src/views/elements/ShoppingCartFloatButtonWidget.dart';
+import 'package:dmakla_flutter/src/views/elements/common/loading.dart';
+import 'package:dmakla_flutter/src/views/utils/image_handling.dart';
 
 class DetailsWidget extends StatefulWidget {
   DetailsWidget({Key key}) : super(key: key);

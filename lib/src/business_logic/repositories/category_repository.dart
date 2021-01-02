@@ -3,10 +3,10 @@
 * Gets all data related to Repositories;
 * */
 
-import 'package:restaurant_rlutter_ui/src/business_logic/datasources/category_datasource.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/models/category.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/models/common/image.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/models/restaurant.dart';
+import 'package:dmakla_flutter/src/business_logic/datasources/category_datasource.dart';
+import 'package:dmakla_flutter/src/business_logic/models/category.dart';
+import 'package:dmakla_flutter/src/business_logic/models/common/image.dart';
+import 'package:dmakla_flutter/src/business_logic/models/restaurant.dart';
 
 abstract class CategoryRepository {
   Future<List<Category>> getCategories();

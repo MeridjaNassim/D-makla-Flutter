@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/blocs/store/restaurant.cubit.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/blocs/store/store.cubit.dart';
-import 'package:restaurant_rlutter_ui/src/models/route_argument.dart';
+import 'package:dmakla_flutter/src/business_logic/blocs/store/restaurant.cubit.dart';
+import 'package:dmakla_flutter/src/business_logic/blocs/store/store.cubit.dart';
+import 'package:dmakla_flutter/src/models/route_argument.dart';
 import 'common/loading.dart';
-import 'package:restaurant_rlutter_ui/src/models/restaurant.dart';
+import 'package:dmakla_flutter/src/models/restaurant.dart';
 
 import 'CardWidget.dart';
 

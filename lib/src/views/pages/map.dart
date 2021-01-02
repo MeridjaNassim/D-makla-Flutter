@@ -5,9 +5,9 @@ import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/models/restaurant.dart';
-import 'package:restaurant_rlutter_ui/src/models/restaurant.dart';
-import 'package:restaurant_rlutter_ui/src/views/elements/CardsCarouselWidget.dart';
+import 'package:dmakla_flutter/src/business_logic/models/restaurant.dart';
+import 'package:dmakla_flutter/src/models/restaurant.dart';
+import 'package:dmakla_flutter/src/views/elements/CardsCarouselWidget.dart';
 
 class MapWidget extends StatefulWidget {
   @override

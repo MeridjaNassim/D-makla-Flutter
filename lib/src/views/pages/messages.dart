@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:restaurant_rlutter_ui/src/models/conversation.dart' as model;
-import 'package:restaurant_rlutter_ui/src/views/elements/EmptyMessagesWidget.dart';
-import 'package:restaurant_rlutter_ui/src/views/elements/MessageItemWidget.dart';
-import 'package:restaurant_rlutter_ui/src/views/elements/SearchBarWidget.dart';
-import 'package:restaurant_rlutter_ui/src/views/elements/ShoppingCartButtonWidget.dart';
+import 'package:dmakla_flutter/src/models/conversation.dart' as model;
+import 'package:dmakla_flutter/src/views/elements/EmptyMessagesWidget.dart';
+import 'package:dmakla_flutter/src/views/elements/MessageItemWidget.dart';
+import 'package:dmakla_flutter/src/views/elements/SearchBarWidget.dart';
+import 'package:dmakla_flutter/src/views/elements/ShoppingCartButtonWidget.dart';
 
 class MessagesWidget extends StatefulWidget {
   @override

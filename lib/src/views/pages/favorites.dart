@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'package:restaurant_rlutter_ui/src/models/food.dart';
-import 'package:restaurant_rlutter_ui/src/views/elements/FavoriteGridItemWidget.dart';
-import 'package:restaurant_rlutter_ui/src/views/elements/FavoriteListItemWidget.dart';
+import 'package:dmakla_flutter/src/models/food.dart';
+import 'package:dmakla_flutter/src/views/elements/FavoriteGridItemWidget.dart';
+import 'package:dmakla_flutter/src/views/elements/FavoriteListItemWidget.dart';
 
 class FavoritesWidget extends StatefulWidget {
   @override
