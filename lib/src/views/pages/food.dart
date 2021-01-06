@@ -613,45 +613,41 @@ class OrderWidget extends StatelessWidget {
                         alignment: WrapAlignment.spaceEvenly,
                         direction: Axis.horizontal,
                         children: [
-                          Expanded(
-                            child: Row(
-                              children: [
-                                Icon(
-                                  Icons.payments_outlined,
-                                  color: Theme.of(context).accentColor,
-                                ),
-                                SizedBox(
-                                  width: 5,
-                                ),
-                                Text(
-                                  order.getUnitPrice().toString() + " DA",
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .subhead
-                                      .copyWith(
-                                          color: Theme.of(context).accentColor),
-                                ),
-                              ],
-                            ),
+                          Row(
+                            children: [
+                              Icon(
+                                Icons.payments_outlined,
+                                color: Theme.of(context).accentColor,
+                              ),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              Text(
+                                order.getUnitPrice().toString() + " DA",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .subhead
+                                    .copyWith(
+                                        color: Theme.of(context).accentColor),
+                              ),
+                            ],
                           ),
-                          Expanded(
-                            child: Row(
-                              children: [
-                                Text(
-                                  "total: ",
-                                  style: Theme.of(context).textTheme.body2,
-                                ),
-                                Text(
-                                  order.getFullPrice().toString() + " DA",
-                                  overflow: TextOverflow.ellipsis,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .display2
-                                      .copyWith(
-                                          color: Theme.of(context).accentColor),
-                                ),
-                              ],
-                            ),
+                          Row(
+                            children: [
+                              Text(
+                                "total: ",
+                                style: Theme.of(context).textTheme.body2,
+                              ),
+                              Text(
+                                order.getFullPrice().toString() + " DA",
+                                overflow: TextOverflow.ellipsis,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .display2
+                                    .copyWith(
+                                        color: Theme.of(context).accentColor),
+                              ),
+                            ],
                           ),
                         ],
                       ),

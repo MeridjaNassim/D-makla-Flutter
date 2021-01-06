@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 abstract class OrderDataSource {
-  Future<bool> createNewOrder(
+  Future<OrderConfirmation> createNewOrder(
       User user, Cart cart, DeliveryLocation location, DeliveryTime time,
       {AdditionalDataPayload additionalInfo});
 
@@ -25,7 +25,7 @@ class RemoteOrderDataSource extends OrderDataSource {
         assert(history_orders.isNotEmpty);
 
   @override
-  Future<bool> createNewOrder(
+  Future<OrderConfirmation> createNewOrder(
       User user, Cart cart, DeliveryLocation location, DeliveryTime time,
       {AdditionalDataPayload additionalInfo}) async {
     /// TODO: convert data to json;
@@ -52,9 +52,18 @@ class RemoteOrderDataSource extends OrderDataSource {
       final data = decoded["ORDER_REGISTRATION"];
       print("Decoded JSON data");
       print(data);
-      return true;
+      final error = data["error"];
+      if (error != "true")
+        return OrderConfirmation(
+            orderId: data["orderId"].toString(),
+            message: data["message"],
+            orderPrice: (data["order_subtotal"] as int).toDouble(),
+            deliveryFees:
+                num.parse(data["order_delivery_fees"] ?? "0").toDouble(),
+            discountAmount: (data["order_discount_fees"] as int).toDouble(),
+            total: (data["order_total_amount"] as int).toDouble());
     } else
-      return false;
+      throw Exception("Error occured");
   }
 
   @override

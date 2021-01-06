@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:dmakla_flutter/src/business_logic/models/order.dart';
 import 'package:equatable/equatable.dart';
 import 'package:dmakla_flutter/src/business_logic/blocs/auth/auth.bloc.dart';
 import 'package:dmakla_flutter/src/business_logic/blocs/auth/auth.state.dart';
@@ -34,6 +35,8 @@ class ConfirmingDeliveryState extends DeliveryState {
 }
 
 class ApprovedDeliveryState extends DeliveryState {
+  final OrderConfirmation confirmation;
+  ApprovedDeliveryState(this.confirmation);
   @override
   // TODO: implement props
   List<Object> get props => ["approved"];
@@ -86,8 +89,12 @@ class DeliveryCubit extends Cubit<DeliveryState> {
   final DeliveryRepository _deliveryRepository;
   final OrderRepository _orderRepository;
   final GeoLocalisationService geoLocalisationService;
-  DeliveryCubit(AuthenticationBloc authenticationBloc, CartBloc cartBloc,
-      DeliveryRepository deliveryRepository, OrderRepository orderRepository, GeoLocalisationService geoLocalisationService)
+  DeliveryCubit(
+      AuthenticationBloc authenticationBloc,
+      CartBloc cartBloc,
+      DeliveryRepository deliveryRepository,
+      OrderRepository orderRepository,
+      GeoLocalisationService geoLocalisationService)
       : this._authenticationBloc = authenticationBloc,
         this.geoLocalisationService = geoLocalisationService,
         this._cartBloc = cartBloc,
@@ -180,13 +187,11 @@ class DeliveryCubit extends Cubit<DeliveryState> {
   }
 
   void confirmDelivery({ConfirmDeliveryPayload payload}) async {
-    GeoLocalisationPosition position ;
-    if(payload.useGpsPosition)
-      {
-        position = await geoLocalisationService.getCurrentPosition();
-        print("position:"+ position.toString());
-
-      }
+    GeoLocalisationPosition position;
+    if (payload.useGpsPosition) {
+      position = await geoLocalisationService.getCurrentPosition();
+      print("position:" + position.toString());
+    }
     final authState = _authenticationBloc.state;
     if (authState is AuthenticationAuthenticated) {
       print("confirming delivery");
@@ -195,10 +200,15 @@ class DeliveryCubit extends Cubit<DeliveryState> {
       User user = authState.user;
       DeliveryLocation location =
           DeliveryLocation(wilaya: user.wilaya, zone: state.selectedZone);
-      await this
-          ._orderRepository
-          .createNewOrder(user, cart, location, state.deliveryTime, additionalInfo: AdditionalDataPayload.fromConfirmDeliveryPayload(payload:payload,position: position));
-      emit(ApprovedDeliveryState());
+      try {
+        final confirmation = await this._orderRepository.createNewOrder(
+            user, cart, location, state.deliveryTime,
+            additionalInfo: AdditionalDataPayload.fromConfirmDeliveryPayload(
+                payload: payload, position: position));
+        emit(ApprovedDeliveryState(confirmation));
+      } catch (e) {
+        emit(RejectedDeliveryState(e));
+      }
     }
   }
 
@@ -210,6 +220,7 @@ class DeliveryCubit extends Cubit<DeliveryState> {
     initDelivery();
   }
 }
+
 class AdditionalDataPayload {
   final String address;
   final String contactPhoneNumber;
@@ -221,7 +232,8 @@ class AdditionalDataPayload {
 
   factory AdditionalDataPayload.fromConfirmDeliveryPayload(
       {ConfirmDeliveryPayload payload, GeoLocalisationPosition position}) {
-    return AdditionalDataPayload(payload?.address,payload?.contactPhoneNumber,payload?.deliveryComment,position);
+    return AdditionalDataPayload(payload?.address, payload?.contactPhoneNumber,
+        payload?.deliveryComment, position);
   }
 }
 
@@ -231,5 +243,8 @@ class ConfirmDeliveryPayload {
   final String deliveryComment;
   final bool useGpsPosition;
   ConfirmDeliveryPayload(
-      {this.address, this.contactPhoneNumber, this.deliveryComment,this.useGpsPosition});
+      {this.address,
+      this.contactPhoneNumber,
+      this.deliveryComment,
+      this.useGpsPosition});
 }

@@ -40,7 +40,10 @@ class RouteGenerator {
       case '/Checkout':
         return MaterialPageRoute(builder: (_) => CheckoutWidget());
       case '/Delivery':
-        return MaterialPageRoute(builder: (_) => DeliveryScreen());
+        return MaterialPageRoute(
+            builder: (_) => DeliveryScreen(
+                  confirmation: args,
+                ));
       case '/OrderDetail':
         return MaterialPageRoute(
             builder: (_) => OrderDetailWidget(arguments: args));

@@ -10,7 +10,11 @@ class OrderedMenuData {
   final double price;
   final String variante;
   OrderedMenuData(
-      {this.menuName, this.quantity, this.restaurantName, this.price,this.variante});
+      {this.menuName,
+      this.quantity,
+      this.restaurantName,
+      this.price,
+      this.variante});
 }
 
 class ConfirmedOrder extends Equatable {
@@ -28,7 +32,6 @@ class ConfirmedOrder extends Equatable {
   final double discount;
   final String webViewUrl;
 
-
   ConfirmedOrder(
       {this.id,
       this.status,
@@ -39,7 +42,7 @@ class ConfirmedOrder extends Equatable {
       this.time,
       this.deliveryLocation,
       this.deliveryPrice,
-        this.orderPrice,
+      this.orderPrice,
       this.totalPrice,
       this.discount,
       this.webViewUrl});
@@ -48,8 +51,6 @@ class ConfirmedOrder extends Equatable {
   // TODO: implement props
   List<Object> get props => [id];
 }
-
-
 
 class Order extends Equatable {
   final String id;
@@ -277,4 +278,20 @@ class OrderListImpl extends OrderList {
     });
     return list;
   }
+}
+
+class OrderConfirmation {
+  final String orderId;
+  final double orderPrice;
+  final double deliveryFees;
+  final double discountAmount;
+  final double total;
+  final String message;
+  OrderConfirmation(
+      {this.orderId,
+      this.orderPrice,
+      this.deliveryFees,
+      this.discountAmount,
+      this.total,
+      this.message});
 }
