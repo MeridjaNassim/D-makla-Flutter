@@ -23,7 +23,7 @@ class DeliveryScreen extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal : 20.0),
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
           child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -40,6 +40,9 @@ class DeliveryScreen extends StatelessWidget {
                   confirmation.message,
                   style: Theme.of(context).textTheme.display2,
                   textAlign: TextAlign.center,
+                ),
+                SizedBox(
+                  height: 20,
                 ),
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),

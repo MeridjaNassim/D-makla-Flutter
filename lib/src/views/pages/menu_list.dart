@@ -77,7 +77,6 @@ import 'package:dmakla_flutter/src/views/elements/common/loading.dart';
 //   }
 // }
 
-
 class MenuWidget extends StatelessWidget {
   String _getTitleText(MenuState state) {
     if (state is MenuStateLoading) return "loading";
@@ -90,7 +89,6 @@ class MenuWidget extends StatelessWidget {
     return "menu";
   }
 
-  
   Widget _buildAllMenus(BuildContext context, MenuState state) {
     if (!(state is MenuReadyState)) return Container();
     final _state = state as MenuReadyState;
@@ -136,17 +134,18 @@ class MenuWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              height: 160,
-              width: 160,
-              child: OctoImage(
-                fit: BoxFit.cover,
-                image: FAILED_TO_LOAD_FOOD_IMAGE)),
-            SizedBox(height: 20,),
+                height: 160,
+                width: 160,
+                child: OctoImage(
+                    fit: BoxFit.cover, image: FAILED_TO_LOAD_FOOD_IMAGE)),
+            SizedBox(
+              height: 20,
+            ),
             Center(
                 child: Text(
               'Pas de menus disponible pour le moment',
-                textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.body2,
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.body2,
             ))
           ],
         ),
@@ -195,37 +194,37 @@ class MenuWidget extends StatelessWidget {
     }
 
     return RefreshIndicator(
-      onRefresh:() {
+      onRefresh: () {
         return _refreshList(context, state);
       },
       child: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.max,
           children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: TextField(
-                decoration: InputDecoration(
-                  contentPadding: EdgeInsets.all(12),
-                  hintText: 'Search',
-                  hintStyle: TextStyle(
-                      color: Theme.of(context).focusColor.withOpacity(0.7)),
-                  prefixIcon:
-                      Icon(Icons.search, color: Theme.of(context).accentColor),
-                  suffixIcon: Icon(Icons.mic_none,
-                      color: Theme.of(context).focusColor.withOpacity(0.7)),
-                  border: OutlineInputBorder(
-                      borderSide: BorderSide(
-                          color: Theme.of(context).focusColor.withOpacity(0.2))),
-                  focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                          color: Theme.of(context).focusColor.withOpacity(0.5))),
-                  enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                          color: Theme.of(context).focusColor.withOpacity(0.2))),
-                ),
-              ),
-            ),
+            // Padding(
+            //   padding: const EdgeInsets.symmetric(horizontal: 20),
+            //   child: TextField(
+            //     decoration: InputDecoration(
+            //       contentPadding: EdgeInsets.all(12),
+            //       hintText: 'Search',
+            //       hintStyle: TextStyle(
+            //           color: Theme.of(context).focusColor.withOpacity(0.7)),
+            //       prefixIcon:
+            //           Icon(Icons.search, color: Theme.of(context).accentColor),
+            //       suffixIcon: Icon(Icons.mic_none,
+            //           color: Theme.of(context).focusColor.withOpacity(0.7)),
+            //       border: OutlineInputBorder(
+            //           borderSide: BorderSide(
+            //               color: Theme.of(context).focusColor.withOpacity(0.2))),
+            //       focusedBorder: OutlineInputBorder(
+            //           borderSide: BorderSide(
+            //               color: Theme.of(context).focusColor.withOpacity(0.5))),
+            //       enabledBorder: OutlineInputBorder(
+            //           borderSide: BorderSide(
+            //               color: Theme.of(context).focusColor.withOpacity(0.2))),
+            //     ),
+            //   ),
+            // ),
             _buildTendences(state),
             _buildAllMenus(context, state),
           ],
@@ -267,11 +266,14 @@ class MenuWidget extends StatelessWidget {
 
   Future<void> _refreshList(BuildContext context, MenuReadyState state) {
     print("refreshing menus ... ");
-    if(state is MenuByRestaurantStateReady)
-      return BlocProvider.of<MenuCubit>(context).setMenusByRestaurant(state.restaurant);
-    if(state is MenuByRestaurantCategoryState)
-      return BlocProvider.of<MenuCubit>(context).setMenusByRestaurantCategory(state.restaurant,state.category);
-    if(state is MenuByCategoryStateReady)
-      return BlocProvider.of<MenuCubit>(context).setMenusByCategory(state.category);
+    if (state is MenuByRestaurantStateReady)
+      return BlocProvider.of<MenuCubit>(context)
+          .setMenusByRestaurant(state.restaurant);
+    if (state is MenuByRestaurantCategoryState)
+      return BlocProvider.of<MenuCubit>(context)
+          .setMenusByRestaurantCategory(state.restaurant, state.category);
+    if (state is MenuByCategoryStateReady)
+      return BlocProvider.of<MenuCubit>(context)
+          .setMenusByCategory(state.category);
   }
 }

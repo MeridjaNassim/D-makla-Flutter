@@ -89,10 +89,12 @@ class _HomeWidgetState extends State<HomeWidget> {
   void initState() {
     super.initState();
   }
-  Future<void> _refreshPage() async{
+
+  Future<void> _refreshPage() async {
     print("refreshing");
     return BlocProvider.of<StoreCubit>(context).loadStore();
   }
+
   Widget _buildHomePage(StoreState state) {
     return RefreshIndicator(
       onRefresh: _refreshPage,
@@ -103,10 +105,10 @@ class _HomeWidgetState extends State<HomeWidget> {
           mainAxisAlignment: MainAxisAlignment.start,
           mainAxisSize: MainAxisSize.max,
           children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: SearchBarWidget(title: "Rechercher votre plat préférer"),
-            ),
+            // Padding(
+            //   padding: const EdgeInsets.symmetric(horizontal: 20),
+            //   child: SearchBarWidget(title: "Rechercher votre plat préférer"),
+            // ),
             ListTile(
               dense: true,
               contentPadding: EdgeInsets.symmetric(horizontal: 20),
@@ -120,13 +122,12 @@ class _HomeWidgetState extends State<HomeWidget> {
               ),
               subtitle: null,
             ),
-            BlocBuilder<StoreCubit, StoreState>(
-                builder: (context, state){
-                  if(state is StoreLoadedState ) {
-                    return FoodsCarouselWidget(menus : state.store.trendingMenus);
-                  }
-                    return LoadingIndicator(loadingText: "loading trending");
-                }),
+            BlocBuilder<StoreCubit, StoreState>(builder: (context, state) {
+              if (state is StoreLoadedState) {
+                return FoodsCarouselWidget(menus: state.store.trendingMenus);
+              }
+              return LoadingIndicator(loadingText: "loading trending");
+            }),
             Padding(
               padding: const EdgeInsets.only(top: 15, left: 20, right: 20),
               child: ListTile(
