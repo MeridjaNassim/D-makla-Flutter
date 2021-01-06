@@ -1,6 +1,5 @@
-import 'package:country_code_picker/country_code_picker.dart';
+import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dmakla_flutter/config/app_config.dart' as config;
 import 'package:dmakla_flutter/src/business_logic/blocs/auth/auth.bloc.dart';
@@ -29,7 +28,9 @@ class _SignUpWidgetState extends State<SignUpWidget> {
       listener: (context,state){
         if(state is AuthenticationAuthenticated) {
           print("authenticated from signup");
-          Navigator.of(context).pushReplacementNamed("/Pages",arguments: 2);
+          Timer(Duration(seconds: 1),(){
+            Navigator.of(context).pushReplacementNamed("/Pages",arguments: 2);
+          });
         }
       },
       child: BlocProvider<SignUpBloc>(

@@ -34,15 +34,15 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
       try {
         String wilayaCode = convertWilayaStringToCode(event.wilaya);
         String formatedPhoneNumber = formatPhoneNumberToLocal(event.phoneNumber);
-        // User user = await (SignUpManager()).signUpUserWithPhoneNumber(
-        //   phoneNumber: formatedPhoneNumber,
-        //   password: event.password,
-        //   fullName: event.fullName,
-        //   countryCode: event.countryCode,
-        //   wilayaCode: wilayaCode
-        // );
+        User user = await (SignUpManager()).signUpUserWithPhoneNumber(
+          phoneNumber: formatedPhoneNumber,
+          password: event.password,
+          fullName: event.fullName,
+          countryCode: event.countryCode,
+          wilayaCode: wilayaCode
+        );
         ///TODO: remove this mock data, and replace with actual signedin user
-        User user = User(id: "47",fullName: "nassim" , phoneNumber: "123456789", wilaya: Wilaya(code: "15"));
+        //User user = User(id: "47",fullName: "nassim" , phoneNumber: "123456789", wilaya: Wilaya(code: "15"));
         if (user == null) {
           print('error in signup');
           throw Exception('Could not sign you up... try again');

@@ -1,24 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:dmakla_flutter/src/models/route_argument.dart';
-import 'package:dmakla_flutter/src/views/pages/account.dart';
 import 'package:dmakla_flutter/src/views/pages/cart.dart';
-import 'package:dmakla_flutter/src/views/pages/chat.dart';
 import 'package:dmakla_flutter/src/views/pages/checkout.dart';
 import 'package:dmakla_flutter/src/views/pages/delivery.dart';
 import 'package:dmakla_flutter/src/views/pages/details.dart';
 import 'package:dmakla_flutter/src/views/pages/food.dart';
-import 'package:dmakla_flutter/src/views/pages/help.dart';
-import 'package:dmakla_flutter/src/views/pages/languages.dart';
 import 'package:dmakla_flutter/src/views/pages/login.dart';
 import 'package:dmakla_flutter/src/views/pages/menu_list.dart';
-import 'package:dmakla_flutter/src/views/pages/messages.dart';
-import 'package:dmakla_flutter/src/views/pages/mobile_verification.dart';
-import 'package:dmakla_flutter/src/views/pages/mobile_verification_2.dart';
 import 'package:dmakla_flutter/src/views/pages/pages.dart';
 import 'package:dmakla_flutter/src/views/pages/signup.dart';
 import 'package:dmakla_flutter/src/views/pages/splash.dart';
 import 'package:dmakla_flutter/src/views/pages/order_detail.dart';
-import 'package:dmakla_flutter/src/views/pages/walkthrough.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -32,15 +24,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => LoginWidget());
       case '/SignUp':
         return MaterialPageRoute(builder: (_) => SignUpWidget());
-      // case '/MobileVerification':
-      //   return MaterialPageRoute(builder: (_) => MobileVerification());
-      // case '/MobileVerification2':
-      //   return MaterialPageRoute(builder: (_) => MobileVerification2());
       case '/Pages':
-        return MaterialPageRoute(
-            builder: (_) => PagesTestWidget());
-//      case '/Home':
-//        return MaterialPageRoute(builder: (_) => HomeWidget());
+        return MaterialPageRoute(builder: (_) => PagesTestWidget());
       case '/Details':
         return MaterialPageRoute(builder: (_) => DetailsWidget());
       case '/Menu':
@@ -56,20 +41,9 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => CheckoutWidget());
       case '/Delivery':
         return MaterialPageRoute(builder: (_) => DeliveryScreen());
-      // case '/Help':
-      //   return MaterialPageRoute(builder: (_) => HelpWidget());
-      // case '/Languages':
-      //   return MaterialPageRoute(builder: (_) => LanguagesWidget());
-      // case '/Messages':
-      //   return MaterialPageRoute(builder: (_) => MessagesWidget());
-      // case '/Chat':
-      //   return MaterialPageRoute(builder: (_) => ChatWidget());
-      // case '/Settings':
-      //   return MaterialPageRoute(builder: (_) => AccountWidget());
       case '/OrderDetail':
-        return MaterialPageRoute(builder: (_) => OrderDetailWidget(
-          arguments : args
-        ));
+        return MaterialPageRoute(
+            builder: (_) => OrderDetailWidget(arguments: args));
 //      case '/second':
 //      // Validation of correct data type
 //        if (args is String) {

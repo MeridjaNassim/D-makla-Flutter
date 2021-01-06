@@ -8,9 +8,9 @@ class OrderedMenuData {
   final int quantity;
   final String restaurantName;
   final double price;
-
+  final String variante;
   OrderedMenuData(
-      {this.menuName, this.quantity, this.restaurantName, this.price});
+      {this.menuName, this.quantity, this.restaurantName, this.price,this.variante});
 }
 
 class ConfirmedOrder extends Equatable {
@@ -24,6 +24,7 @@ class ConfirmedOrder extends Equatable {
   final String deliveryLocation;
   final double deliveryPrice;
   final double totalPrice;
+  final double orderPrice;
   final double discount;
   final String webViewUrl;
 
@@ -38,9 +39,9 @@ class ConfirmedOrder extends Equatable {
       this.time,
       this.deliveryLocation,
       this.deliveryPrice,
+        this.orderPrice,
       this.totalPrice,
-      this.discount
-      ,
+      this.discount,
       this.webViewUrl});
 
   @override

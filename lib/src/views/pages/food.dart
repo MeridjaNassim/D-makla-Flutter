@@ -14,6 +14,7 @@ import 'package:dmakla_flutter/src/views/elements/ExtraItemWidget.dart';
 import 'package:dmakla_flutter/src/views/elements/ShoppingCartFloatButtonWidget.dart';
 import 'package:dmakla_flutter/src/views/utils/image_handling.dart';
 import 'package:octo_image/octo_image.dart';
+
 // ignore: must_be_immutable
 class FoodWidget extends StatefulWidget {
   RouteArgument routeArgument;
@@ -36,12 +37,10 @@ class _FoodWidgetState extends State<FoodWidget> {
     _noteController = TextEditingController();
   }
 
-
   @override
   void dispose() {
     super.dispose();
-    if(_noteController != null)
-      _noteController.dispose();
+    if (_noteController != null) _noteController.dispose();
   }
 
   Widget _buildVariantsList(OrderSelectedState state) {
@@ -52,7 +51,8 @@ class _FoodWidgetState extends State<FoodWidget> {
         return ListTile(
           title: Text(variant.name),
           trailing: Text(
-            state.menu.pricings.getPriceOfVariant(variant).toStringAsFixed(2) + "DA",
+            state.menu.pricings.getPriceOfVariant(variant).toStringAsFixed(2) +
+                "DA",
             style: Theme.of(context).textTheme.display2,
           ),
           leading: Radio<Variant>(
@@ -72,64 +72,64 @@ class _FoodWidgetState extends State<FoodWidget> {
       shrinkWrap: true,
     );
   }
-  Widget _buildCurrentOrdersOfThisMenu(Menu menu) {
-    return BlocBuilder<CartBloc,CartState>(
-        builder:(context,state){
-          if(state is LoadedCartState) {
-            final cart = state.cart;
-            final orders = cart.getOrdersByMenu(menu);
-            final size = cart.sizeOfOrderByMenu(menu);
-            final ordersCount = orders.length ;
-            if(ordersCount > 0){
-              return Column(
-                children: [
-                  InkWell(
-                    onTap: (){
 
-                    },
-                    child: ListTile(
-                      dense: true,
-                      contentPadding: EdgeInsets.symmetric(vertical: 10),
-                      leading: Icon(
-                        Icons.fastfood,
-                        color: Theme.of(context).hintColor,
-                      ),
-                      title: Text(
-                        'Commandes courantes ( '+size.toString()+" )",
-                        style: Theme.of(context).textTheme.subhead,
-                      ),
-                      subtitle: Text(
-                        'swipe pour supprimer',
-                        style: Theme.of(context).textTheme.caption,
-                      ),
-                    ),
+  Widget _buildCurrentOrdersOfThisMenu(Menu menu) {
+    return BlocBuilder<CartBloc, CartState>(builder: (context, state) {
+      if (state is LoadedCartState) {
+        final cart = state.cart;
+        final orders = cart.getOrdersByMenu(menu);
+        final size = cart.sizeOfOrderByMenu(menu);
+        final ordersCount = orders.length;
+        if (ordersCount > 0) {
+          return Column(
+            children: [
+              InkWell(
+                onTap: () {},
+                child: ListTile(
+                  dense: true,
+                  contentPadding: EdgeInsets.symmetric(vertical: 10),
+                  leading: Icon(
+                    Icons.fastfood,
+                    color: Theme.of(context).hintColor,
                   ),
-                  ListView.separated(
-                    padding: EdgeInsets.all(0),
-                    itemBuilder: (context, index) {
-                      final order = orders[index];
-                      return Dismissible(
-                          onDismissed: (direction){
-                            BlocProvider.of<CartBloc>(context).add(OrderRemoved(order));
-                          },
-                          key: Key(order.id),
-                          child: OrderWidget(order));
-                    },
-                    separatorBuilder: (context, index) {
-                      return SizedBox(height: 20);
-                    },
-                    itemCount: ordersCount,
-                    primary: false,
-                    shrinkWrap: true,
-                  )
-                ],
-              );
-            }
-            return Container();
-          }
+                  title: Text(
+                    'Commandes courantes ( ' + size.toString() + " )",
+                    style: Theme.of(context).textTheme.subhead,
+                  ),
+                  subtitle: Text(
+                    'swipe pour supprimer',
+                    style: Theme.of(context).textTheme.caption,
+                  ),
+                ),
+              ),
+              ListView.separated(
+                padding: EdgeInsets.all(0),
+                itemBuilder: (context, index) {
+                  final order = orders[index];
+                  return Dismissible(
+                      onDismissed: (direction) {
+                        BlocProvider.of<CartBloc>(context)
+                            .add(OrderRemoved(order));
+                      },
+                      key: Key(order.id),
+                      child: OrderWidget(order));
+                },
+                separatorBuilder: (context, index) {
+                  return SizedBox(height: 20);
+                },
+                itemCount: ordersCount,
+                primary: false,
+                shrinkWrap: true,
+              )
+            ],
+          );
+        }
+        return Container();
+      }
       return Container();
     });
   }
+
   Widget _buildGarnituresList(OrderSelectedState state) {
     final toppings = state.menu.toppings;
     final size = toppings.size();
@@ -196,24 +196,27 @@ class _FoodWidgetState extends State<FoodWidget> {
                     shrinkWrap: false,
                     slivers: <Widget>[
                       SliverAppBar(
-                        backgroundColor:
-                            Theme.of(context).primaryColor,
+                        backgroundColor: Theme.of(context).primaryColor,
                         expandedHeight: 300,
                         elevation: 0,
                         iconTheme:
-                            IconThemeData(color: Theme.of(context).primaryColor),
+                            IconThemeData(color: Theme.of(context).accentColor),
                         flexibleSpace: FlexibleSpaceBar(
                           collapseMode: CollapseMode.parallax,
                           background: Hero(
-                              tag: widget.routeArgument.heroTag +
-                                  menuState.menu.id,
-                              child: OctoImage(
-                                placeholderBuilder: (context)=> CircularProgressIndicator(),
-                                errorBuilder: (context,obj,trace)=> Image(image: NetworkImage("https://scontent-mrs2-2.xx.fbcdn.net/v/t1.0-9/122494003_105148951389175_3661855520522376578_n.jpg?_nc_cat=102&ccb=2&_nc_sid=09cbfe&_nc_eui2=AeFxcuRlac4GH3vpvnSMNWlJTwaMXICKbSVPBoxcgIptJfrGHjEXcfBlob9Lk5qIFCD9_84FZKPBIPxDzuh8-L_Z&_nc_ohc=GnQTehWWkuUAX9YpUPA&_nc_ht=scontent-mrs2-2.xx&oh=5b069011fd606cd7b3182cd228beb4f1&oe=600723C1"),
-                                ),
-                                fit: BoxFit.cover,
-                                image: getImageProvider(menuState.menu.image),
-                              ),),
+                            tag: widget.routeArgument.heroTag +
+                                menuState.menu.id,
+                            child: OctoImage(
+                              placeholderBuilder: (context) =>
+                                  CircularProgressIndicator(),
+                              errorBuilder: (context, obj, trace) => Image(
+                                image: NetworkImage(
+                                    "https://scontent-mrs2-2.xx.fbcdn.net/v/t1.0-9/122494003_105148951389175_3661855520522376578_n.jpg?_nc_cat=102&ccb=2&_nc_sid=09cbfe&_nc_eui2=AeFxcuRlac4GH3vpvnSMNWlJTwaMXICKbSVPBoxcgIptJfrGHjEXcfBlob9Lk5qIFCD9_84FZKPBIPxDzuh8-L_Z&_nc_ohc=GnQTehWWkuUAX9YpUPA&_nc_ht=scontent-mrs2-2.xx&oh=5b069011fd606cd7b3182cd228beb4f1&oe=600723C1"),
+                              ),
+                              fit: BoxFit.cover,
+                              image: getImageProvider(menuState.menu.image),
+                            ),
+                          ),
                         ),
                       ),
                       SliverToBoxAdapter(
@@ -231,13 +234,15 @@ class _FoodWidgetState extends State<FoodWidget> {
                                       menuState.menu.name,
                                       overflow: TextOverflow.ellipsis,
                                       maxLines: 2,
-                                      style: Theme.of(context).textTheme.display2,
+                                      style:
+                                          Theme.of(context).textTheme.display2,
                                     ),
                                   ),
                                   Expanded(
                                     flex: 1,
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.end,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.end,
                                       children: <Widget>[
                                         Text(
                                           menuState.menu.pricings
@@ -257,11 +262,19 @@ class _FoodWidgetState extends State<FoodWidget> {
                                   ),
                                 ],
                               ),
-                              Text(menuState.menu.description ?? "no description"),
-                              SizedBox(height: 20,),
+                              Text(menuState.menu.description ??
+                                  "no description"),
+                              SizedBox(
+                                height: 20,
+                              ),
                               _buildCurrentOrdersOfThisMenu(menuState.menu),
-                              Container(height: 20,),
-                              Text("Créer une nouvelle commande",style: Theme.of(context).textTheme.display3,),
+                              Container(
+                                height: 20,
+                              ),
+                              Text(
+                                "Créer une nouvelle commande",
+                                style: Theme.of(context).textTheme.display3,
+                              ),
                               ListTile(
                                 dense: true,
                                 contentPadding:
@@ -283,7 +296,8 @@ class _FoodWidgetState extends State<FoodWidget> {
                               _buildGarnituresList(menuState),
                               ListTile(
                                 dense: true,
-                                contentPadding: EdgeInsets.symmetric(vertical: 10),
+                                contentPadding:
+                                    EdgeInsets.symmetric(vertical: 10),
                                 leading: Icon(
                                   Icons.message,
                                   color: Theme.of(context).hintColor,
@@ -298,7 +312,6 @@ class _FoodWidgetState extends State<FoodWidget> {
                                 ),
                               ),
                               TextField(
-
                                 onChanged: (value) {
                                   this.setState(() {
                                     _orderNote = value;
@@ -310,12 +323,14 @@ class _FoodWidgetState extends State<FoodWidget> {
                                 decoration: InputDecoration(
                                   labelText: "Note",
                                   errorText: null,
-                                  labelStyle:
-                                  TextStyle(color: Theme.of(context).accentColor),
+                                  labelStyle: TextStyle(
+                                      color: Theme.of(context).accentColor),
                                   contentPadding: EdgeInsets.all(12),
                                   hintText: 'Votre note',
                                   hintStyle: TextStyle(
-                                      color: Theme.of(context).focusColor.withOpacity(0.7)),
+                                      color: Theme.of(context)
+                                          .focusColor
+                                          .withOpacity(0.7)),
                                   border: OutlineInputBorder(
                                       borderSide: BorderSide(
                                           color: Theme.of(context)
@@ -333,8 +348,9 @@ class _FoodWidgetState extends State<FoodWidget> {
                                               .withOpacity(0.2))),
                                 ),
                               ),
-                              SizedBox(height: 20,)
-
+                              SizedBox(
+                                height: 20,
+                              )
                             ],
                           ),
                         ),
@@ -353,7 +369,6 @@ class _FoodWidgetState extends State<FoodWidget> {
                 labelColor: Theme.of(context).hintColor,
               ),
             ),
-
             BlocBuilder<OrderCubit, OrderState>(builder: (context, state) {
               if (state is OrderSelectedState) {
                 return Positioned(
@@ -368,8 +383,9 @@ class _FoodWidgetState extends State<FoodWidget> {
                             topLeft: Radius.circular(20)),
                         boxShadow: [
                           BoxShadow(
-                              color:
-                                  Theme.of(context).focusColor.withOpacity(0.15),
+                              color: Theme.of(context)
+                                  .focusColor
+                                  .withOpacity(0.15),
                               offset: Offset(0, -2),
                               blurRadius: 5.0)
                         ]),
@@ -402,7 +418,8 @@ class _FoodWidgetState extends State<FoodWidget> {
                                     color: Theme.of(context).hintColor,
                                   ),
                                   Text(state.quantity.toString(),
-                                      style: Theme.of(context).textTheme.subhead),
+                                      style:
+                                          Theme.of(context).textTheme.subhead),
                                   IconButton(
                                     onPressed: () {
                                       BlocProvider.of<OrderCubit>(context)
@@ -427,7 +444,6 @@ class _FoodWidgetState extends State<FoodWidget> {
                                 width: MediaQuery.of(context).size.width,
                                 child: FlatButton(
                                   onPressed: () {
-
                                     BlocProvider.of<OrderCubit>(context)
                                         .addCurrentMenuToCart(note: _orderNote);
                                     Scaffold.of(context).showSnackBar(SnackBar(
@@ -440,8 +456,8 @@ class _FoodWidgetState extends State<FoodWidget> {
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
                                               fontSize: 18,
-                                              color:
-                                                  Theme.of(context).primaryColor),
+                                              color: Theme.of(context)
+                                                  .primaryColor),
                                         )));
                                     _noteController.clear();
                                     setState(() {
@@ -459,7 +475,8 @@ class _FoodWidgetState extends State<FoodWidget> {
                                       'Ajouter commande',
                                       textAlign: TextAlign.start,
                                       style: TextStyle(
-                                          color: Theme.of(context).primaryColor),
+                                          color:
+                                              Theme.of(context).primaryColor),
                                     ),
                                   ),
                                 ),
@@ -473,7 +490,8 @@ class _FoodWidgetState extends State<FoodWidget> {
                                       .textTheme
                                       .display1
                                       .merge(TextStyle(
-                                          color: Theme.of(context).primaryColor)),
+                                          color:
+                                              Theme.of(context).primaryColor)),
                                 ),
                               )
                             ],
@@ -493,39 +511,35 @@ class _FoodWidgetState extends State<FoodWidget> {
     );
   }
 }
+
 class OrderWidget extends StatelessWidget {
   final Order order;
 
   OrderWidget(this.order);
 
   void _incrementOrder(BuildContext context) {
-    BlocProvider.of<CartBloc>(context).add(
-        OrderQuantityInceremented(order, 1));
+    BlocProvider.of<CartBloc>(context).add(OrderQuantityInceremented(order, 1));
   }
 
   void _decrement(BuildContext context) {
-    BlocProvider.of<CartBloc>(context).add(
-        OrderQuantityDeceremented(order, 1));
+    BlocProvider.of<CartBloc>(context).add(OrderQuantityDeceremented(order, 1));
   }
+
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 20, vertical: 7),
       decoration: BoxDecoration(
-        color: Theme
-            .of(context)
-            .primaryColor
-            .withOpacity(0.9),
+        color: Theme.of(context).primaryColor.withOpacity(0.9),
         boxShadow: [
-          BoxShadow(color: Theme
-              .of(context)
-              .focusColor
-              .withOpacity(0.1), blurRadius: 5, offset: Offset(0, 2)),
+          BoxShadow(
+              color: Theme.of(context).focusColor.withOpacity(0.1),
+              blurRadius: 5,
+              offset: Offset(0, 2)),
         ],
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
-
         children: <Widget>[
           Flexible(
             child: Row(
@@ -541,74 +555,106 @@ class OrderWidget extends StatelessWidget {
                         order.variant.name,
                         overflow: TextOverflow.ellipsis,
                         maxLines: 2,
-                        style: Theme
-                            .of(context)
-                            .textTheme
-                            .display3,
+                        style: Theme.of(context).textTheme.display3,
                       ),
                       Padding(
-                        padding: const EdgeInsets.symmetric(vertical:8.0),
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
                         child: ListView.separated(
                             shrinkWrap: true,
                             padding: const EdgeInsets.all(0),
-                            separatorBuilder: (context,index)=>SizedBox(height: 2,),
+                            separatorBuilder: (context, index) => SizedBox(
+                                  height: 2,
+                                ),
                             itemCount: order.toppingList.size(),
                             itemBuilder: (item, index) {
                               return Row(
                                 children: [
-                                  Icon(Icons.add_circle,size: 16, color: Theme
-                                      .of(context)
-                                      .accentColor,),
-                                  SizedBox(width: 10,),
+                                  Icon(
+                                    Icons.add_circle,
+                                    size: 16,
+                                    color: Theme.of(context).accentColor,
+                                  ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
                                   Expanded(
-                                    child: Text(order.toppingList
-                                        .getToppingByIndex(index)
-                                        .name,
-
-                                      style: Theme
-                                        .of(context)
-                                        .textTheme
-                                        .body1,
-                                    overflow: TextOverflow.fade,
+                                    child: Text(
+                                      order.toppingList
+                                          .getToppingByIndex(index)
+                                          .name,
+                                      style: Theme.of(context).textTheme.body1,
+                                      overflow: TextOverflow.fade,
                                     ),
                                   )
                                 ],
                               );
                             }),
                       ),
-                      order.note.isNotEmpty ? Row(
+                      order.note.isNotEmpty
+                          ? Row(
+                              children: [
+                                Icon(
+                                  Icons.chat,
+                                  color: Theme.of(context).hintColor,
+                                ),
+                                SizedBox(
+                                  width: 5,
+                                ),
+                                Text(order.note,
+                                    style:
+                                        Theme.of(context).textTheme.bodyText1),
+                              ],
+                            )
+                          : SizedBox(),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Wrap(
+                        alignment: WrapAlignment.spaceEvenly,
+                        direction: Axis.horizontal,
                         children: [
-                          Icon(Icons.chat,color: Theme.of(context).hintColor, ),
-                          SizedBox(width: 5,),
-                          Text(
-                              order.note,
-                              style: Theme.of(context).textTheme.bodyText1),
-
-                        ],
-                      ): SizedBox(),
-                      SizedBox(height: 5,),
-                      Row(
-                        children: [
-                          Row(children: [
-                            Icon(Icons.payments_outlined,color: Theme.of(context).accentColor,),
-                            SizedBox(width: 5,),
-                            Text(
-                              order.getUnitPrice().toString() + " DA",
-                              style: Theme.of(context).textTheme.subhead.copyWith(color : Theme.of(context).accentColor),
+                          Expanded(
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.payments_outlined,
+                                  color: Theme.of(context).accentColor,
+                                ),
+                                SizedBox(
+                                  width: 5,
+                                ),
+                                Text(
+                                  order.getUnitPrice().toString() + " DA",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .subhead
+                                      .copyWith(
+                                          color: Theme.of(context).accentColor),
+                                ),
+                              ],
                             ),
-                          ],),
-                          SizedBox(width: 20,),
-                          Row(children: [
-                            Text("total: ",style: Theme.of(context).textTheme.body2,),
-                            Text(
-                              order.getFullPrice().toString() + " DA",
-                              style: Theme.of(context).textTheme.display2.copyWith(color : Theme.of(context).accentColor),
+                          ),
+                          Expanded(
+                            child: Row(
+                              children: [
+                                Text(
+                                  "total: ",
+                                  style: Theme.of(context).textTheme.body2,
+                                ),
+                                Text(
+                                  order.getFullPrice().toString() + " DA",
+                                  overflow: TextOverflow.ellipsis,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .display2
+                                      .copyWith(
+                                          color: Theme.of(context).accentColor),
+                                ),
+                              ],
                             ),
-                          ],),
+                          ),
                         ],
                       ),
-
-
                     ],
                   ),
                 ),
@@ -618,26 +664,20 @@ class OrderWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     IconButton(
-                      onPressed:()=> _incrementOrder(context),
+                      onPressed: () => _incrementOrder(context),
                       iconSize: 30,
                       padding: EdgeInsets.symmetric(horizontal: 5),
                       icon: Icon(Icons.add_circle_outline),
-                      color: Theme
-                          .of(context)
-                          .hintColor,
+                      color: Theme.of(context).hintColor,
                     ),
-                    Text(order.quantity.toString(), style: Theme
-                        .of(context)
-                        .textTheme
-                        .subhead),
+                    Text(order.quantity.toString(),
+                        style: Theme.of(context).textTheme.subhead),
                     IconButton(
-                      onPressed:()=> _decrement(context),
+                      onPressed: () => _decrement(context),
                       iconSize: 30,
                       padding: EdgeInsets.symmetric(horizontal: 5),
                       icon: Icon(Icons.remove_circle_outline),
-                      color: Theme
-                          .of(context)
-                          .hintColor,
+                      color: Theme.of(context).hintColor,
                     ),
                   ],
                 ),

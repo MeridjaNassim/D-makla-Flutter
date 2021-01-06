@@ -48,7 +48,7 @@ class StoreCubit extends Cubit<StoreState> {
   }
 
   ///Loads the store of the application
-  void loadStore() async {
+  Future<void> loadStore() async {
    final authState = this._authenticationBloc.state;
    if(authState is AuthenticationAuthenticated) {
      User user = authState.user;

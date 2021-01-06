@@ -89,73 +89,79 @@ class _HomeWidgetState extends State<HomeWidget> {
   void initState() {
     super.initState();
   }
-
+  Future<void> _refreshPage() async{
+    print("refreshing");
+    return BlocProvider.of<StoreCubit>(context).loadStore();
+  }
   Widget _buildHomePage(StoreState state) {
-    return SingleChildScrollView(
-      padding: EdgeInsets.symmetric(horizontal: 0, vertical: 10),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.start,
-        mainAxisSize: MainAxisSize.max,
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: SearchBarWidget(title: "Rechercher votre plat préférer"),
-          ),
-          ListTile(
-            dense: true,
-            contentPadding: EdgeInsets.symmetric(horizontal: 20),
-            leading: Icon(
-              Icons.trending_up,
-              color: Theme.of(context).hintColor,
+    return RefreshIndicator(
+      onRefresh: _refreshPage,
+      child: SingleChildScrollView(
+        padding: EdgeInsets.symmetric(horizontal: 0, vertical: 10),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisSize: MainAxisSize.max,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: SearchBarWidget(title: "Rechercher votre plat préférer"),
             ),
-            title: Text(
-              "Menu tendence",
-              style: Theme.of(context).textTheme.display1,
-            ),
-            subtitle: null,
-          ),
-          BlocBuilder<StoreCubit, StoreState>(
-              builder: (context, state){
-                if(state is StoreLoadedState ) {
-                  return FoodsCarouselWidget(menus : state.store.trendingMenus);
-                }
-                  return LoadingIndicator(loadingText: "loading trending");
-              }),
-          Padding(
-            padding: const EdgeInsets.only(top: 15, left: 20, right: 20),
-            child: ListTile(
+            ListTile(
               dense: true,
-              contentPadding: EdgeInsets.symmetric(vertical: 0),
+              contentPadding: EdgeInsets.symmetric(horizontal: 20),
               leading: Icon(
-                Icons.stars,
+                Icons.trending_up,
                 color: Theme.of(context).hintColor,
               ),
               title: Text(
-                "Choisir par restaurant",
+                "Menu tendence",
                 style: Theme.of(context).textTheme.display1,
               ),
+              subtitle: null,
             ),
-          ),
-          CardsCarouselWidget(),
+            BlocBuilder<StoreCubit, StoreState>(
+                builder: (context, state){
+                  if(state is StoreLoadedState ) {
+                    return FoodsCarouselWidget(menus : state.store.trendingMenus);
+                  }
+                    return LoadingIndicator(loadingText: "loading trending");
+                }),
+            Padding(
+              padding: const EdgeInsets.only(top: 15, left: 20, right: 20),
+              child: ListTile(
+                dense: true,
+                contentPadding: EdgeInsets.symmetric(vertical: 0),
+                leading: Icon(
+                  Icons.stars,
+                  color: Theme.of(context).hintColor,
+                ),
+                title: Text(
+                  "Choisir par restaurant",
+                  style: Theme.of(context).textTheme.display1,
+                ),
+              ),
+            ),
+            CardsCarouselWidget(),
 
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: ListTile(
-              dense: true,
-              contentPadding: EdgeInsets.symmetric(vertical: 0),
-              leading: Icon(
-                Icons.category,
-                color: Theme.of(context).hintColor,
-              ),
-              title: Text(
-                "Choisir par catégorie",
-                style: Theme.of(context).textTheme.display1,
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: ListTile(
+                dense: true,
+                contentPadding: EdgeInsets.symmetric(vertical: 0),
+                leading: Icon(
+                  Icons.category,
+                  color: Theme.of(context).hintColor,
+                ),
+                title: Text(
+                  "Choisir par catégorie",
+                  style: Theme.of(context).textTheme.display1,
+                ),
               ),
             ),
-          ),
-          CategoriesGridWidget(),
-        ],
+            CategoriesGridWidget(),
+          ],
+        ),
       ),
     );
   }

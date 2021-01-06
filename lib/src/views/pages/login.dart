@@ -222,7 +222,9 @@ class LoginWidget extends StatelessWidget {
       listener: (context,state){
         if(state is AuthenticationAuthenticated) {
           print("authenticated");
-          Navigator.of(context).pushReplacementNamed("/Pages",arguments: 2);
+          Timer(Duration(seconds: 1),(){
+            Navigator.of(context).pushReplacementNamed("/Pages",arguments: 2);
+          });
         }
       },
       child: BlocProvider<LoginBloc>(

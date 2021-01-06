@@ -124,16 +124,20 @@ class _CartItemWidgetState extends State<CartItemWidget> {
                       SizedBox(height: 5,),
                       Row(children: [
                         Text("unit : ",style: Theme.of(context).textTheme.body2,),
-                        Text(
-                          widget.order.getUnitPrice().toString() + " DA",
-                          style: Theme.of(context).textTheme.subhead.copyWith(color : Theme.of(context).accentColor),
+                        Expanded(
+                          child: Text(
+                            widget.order.getUnitPrice().toString() + " DA",
+                            style: Theme.of(context).textTheme.subhead.copyWith(color : Theme.of(context).accentColor),
+                          ),
                         ),
                       ],),
                       Row(children: [
                         Text("full : ",style: Theme.of(context).textTheme.body2,),
-                        Text(
-                          widget.order.getFullPrice().toString() + " DA",
-                          style: Theme.of(context).textTheme.display2,
+                        Expanded(
+                          child: Text(
+                            widget.order.getFullPrice().toString() + " DA",
+                            style: Theme.of(context).textTheme.display2,
+                          ),
                         ),
                       ],),
                     ],

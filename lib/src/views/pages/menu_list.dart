@@ -194,37 +194,42 @@ class MenuWidget extends StatelessWidget {
       );
     }
 
-    return SingleChildScrollView(
-      child: Column(
-        mainAxisSize: MainAxisSize.max,
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: TextField(
-              decoration: InputDecoration(
-                contentPadding: EdgeInsets.all(12),
-                hintText: 'Search',
-                hintStyle: TextStyle(
-                    color: Theme.of(context).focusColor.withOpacity(0.7)),
-                prefixIcon:
-                    Icon(Icons.search, color: Theme.of(context).accentColor),
-                suffixIcon: Icon(Icons.mic_none,
-                    color: Theme.of(context).focusColor.withOpacity(0.7)),
-                border: OutlineInputBorder(
-                    borderSide: BorderSide(
-                        color: Theme.of(context).focusColor.withOpacity(0.2))),
-                focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                        color: Theme.of(context).focusColor.withOpacity(0.5))),
-                enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                        color: Theme.of(context).focusColor.withOpacity(0.2))),
+    return RefreshIndicator(
+      onRefresh:() {
+        return _refreshList(context, state);
+      },
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: TextField(
+                decoration: InputDecoration(
+                  contentPadding: EdgeInsets.all(12),
+                  hintText: 'Search',
+                  hintStyle: TextStyle(
+                      color: Theme.of(context).focusColor.withOpacity(0.7)),
+                  prefixIcon:
+                      Icon(Icons.search, color: Theme.of(context).accentColor),
+                  suffixIcon: Icon(Icons.mic_none,
+                      color: Theme.of(context).focusColor.withOpacity(0.7)),
+                  border: OutlineInputBorder(
+                      borderSide: BorderSide(
+                          color: Theme.of(context).focusColor.withOpacity(0.2))),
+                  focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                          color: Theme.of(context).focusColor.withOpacity(0.5))),
+                  enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                          color: Theme.of(context).focusColor.withOpacity(0.2))),
+                ),
               ),
             ),
-          ),
-          _buildTendences(state),
-          _buildAllMenus(context, state),
-        ],
+            _buildTendences(state),
+            _buildAllMenus(context, state),
+          ],
+        ),
       ),
     );
   }
@@ -258,5 +263,15 @@ class MenuWidget extends StatelessWidget {
         body: BlocBuilder<MenuCubit, MenuState>(builder: _buildMenus),
       ),
     );
+  }
+
+  Future<void> _refreshList(BuildContext context, MenuReadyState state) {
+    print("refreshing menus ... ");
+    if(state is MenuByRestaurantStateReady)
+      return BlocProvider.of<MenuCubit>(context).setMenusByRestaurant(state.restaurant);
+    if(state is MenuByRestaurantCategoryState)
+      return BlocProvider.of<MenuCubit>(context).setMenusByRestaurantCategory(state.restaurant,state.category);
+    if(state is MenuByCategoryStateReady)
+      return BlocProvider.of<MenuCubit>(context).setMenusByCategory(state.category);
   }
 }

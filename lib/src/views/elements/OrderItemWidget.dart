@@ -56,8 +56,7 @@ class OrderItemWidget extends StatelessWidget {
                     ),
                   ),
                   SizedBox(width: 10,),
-                  Flexible(
-                    fit: FlexFit.loose,
+                  Expanded(
                     flex: 2,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -84,18 +83,15 @@ class OrderItemWidget extends StatelessWidget {
                       ],
                     ),
                   ),
-                  Flexible(
-                    flex: 1,
-                    fit: FlexFit.loose,
-                    child: Align(
-                      alignment: Alignment.topRight,
-                      child: Text(
-                        order.status,
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.body2.copyWith(color: getTextColor(context,order.status)),
-                      ),
-                    ),
-                  )
+                 Expanded(
+                     child: Align(
+                       alignment: Alignment.topRight,
+                       child: Text(
+                   getStatusText(context, order.status),
+                   overflow: TextOverflow.ellipsis,
+                   style: Theme.of(context).textTheme.body2.copyWith(color: getTextColor(context,order.status)),
+                 ),
+                     ))
                 ],
               ),
             ),
@@ -125,11 +121,23 @@ class OrderItemWidget extends StatelessWidget {
                   maxLines: 2,
                   style: Theme.of(context).textTheme.display1,
                 ),
-                subtitle: Text(
-                  "Restaurant: " +menuData.restaurantName,
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 2,
-                  style: Theme.of(context).textTheme.subhead,
+                subtitle: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(
+                      menuData.variante,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 2,
+                      style: Theme.of(context).textTheme.caption,
+                    ),
+                    Text(
+                      menuData.restaurantName,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 2,
+                      style: Theme.of(context).textTheme.body2.copyWith(color: Theme.of(context).accentColor.withOpacity(0.6)),
+                    )
+                  ],
                 ),
                 trailing: Text(
                   menuData.price.toString()+"DA",
@@ -167,11 +175,11 @@ class OrderItemWidget extends StatelessWidget {
                 children: <Widget>[
                   Text(
                     order.date,
-                    style: Theme.of(context).textTheme.caption,
+                    style: Theme.of(context).textTheme.body2,
                   ),
                   Text(
                     order.time,
-                    style: Theme.of(context).textTheme.caption,
+                    style: Theme.of(context).textTheme.body2,
                   ),
                 ],
               ),
@@ -188,7 +196,21 @@ class OrderItemWidget extends StatelessWidget {
                 order.deliveryLocation,
                 overflow: TextOverflow.ellipsis,
                 maxLines: 3,
-                style: Theme.of(context).textTheme.caption,
+                style: Theme.of(context).textTheme.body2,
+              ),
+            ),
+            ListTile(
+              dense: true,
+              contentPadding:
+              EdgeInsets.symmetric(vertical: 0),
+              title: Text(
+                "Total commande",
+                style: Theme.of(context).textTheme.display1,
+              ),
+              trailing:  Text(
+                order.orderPrice.toString()+"DA",
+                overflow: TextOverflow.ellipsis,
+                style: Theme.of(context).textTheme.display1.copyWith(color: Theme.of(context).accentColor),
               ),
             ),
             ListTile(
@@ -250,13 +272,20 @@ class OrderItemWidget extends StatelessWidget {
       ),
     );
   }
-
+  getStatusText(BuildContext context,String status) {
+    if(status == "1")
+      return "en cours";
+    if(status == "2")
+      return "lancé";
+    if(status == "3")
+      return "terminé";
+  }
   getTextColor(BuildContext context,String status) {
-    if(status == "completed")
+    if(status == "3")
       return Colors.green;
-    if(status == "pending")
+    if(status == "1")
       return Colors.yellow[900];
-    if(status == "canceled")
+    if(status == "2")
       return Colors.red;
     return Theme.of(context).accentColor;
   }

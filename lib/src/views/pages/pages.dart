@@ -1,4 +1,5 @@
 import 'package:dmakla_flutter/src/business_logic/blocs/orders/orders.cubit.dart';
+import 'package:dmakla_flutter/src/business_logic/blocs/store/store.cubit.dart';
 import 'package:dmakla_flutter/src/views/blocs/tabNavigation.cubit.dart';
 import 'package:dmakla_flutter/src/views/constants/navigation.dart';
 import 'package:flutter/material.dart';
@@ -7,9 +8,6 @@ import 'package:dmakla_flutter/src/views/elements/ShoppingCartButtonWidget.dart'
 import 'package:dmakla_flutter/src/views/pages/home.dart';
 import 'package:dmakla_flutter/src/views/pages/profile.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import 'favorites.dart';
-import 'notifications.dart';
 import 'orders.dart';
 
 
@@ -36,33 +34,44 @@ class _PagesTestWidgetState extends State<PagesTestWidget> {
     super.initState();
     final tabIndex = BlocProvider.of<TabNavigationCubit>(context).state.tabIndex;
     _selectTab(tabIndex);
+    currentTitle = "Home";
+    currentPage = HomeWidget();
   }
 
   void _selectTab(int tabItem) {
-    BlocProvider.of<TabNavigationCubit>(context).setTabIndex(tabItem);
+    final provider = BlocProvider.of<TabNavigationCubit>(context);
+    final currentIndex =  provider.state.tabIndex;
+    if(tabItem != currentIndex) {
+      provider.setTabIndex(tabItem);
+    }
+  }
+  void _updateWidget(int tabIndex) {
     setState(() {
-      switch (tabItem) {
-        // case 0:
-        //   widget.currentTitle = 'Notifications';
-        //   widget.currentPage = NotificationsWidget();
-        //   break;
+
+      switch (tabIndex) {
+      // case 0:
+      //   widget.currentTitle = 'Notifications';
+      //   widget.currentPage = NotificationsWidget();
+      //   break;
         case PROFILE_TAB_INDEX:
           currentTitle = 'Profile';
-         currentPage = ProfileWidget();
+          currentPage = ProfileWidget();
           break;
         case HOME_TAB_INDEX:
-         currentTitle = 'Home';
+          BlocProvider.of<StoreCubit>(context).loadStore();
+          currentTitle = 'Home';
           currentPage = HomeWidget();
           break;
         case ORDERS_TAB_INDEX:
           currentTitle = 'My Orders';
-          BlocProvider.of<OrdersCubit>(context).loadOrders();
+          final provider = BlocProvider.of<OrdersCubit>(context);
+          provider.loadOrders();
           currentPage = OrdersWidget();
           break;
-        // case 4:
-        //   widget.currentTitle = 'Favorites';
-        //   widget.currentPage = FavoritesWidget();
-        //   break;
+      // case 4:
+      //   widget.currentTitle = 'Favorites';
+      //   widget.currentPage = FavoritesWidget();
+      //   break;
       }
     });
   }
@@ -77,7 +86,7 @@ class _PagesTestWidgetState extends State<PagesTestWidget> {
           elevation: 0,
           centerTitle: true,
           title: Text(
-            this.currentTitle,
+            this.currentTitle ,
             style: Theme.of(context).textTheme.title.merge(TextStyle(letterSpacing: 1.3)),
           ),
           actions: <Widget>[
@@ -88,7 +97,7 @@ class _PagesTestWidgetState extends State<PagesTestWidget> {
         body: this.currentPage,
         bottomNavigationBar: BlocConsumer<TabNavigationCubit,TabNavigationState>(
           listener: (context,state){
-            _selectTab(state.tabIndex);
+            _updateWidget(state.tabIndex);
           },
           builder:(context,state)=> BottomNavigationBar(
             type: BottomNavigationBarType.fixed,

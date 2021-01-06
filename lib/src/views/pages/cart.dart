@@ -17,113 +17,117 @@ class _CartWidgetState extends State<CartWidget> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return Scaffold(
-      appBar: AppBar(
-        actions: [
-          IconButton(
-            icon: Icon(
-              Icons.refresh,
-              color: Theme.of(context).accentColor,
-            ),
-            tooltip: "clear cart",
-            splashRadius: 10,
-            onPressed: () {
-              BlocProvider.of<CartBloc>(context).add(CartCleared());
-            },
-          )
-        ],
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        centerTitle: true,
-        title: Text(
-          'Cart',
-          style: Theme.of(context)
-              .textTheme
-              .title
-              .merge(TextStyle(letterSpacing: 1.3)),
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          actions: [
+            IconButton(
+              icon: Icon(
+                Icons.refresh,
+                color: Theme.of(context).accentColor,
+              ),
+              tooltip: "clear cart",
+              splashRadius: 10,
+              onPressed: () {
+                BlocProvider.of<CartBloc>(context).add(CartCleared());
+              },
+            )
+          ],
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          centerTitle: true,
+          title: Text(
+            'Cart',
+            style: Theme.of(context)
+                .textTheme
+                .title
+                .merge(TextStyle(letterSpacing: 1.3)),
+          ),
         ),
+        body: _buildCartScreen(),
       ),
-      body: _buildCartScreen(),
     );
   }
+
   Widget _buildCartItems(BuildContext context, LoadedCartState state) {
     final hasItems = state.cart.totalNumberOfOrders() > 0;
-    if(!hasItems)
-      return Center(child: Text(
-        'No cart items',
-        maxLines: 1,
-        overflow: TextOverflow.ellipsis,
-        style: Theme.of(context).textTheme.body2,
-      ),);
-    return Column(children: [
-      Padding(
-        padding: const EdgeInsets.only(left: 20, right: 20),
+    if (!hasItems)
+      return Center(
         child: Text(
-          'swipe to delete items',
+          'No cart items',
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
-          style: Theme.of(context).textTheme.caption,
+          style: Theme.of(context).textTheme.body2,
         ),
-      ),
-      ListView.separated(
-        padding: EdgeInsets.symmetric(vertical: 15),
-        scrollDirection: Axis.vertical,
-        shrinkWrap: true,
-        primary: false,
-        itemCount: state.cart.numberOfOrders(),
-        separatorBuilder: (context, index) {
-          return SizedBox(height: 15);
-        },
-        itemBuilder: (context, index) {
-          final order = state.cart.getOrderByIndex(index);
-          return Dismissible(
-              background: Container(
-                color: Theme.of(context).accentColor,
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Container(
-                      margin: const EdgeInsets.only(left: 16),
-                      child: Icon(
-                        Icons.delete,
-                        size: 24,
-                        color: Theme.of(context).primaryColor,
-                      )),
+      );
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(left: 20, right: 20),
+          child: Text(
+            'swipe to delete items',
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: Theme.of(context).textTheme.caption,
+          ),
+        ),
+        ListView.separated(
+          padding: EdgeInsets.symmetric(vertical: 15),
+          scrollDirection: Axis.vertical,
+          shrinkWrap: true,
+          primary: false,
+          itemCount: state.cart.numberOfOrders(),
+          separatorBuilder: (context, index) {
+            return SizedBox(height: 15);
+          },
+          itemBuilder: (context, index) {
+            final order = state.cart.getOrderByIndex(index);
+            return Dismissible(
+                background: Container(
+                  color: Theme.of(context).accentColor,
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Container(
+                        margin: const EdgeInsets.only(left: 16),
+                        child: Icon(
+                          Icons.delete,
+                          size: 24,
+                          color: Theme.of(context).primaryColor,
+                        )),
+                  ),
                 ),
-              ),
-              secondaryBackground: Container(
-                color: Theme.of(context).accentColor,
-                child: Align(
-                  alignment: Alignment.centerRight,
-                  child: Container(
-                      margin: const EdgeInsets.only(right: 16),
-                      child: Icon(
-                        Icons.delete,
-                        size: 24,
-                        color: Theme.of(context).primaryColor,
-                      )),
+                secondaryBackground: Container(
+                  color: Theme.of(context).accentColor,
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: Container(
+                        margin: const EdgeInsets.only(right: 16),
+                        child: Icon(
+                          Icons.delete,
+                          size: 24,
+                          color: Theme.of(context).primaryColor,
+                        )),
+                  ),
                 ),
-              ),
-              onDismissed: (direction) {
-                BlocProvider.of<CartBloc>(context)
-                    .add(OrderRemoved(order));
-                Scaffold.of(context).showSnackBar(SnackBar(
-                    backgroundColor:
-                    Theme.of(context).accentColor,
-                    content: Text(
-                        "Order ${order.menu.name + " " + order.variant.name} deleted",
-                        textAlign: TextAlign.start,
-                        style: TextStyle(
-                            color: Theme.of(context)
-                                .primaryColor))));
-                // Remove the item from the data source.
-              },
-              key: Key("${order.id}"),
-              child: CartItemWidget(
-                  order: order, heroTag: 'cart'));
-        },
-      ),
-    ],);
+                onDismissed: (direction) {
+                  BlocProvider.of<CartBloc>(context).add(OrderRemoved(order));
+                  Scaffold.of(context).showSnackBar(SnackBar(
+                      backgroundColor: Theme.of(context).accentColor,
+                      content: Text(
+                          "Order ${order.menu.name + " " + order.variant.name} deleted",
+                          textAlign: TextAlign.start,
+                          style: TextStyle(
+                              color: Theme.of(context).primaryColor))));
+                  // Remove the item from the data source.
+                },
+                key: Key("${order.id}"),
+                child: CartItemWidget(order: order, heroTag: 'cart'));
+          },
+        ),
+      ],
+    );
   }
+
   Widget _buildCartScreen() {
     return BlocConsumer<CartBloc, CartState>(
       listener: (context, state) {
@@ -248,7 +252,8 @@ class _CartWidgetState extends State<CartWidget> {
                                 disabledTextColor: Colors.black54,
                                 onPressed: numberOfOrders != 0
                                     ? () {
-                                        BlocProvider.of<DeliveryCubit>(context).initDelivery();
+                                        BlocProvider.of<DeliveryCubit>(context)
+                                            .initDelivery();
                                         Navigator.of(context)
                                             .pushNamed('/Checkout');
                                       }

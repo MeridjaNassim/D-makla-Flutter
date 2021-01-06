@@ -46,13 +46,10 @@ class DmaklaApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-        statusBarColor: Colors.pink
-
-    ));
     final menuRepository = MenuRepositoryImpl(RemoteMenuDataSourceImpl());
     final mockCategoryRepository = MockCategoryRepository();
-    final OrderRepository orderRepository = OrderRepositoryImpl(remoteOrderDataSource);
+    final OrderRepository orderRepository =
+        OrderRepositoryImpl(remoteOrderDataSource);
     final restaurantRepository = RestaurantRepositoryImpl(
         remoteRestaurantDataSource: remoteRestaurantDataSource);
     final categoryRepository = CategoryRespositoryImpl(
@@ -61,19 +58,22 @@ class DmaklaApp extends StatelessWidget {
       create: (context) => AuthenticationBloc(AuthenticationServiceImpl()),
       child: MultiBlocProvider(
         providers: [
-          BlocProvider(create: (context)=> OrdersCubit(BlocProvider.of<AuthenticationBloc>(context),orderRepository)),
-          BlocProvider(create: (context)=> TabNavigationCubit()),
+          BlocProvider(
+              create: (context) => OrdersCubit(
+                  BlocProvider.of<AuthenticationBloc>(context),
+                  orderRepository)),
+          BlocProvider(create: (context) => TabNavigationCubit()),
           BlocProvider<CartBloc>(
               create: (context) =>
                   CartBloc(BlocProvider.of<AuthenticationBloc>(context))),
           BlocProvider<DeliveryCubit>(
               create: (context) => DeliveryCubit(
-                    BlocProvider.of<AuthenticationBloc>(context),
-                    BlocProvider.of<CartBloc>(context),
-                    DeliveryRepositoryImpl(remoteDeliveryDataSource: remoteDeliveryDataSource),
-                    orderRepository,
-                    GeoLocalisationImplGeolocator()
-                  )),
+                  BlocProvider.of<AuthenticationBloc>(context),
+                  BlocProvider.of<CartBloc>(context),
+                  DeliveryRepositoryImpl(
+                      remoteDeliveryDataSource: remoteDeliveryDataSource),
+                  orderRepository,
+                  GeoLocalisationImplGeolocator())),
           BlocProvider<RestaurantCubit>(
               create: (context) => RestaurantCubit(categoryRepository)),
           BlocProvider<MenuCubit>(
