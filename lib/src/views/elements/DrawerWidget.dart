@@ -112,7 +112,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
           ListTile(
             dense: true,
             title: Text(
-              "Misc",
+              "Options",
               style: Theme.of(context).textTheme.body1,
             ),
             trailing: Icon(
@@ -139,7 +139,8 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                   context: context,
                   applicationVersion: "0.1.0",
                   applicationName: "D-makla",
-                  applicationLegalese: "Food Delivery service by Sirius Net",
+                  applicationLegalese:
+                      "Service de livraison de nourritures par Sirius Net",
                   applicationIcon: Container(
                     height: 100,
                     width: 100,
