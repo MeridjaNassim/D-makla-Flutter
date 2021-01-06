@@ -1,3 +1,4 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:dmakla_flutter/src/business_logic/blocs/orders/orders.cubit.dart';
 import 'package:dmakla_flutter/src/views/blocs/tabNavigation.cubit.dart';
 import 'package:equatable/equatable.dart';
@@ -26,34 +27,82 @@ import 'package:dmakla_flutter/src/business_logic/repositories/restaurant_reposi
 import 'package:dmakla_flutter/src/business_logic/services/auth.service.dart';
 import 'package:dmakla_flutter/src/business_logic/services/geolocalisation.service.dart';
 
-void main() {
-  //TODO get boolean from shared prefs and check if its first
+const String ENV_FILE = ".env";
+
+Future<void> setUpEnvironnement() async {
+  await DotEnv().load(ENV_FILE);
   EquatableConfig.stringify = true;
-  runApp(DmaklaApp());
+}
+
+DmaklaApp createApp() {
+  final env = DotEnv().env;
+  final RemoteCategoryDataSource remoteCategoryDataSource =
+      RemoteCategoryDataSource(
+    all_category_endpoint: env["ALL_CATEGORY_ENDPOINT"],
+    restaurant_category_endpoint: env["RESTAURANT_CATEGORY_ENDPOINT"],
+  );
+  final RemoteRestaurantDataSource remoteRestaurantDataSource =
+      RemoteRestaurantDataSource(
+          restaurant_endpoint: env["ALL_RESTAURANT_ENDPOINT"]);
+  final RemoteDeliveryDataSource remoteDeliveryDataSource =
+      RemoteDeliveryDataSource(
+          zones_endpoint: env["CITY_AREA_LIST_ENDPOINT"],
+          delivery_fees_endpoint: env["DELIVERY_FEES_ENDPOINT"]);
+  final RemoteOrderDataSource remoteOrderDataSource = RemoteOrderDataSource(
+      create_order_endpoint: env["CREATE_NEW_ORDER_ENDPOINT"],
+      history_orders: env["ORDER_HISTORY_ENDPOINT"]);
+  final MenuDataSource menuDataSource = RemoteMenuDataSourceImpl(
+      trending_endpoint: env["TRENDING_MENUS_ENDPOINT"],
+      all_menus_restaurant_endpoint: env["ALL_RESTAURANT_MENUS_ENDPOINT"],
+      all_menus_category_endpoint: env["ALL_CATEGORY_MENUS_ENDPOINT"],
+      toppingImageUrl: env["TOPPING_IMAGE"]);
+
+  final OrderRepository orderRepository =
+      OrderRepositoryImpl(remoteOrderDataSource);
+  final restaurantRepository = RestaurantRepositoryImpl(
+      remoteRestaurantDataSource: remoteRestaurantDataSource);
+  final categoryRepository = CategoryRespositoryImpl(
+      remoteCategoryDataSource: remoteCategoryDataSource);
+  final deliveryRepository = DeliveryRepositoryImpl(
+      remoteDeliveryDataSource: remoteDeliveryDataSource);
+  final menuRepository = MenuRepositoryImpl(menuDataSource);
+
+  return DmaklaApp(
+    categoryRepository: categoryRepository,
+    menuRepository: menuRepository,
+    deliveryRepository: deliveryRepository,
+    orderRepository: orderRepository,
+    restaurantRepository: restaurantRepository,
+  );
+}
+
+Future<void> main() async {
+  await setUpEnvironnement();
+  final app = createApp();
+  runApp(app);
 }
 
 class DmaklaApp extends StatelessWidget {
-  DmaklaApp();
-
-  final RemoteCategoryDataSource remoteCategoryDataSource =
-      RemoteCategoryDataSource();
-  final RemoteRestaurantDataSource remoteRestaurantDataSource =
-      RemoteRestaurantDataSource();
-  final RemoteDeliveryDataSource remoteDeliveryDataSource =
-      RemoteDeliveryDataSource();
-  final RemoteOrderDataSource remoteOrderDataSource = RemoteOrderDataSource();
+  OrderRepository orderRepository;
+  DeliveryRepository deliveryRepository;
+  CategoryRepository categoryRepository;
+  MenuRepository menuRepository;
+  RestaurantRepository restaurantRepository;
+  DmaklaApp(
+      {@required this.categoryRepository,
+      @required this.deliveryRepository,
+      @required this.menuRepository,
+      @required this.restaurantRepository,
+      @required this.orderRepository})
+      : assert(categoryRepository != null),
+        assert(deliveryRepository != null),
+        assert(restaurantRepository != null),
+        assert(menuRepository != null),
+        assert(orderRepository != null);
   // This widget is the root of your application.
 
   @override
   Widget build(BuildContext context) {
-    final menuRepository = MenuRepositoryImpl(RemoteMenuDataSourceImpl());
-    final mockCategoryRepository = MockCategoryRepository();
-    final OrderRepository orderRepository =
-        OrderRepositoryImpl(remoteOrderDataSource);
-    final restaurantRepository = RestaurantRepositoryImpl(
-        remoteRestaurantDataSource: remoteRestaurantDataSource);
-    final categoryRepository = CategoryRespositoryImpl(
-        remoteCategoryDataSource: remoteCategoryDataSource);
     return BlocProvider<AuthenticationBloc>(
       create: (context) => AuthenticationBloc(AuthenticationServiceImpl()),
       child: MultiBlocProvider(
@@ -70,8 +119,7 @@ class DmaklaApp extends StatelessWidget {
               create: (context) => DeliveryCubit(
                   BlocProvider.of<AuthenticationBloc>(context),
                   BlocProvider.of<CartBloc>(context),
-                  DeliveryRepositoryImpl(
-                      remoteDeliveryDataSource: remoteDeliveryDataSource),
+                  deliveryRepository,
                   orderRepository,
                   GeoLocalisationImplGeolocator())),
           BlocProvider<RestaurantCubit>(

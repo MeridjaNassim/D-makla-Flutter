@@ -11,12 +11,13 @@ abstract class CategoryDataSource {
 
 /// new api file AppFlutter_all_api.php
 class RemoteCategoryDataSource extends CategoryDataSource {
-  static String REMOTE_CATEGORY_ENDPOINT =
-      "https://www.d-makla.com/nassim_api/AppAndroid_all_apiBis.php?all_category";
-  static String REMOTE_CATEGORY_RESTAURANT_ENDPOINT = "https://www.d-makla.com/nassim_api/AppFlutter_all_api.php?category";
+  final String all_category_endpoint;
+  final String restaurant_category_endpoint;
+  RemoteCategoryDataSource(
+      {this.all_category_endpoint, this.restaurant_category_endpoint});
   @override
   Future<List<Category>> getCategories() async {
-    final response = await http.post(REMOTE_CATEGORY_ENDPOINT);
+    final response = await http.post(this.all_category_endpoint);
 
     /// if we have a body in the response
     if (response.body.isNotEmpty) {
@@ -36,9 +37,9 @@ class RemoteCategoryDataSource extends CategoryDataSource {
   }
 
   @override
-  Future<List<Category>> getCategoriesByRestaurant(String restaurant_id) async{
-    final response = await http.post(REMOTE_CATEGORY_RESTAURANT_ENDPOINT, body: {
-      "rest_id" : restaurant_id,
+  Future<List<Category>> getCategoriesByRestaurant(String restaurant_id) async {
+    final response = await http.post(this.restaurant_category_endpoint, body: {
+      "rest_id": restaurant_id,
     });
 
     /// if we have a body in the response
