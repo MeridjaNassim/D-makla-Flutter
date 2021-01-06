@@ -14,7 +14,7 @@ class DeliveryScreen extends StatelessWidget {
         elevation: 0,
         centerTitle: true,
         title: Text(
-          'Delivery',
+          'Confirmation',
           style: Theme.of(context)
               .textTheme
               .title

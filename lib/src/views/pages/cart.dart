@@ -26,7 +26,7 @@ class _CartWidgetState extends State<CartWidget> {
                 Icons.refresh,
                 color: Theme.of(context).accentColor,
               ),
-              tooltip: "clear cart",
+              tooltip: "vider panier",
               splashRadius: 10,
               onPressed: () {
                 BlocProvider.of<CartBloc>(context).add(CartCleared());
@@ -37,7 +37,7 @@ class _CartWidgetState extends State<CartWidget> {
           elevation: 0,
           centerTitle: true,
           title: Text(
-            'Cart',
+            'Panier',
             style: Theme.of(context)
                 .textTheme
                 .title
@@ -54,7 +54,7 @@ class _CartWidgetState extends State<CartWidget> {
     if (!hasItems)
       return Center(
         child: Text(
-          'No cart items',
+          'Pas d\'élements dans le panier',
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
           style: Theme.of(context).textTheme.body2,
@@ -65,7 +65,7 @@ class _CartWidgetState extends State<CartWidget> {
         Padding(
           padding: const EdgeInsets.only(left: 20, right: 20),
           child: Text(
-            'swipe to delete items',
+            'glisser pour supprimer des éléments',
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: Theme.of(context).textTheme.caption,
@@ -142,7 +142,7 @@ class _CartWidgetState extends State<CartWidget> {
           return Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [LoadingIndicator(loadingText: "loading cart ...")],
+            children: [LoadingIndicator(loadingText: "chargement panier ...")],
           );
         }
         if (state is LoadedCartState) {
@@ -175,7 +175,7 @@ class _CartWidgetState extends State<CartWidget> {
                             style: Theme.of(context).textTheme.display1,
                           ),
                           subtitle: Text(
-                            'Verify your quantity and click checkout',
+                            'Vérifiez vos commandes et confirmez',
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: Theme.of(context).textTheme.caption,
@@ -210,16 +210,40 @@ class _CartWidgetState extends State<CartWidget> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisSize: MainAxisSize.max,
                       children: <Widget>[
+                        // Row(
+                        //   children: <Widget>[
+                        //     Expanded(
+                        //       child: Text(
+                        //         'Tax',
+                        //         style: Theme.of(context).textTheme.body2,
+                        //       ),
+                        //     ),
+                        //     Text(state.currentCartPrice.toString() + " DA",
+                        //         style: Theme.of(context).textTheme.subhead),
+                        //   ],
+                        // ),
+                        // Row(
+                        //   children: <Widget>[
+                        //     Expanded(
+                        //       child: Text(
+                        //         'Réduction',
+                        //         style: Theme.of(context).textTheme.body2,
+                        //       ),
+                        //     ),
+                        //     Text(state.currentCartPrice.toString() + " DA",
+                        //         style: Theme.of(context).textTheme.subhead),
+                        //   ],
+                        // ),
                         Row(
                           children: <Widget>[
                             Expanded(
                               child: Text(
                                 'Total',
-                                style: Theme.of(context).textTheme.body2,
+                                style: Theme.of(context).textTheme.display1,
                               ),
                             ),
                             Text(state.currentCartPrice.toString() + " DA",
-                                style: Theme.of(context).textTheme.subhead),
+                                style: Theme.of(context).textTheme.display3),
                           ],
                         ),
                         // Row(
@@ -263,26 +287,14 @@ class _CartWidgetState extends State<CartWidget> {
                                 shape: StadiumBorder(),
                                 child: Text(
                                   numberOfOrders != 0
-                                      ? 'Checkout'
-                                      : "Cart Empty",
+                                      ? 'Confirmer'
+                                      : "Panier Vide",
                                   textAlign: TextAlign.start,
                                   style: TextStyle(
                                       color: Theme.of(context).primaryColor),
                                 ),
                               ),
                             ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 20),
-                              child: Text(
-                                state.currentCartPrice.toString() + " DA",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .display1
-                                    .merge(TextStyle(
-                                        color: Theme.of(context).primaryColor)),
-                              ),
-                            )
                           ],
                         ),
                       ],

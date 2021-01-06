@@ -399,7 +399,7 @@ class _FoodWidgetState extends State<FoodWidget> {
                             children: <Widget>[
                               Expanded(
                                 child: Text(
-                                  'Quantity',
+                                  'Quantité',
                                   style: Theme.of(context).textTheme.subhead,
                                 ),
                               ),
@@ -452,7 +452,7 @@ class _FoodWidgetState extends State<FoodWidget> {
                                         backgroundColor:
                                             Theme.of(context).accentColor,
                                         content: Text(
-                                          "Order added to cart",
+                                          "Commande ajoutée au panier",
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
                                               fontSize: 18,

@@ -60,7 +60,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               color: Theme.of(context).focusColor.withOpacity(1),
             ),
             title: Text(
-              "Home",
+              "Accueil",
               style: Theme.of(context).textTheme.subhead,
             ),
           ),
@@ -89,7 +89,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               color: Theme.of(context).focusColor.withOpacity(1),
             ),
             title: Text(
-              "My Orders",
+              "Mes commandes",
               style: Theme.of(context).textTheme.subhead,
             ),
           ),
@@ -105,14 +105,14 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               color: Theme.of(context).focusColor.withOpacity(1),
             ),
             title: Text(
-              "Profile",
+              "Profil",
               style: Theme.of(context).textTheme.subhead,
             ),
           ),
           ListTile(
             dense: true,
             title: Text(
-              "Application Preferences",
+              "Misc",
               style: Theme.of(context).textTheme.body1,
             ),
             trailing: Icon(
@@ -156,7 +156,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               color: Theme.of(context).focusColor.withOpacity(1),
             ),
             title: Text(
-              "About Dmakla",
+              "A propos",
               style: Theme.of(context).textTheme.subhead,
             ),
           ),
@@ -170,7 +170,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               color: Theme.of(context).focusColor.withOpacity(1),
             ),
             title: Text(
-              "Log out",
+              "Déconnecter",
               style: Theme.of(context).textTheme.subhead,
             ),
           ),

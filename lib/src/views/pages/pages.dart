@@ -10,7 +10,6 @@ import 'package:dmakla_flutter/src/views/pages/profile.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'orders.dart';
 
-
 // ignore: must_be_immutable
 class PagesTestWidget extends StatefulWidget {
   String currentTitle;
@@ -32,46 +31,47 @@ class _PagesTestWidgetState extends State<PagesTestWidget> {
 
   initState() {
     super.initState();
-    final tabIndex = BlocProvider.of<TabNavigationCubit>(context).state.tabIndex;
+    final tabIndex =
+        BlocProvider.of<TabNavigationCubit>(context).state.tabIndex;
     _selectTab(tabIndex);
-    currentTitle = "Home";
+    currentTitle = "Accueil";
     currentPage = HomeWidget();
   }
 
   void _selectTab(int tabItem) {
     final provider = BlocProvider.of<TabNavigationCubit>(context);
-    final currentIndex =  provider.state.tabIndex;
-    if(tabItem != currentIndex) {
+    final currentIndex = provider.state.tabIndex;
+    if (tabItem != currentIndex) {
       provider.setTabIndex(tabItem);
     }
   }
+
   void _updateWidget(int tabIndex) {
     setState(() {
-
       switch (tabIndex) {
-      // case 0:
-      //   widget.currentTitle = 'Notifications';
-      //   widget.currentPage = NotificationsWidget();
-      //   break;
+        // case 0:
+        //   widget.currentTitle = 'Notifications';
+        //   widget.currentPage = NotificationsWidget();
+        //   break;
         case PROFILE_TAB_INDEX:
-          currentTitle = 'Profile';
+          currentTitle = 'Profil';
           currentPage = ProfileWidget();
           break;
         case HOME_TAB_INDEX:
           BlocProvider.of<StoreCubit>(context).loadStore();
-          currentTitle = 'Home';
+          currentTitle = 'Accueil';
           currentPage = HomeWidget();
           break;
         case ORDERS_TAB_INDEX:
-          currentTitle = 'My Orders';
+          currentTitle = 'Mes commandes';
           final provider = BlocProvider.of<OrdersCubit>(context);
           provider.loadOrders();
           currentPage = OrdersWidget();
           break;
-      // case 4:
-      //   widget.currentTitle = 'Favorites';
-      //   widget.currentPage = FavoritesWidget();
-      //   break;
+        // case 4:
+        //   widget.currentTitle = 'Favorites';
+        //   widget.currentPage = FavoritesWidget();
+        //   break;
       }
     });
   }
@@ -86,20 +86,25 @@ class _PagesTestWidgetState extends State<PagesTestWidget> {
           elevation: 0,
           centerTitle: true,
           title: Text(
-            this.currentTitle ,
-            style: Theme.of(context).textTheme.title.merge(TextStyle(letterSpacing: 1.3)),
+            this.currentTitle,
+            style: Theme.of(context)
+                .textTheme
+                .title
+                .merge(TextStyle(letterSpacing: 1.3)),
           ),
           actions: <Widget>[
             new ShoppingCartButtonWidget(
-                iconColor: Theme.of(context).hintColor, labelColor: Theme.of(context).accentColor),
+                iconColor: Theme.of(context).hintColor,
+                labelColor: Theme.of(context).accentColor),
           ],
         ),
         body: this.currentPage,
-        bottomNavigationBar: BlocConsumer<TabNavigationCubit,TabNavigationState>(
-          listener: (context,state){
+        bottomNavigationBar:
+            BlocConsumer<TabNavigationCubit, TabNavigationState>(
+          listener: (context, state) {
             _updateWidget(state.tabIndex);
           },
-          builder:(context,state)=> BottomNavigationBar(
+          builder: (context, state) => BottomNavigationBar(
             type: BottomNavigationBarType.fixed,
             selectedItemColor: Theme.of(context).accentColor,
             selectedFontSize: 0,
@@ -135,12 +140,19 @@ class _PagesTestWidgetState extends State<PagesTestWidget> {
                       ),
                       boxShadow: [
                         BoxShadow(
-                            color: Theme.of(context).accentColor.withOpacity(0.4), blurRadius: 40, offset: Offset(0, 15)),
+                            color:
+                                Theme.of(context).accentColor.withOpacity(0.4),
+                            blurRadius: 40,
+                            offset: Offset(0, 15)),
                         BoxShadow(
-                            color: Theme.of(context).accentColor.withOpacity(0.4), blurRadius: 13, offset: Offset(0, 3))
+                            color:
+                                Theme.of(context).accentColor.withOpacity(0.4),
+                            blurRadius: 13,
+                            offset: Offset(0, 3))
                       ],
                     ),
-                    child: new Icon(Icons.home, color: Theme.of(context).primaryColor),
+                    child: new Icon(Icons.home,
+                        color: Theme.of(context).primaryColor),
                   )),
               BottomNavigationBarItem(
                 icon: new Icon(Icons.fastfood),

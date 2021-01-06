@@ -121,7 +121,7 @@ class RemoteMenuDataSourceImpl extends MenuDataSource {
             id: topping["id"],
             name: topping["name"],
             price: double.parse(topping["price"]),
-            image: NetworkImage(url: this.trending_endpoint)));
+            image: NetworkImage(url: this.toppingImageUrl)));
       }
     });
     return Menu(

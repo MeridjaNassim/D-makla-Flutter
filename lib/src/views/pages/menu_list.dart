@@ -100,11 +100,11 @@ class MenuWidget extends StatelessWidget {
             dense: true,
             contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             leading: Icon(
-              Icons.list,
+              Icons.fastfood_rounded,
               color: Theme.of(context).hintColor,
             ),
             title: Text(
-              'All Menu',
+              'Tous les Menus',
               style: Theme.of(context).textTheme.display1,
             ),
           ),

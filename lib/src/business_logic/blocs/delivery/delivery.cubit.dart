@@ -195,8 +195,10 @@ class DeliveryCubit extends Cubit<DeliveryState> {
     final authState = _authenticationBloc.state;
     if (authState is AuthenticationAuthenticated) {
       print("confirming delivery");
+
       final cart = (this._cartBloc.state as LoadedCartState).cart;
       final state = this.state as LoadedDeliveryState;
+      emit(ConfirmingDeliveryState());
       User user = authState.user;
       DeliveryLocation location =
           DeliveryLocation(wilaya: user.wilaya, zone: state.selectedZone);
