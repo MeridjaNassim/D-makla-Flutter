@@ -74,14 +74,16 @@ class _CheckoutWidgetState extends State<CheckoutWidget> {
         return Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [LoadingIndicator(loadingText: "confirming delivery ...")],
+          children: [
+            LoadingIndicator(loadingText: "confirmation de commande ...")
+          ],
         );
       }
       if (state is LoadingDeliveryState) {
         return Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [LoadingIndicator(loadingText: "loading cart ...")],
+          children: [LoadingIndicator(loadingText: "chargement panier ...")],
         );
       }
       if (state is LoadedDeliveryState) {
