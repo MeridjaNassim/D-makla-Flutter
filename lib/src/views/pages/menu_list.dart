@@ -1,17 +1,17 @@
-import 'package:dmakla_flutter/src/views/elements/common/widgets.dart';
+import 'package:dmakla/src/views/elements/common/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lazy_load_refresh_indicator/lazy_load_refresh_indicator.dart';
 
-import 'package:dmakla_flutter/src/business_logic/blocs/store/menu.cubit.dart';
-import 'package:dmakla_flutter/src/business_logic/models/menu.dart';
+import 'package:dmakla/src/business_logic/blocs/store/menu.cubit.dart';
+import 'package:dmakla/src/business_logic/models/menu.dart';
 
-import 'package:dmakla_flutter/src/views/elements/DrawerWidget.dart';
-import 'package:dmakla_flutter/src/views/elements/FoodsCarouselWidget.dart';
-import 'package:dmakla_flutter/src/views/elements/MenuItemWidget.dart';
+import 'package:dmakla/src/views/elements/DrawerWidget.dart';
+import 'package:dmakla/src/views/elements/FoodsCarouselWidget.dart';
+import 'package:dmakla/src/views/elements/MenuItemWidget.dart';
 import 'package:octo_image/octo_image.dart';
-import 'package:dmakla_flutter/src/views/elements/ShoppingCartButtonWidget.dart';
-import 'package:dmakla_flutter/src/views/elements/common/loading.dart';
+import 'package:dmakla/src/views/elements/ShoppingCartButtonWidget.dart';
+import 'package:dmakla/src/views/elements/common/loading.dart';
 // class MenuListWidget extends StatefulWidget {
 //   final List<Menu> menus;
 //

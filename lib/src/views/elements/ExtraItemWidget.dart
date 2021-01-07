@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:dmakla_flutter/src/business_logic/blocs/store/order.cubit.dart';
-import 'package:dmakla_flutter/src/business_logic/models/topping.dart';
-import 'package:dmakla_flutter/src/views/utils/image_handling.dart';
+import 'package:dmakla/src/business_logic/blocs/store/order.cubit.dart';
+import 'package:dmakla/src/business_logic/models/topping.dart';
+import 'package:dmakla/src/views/utils/image_handling.dart';
 
 class ExtraItemWidget extends StatefulWidget {
   Topping topping;
@@ -17,7 +17,8 @@ class ExtraItemWidget extends StatefulWidget {
   _ExtraItemWidgetState createState() => _ExtraItemWidgetState();
 }
 
-class _ExtraItemWidgetState extends State<ExtraItemWidget> with SingleTickerProviderStateMixin {
+class _ExtraItemWidgetState extends State<ExtraItemWidget>
+    with SingleTickerProviderStateMixin {
   Animation animation;
   AnimationController animationController;
   Animation<double> sizeCheckAnimation;
@@ -31,8 +32,10 @@ class _ExtraItemWidgetState extends State<ExtraItemWidget> with SingleTickerProv
     print("hello init state");
     super.initState();
     checked = widget.isSelected;
-    animationController = AnimationController(duration: Duration(milliseconds: 350), vsync: this);
-    CurvedAnimation curve = CurvedAnimation(parent: animationController, curve: Curves.easeOut);
+    animationController =
+        AnimationController(duration: Duration(milliseconds: 350), vsync: this);
+    CurvedAnimation curve =
+        CurvedAnimation(parent: animationController, curve: Curves.easeOut);
     animation = Tween(begin: 0.0, end: 60.0).animate(curve)
       ..addListener(() {
         setState(() {});
@@ -53,12 +56,11 @@ class _ExtraItemWidgetState extends State<ExtraItemWidget> with SingleTickerProv
       ..addListener(() {
         setState(() {});
       });
-    if(checked) {
+    if (checked) {
       animationController.forward();
-    }else {
+    } else {
       animationController.reverse();
     }
-
   }
 
   @override
@@ -72,7 +74,7 @@ class _ExtraItemWidgetState extends State<ExtraItemWidget> with SingleTickerProv
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        print('Extra added: '+ widget.topping.toString());
+        print('Extra added: ' + widget.topping.toString());
         BlocProvider.of<OrderCubit>(context).toggleTopping(widget.topping);
         if (checked) {
           animationController.reverse();
@@ -92,7 +94,9 @@ class _ExtraItemWidgetState extends State<ExtraItemWidget> with SingleTickerProv
                 width: 60,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(60)),
-                  image: DecorationImage(image: getImageProvider(widget.topping.image), fit: BoxFit.cover),
+                  image: DecorationImage(
+                      image: getImageProvider(widget.topping.image),
+                      fit: BoxFit.cover),
                 ),
               ),
               Container(
@@ -100,14 +104,18 @@ class _ExtraItemWidgetState extends State<ExtraItemWidget> with SingleTickerProv
                 width: animation.value,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(60)),
-                  color: Theme.of(context).accentColor.withOpacity(opacityAnimation.value),
+                  color: Theme.of(context)
+                      .accentColor
+                      .withOpacity(opacityAnimation.value),
                 ),
                 child: Transform.rotate(
                   angle: rotateCheckAnimation.value,
                   child: Icon(
                     Icons.check,
                     size: sizeCheckAnimation.value,
-                    color: Theme.of(context).primaryColor.withOpacity(opacityCheckAnimation.value),
+                    color: Theme.of(context)
+                        .primaryColor
+                        .withOpacity(opacityCheckAnimation.value),
                   ),
                 ),
               ),
@@ -123,7 +131,7 @@ class _ExtraItemWidgetState extends State<ExtraItemWidget> with SingleTickerProv
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Text(
-                        widget.topping.name ??"name",
+                        widget.topping.name ?? "name",
                         overflow: TextOverflow.ellipsis,
                         maxLines: 2,
                         style: Theme.of(context).textTheme.subhead,
@@ -138,7 +146,8 @@ class _ExtraItemWidgetState extends State<ExtraItemWidget> with SingleTickerProv
                   ),
                 ),
                 SizedBox(width: 8),
-                Text(widget.topping.price.toString() +"DA", style: Theme.of(context).textTheme.display1),
+                Text(widget.topping.price.toString() + "DA",
+                    style: Theme.of(context).textTheme.display1),
               ],
             ),
           )

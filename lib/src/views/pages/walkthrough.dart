@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
-import 'package:dmakla_flutter/config/app_config.dart' as config;
-import 'package:dmakla_flutter/src/business_logic/models/restaurant.dart';
-import 'package:dmakla_flutter/src/models/restaurant.dart';
-import 'package:dmakla_flutter/src/views/utils/image_handling.dart';
+import 'package:dmakla/config/app_config.dart' as config;
+import 'package:dmakla/src/business_logic/models/restaurant.dart';
+import 'package:dmakla/src/models/restaurant.dart';
+import 'package:dmakla/src/views/utils/image_handling.dart';
 
 class Walkthrough extends StatelessWidget {
   @override

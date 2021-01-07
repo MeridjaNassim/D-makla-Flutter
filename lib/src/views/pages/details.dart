@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:dmakla_flutter/src/business_logic/blocs/store/menu.cubit.dart';
-import 'package:dmakla_flutter/src/business_logic/blocs/store/restaurant.cubit.dart';
-import 'package:dmakla_flutter/src/business_logic/models/category.dart';
-import 'package:dmakla_flutter/src/views/elements/CategoriesGridtemWidget.dart';
-import 'package:dmakla_flutter/src/views/elements/ShoppingCartFloatButtonWidget.dart';
-import 'package:dmakla_flutter/src/views/elements/common/loading.dart';
-import 'package:dmakla_flutter/src/views/utils/image_handling.dart';
+import 'package:dmakla/src/business_logic/blocs/store/menu.cubit.dart';
+import 'package:dmakla/src/business_logic/blocs/store/restaurant.cubit.dart';
+import 'package:dmakla/src/business_logic/models/category.dart';
+import 'package:dmakla/src/views/elements/CategoriesGridtemWidget.dart';
+import 'package:dmakla/src/views/elements/ShoppingCartFloatButtonWidget.dart';
+import 'package:dmakla/src/views/elements/common/loading.dart';
+import 'package:dmakla/src/views/utils/image_handling.dart';
 
 class DetailsWidget extends StatefulWidget {
   DetailsWidget({Key key}) : super(key: key);

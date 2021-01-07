@@ -4,14 +4,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:dmakla_flutter/config/app_config.dart' as config;
-import 'package:dmakla_flutter/src/business_logic/blocs/auth/auth.bloc.dart';
-import 'package:dmakla_flutter/src/business_logic/blocs/auth/auth.state.dart';
-import 'package:dmakla_flutter/src/business_logic/blocs/login/bloc/login_bloc.dart';
-import 'package:dmakla_flutter/src/business_logic/blocs/login/bloc/login_event.dart';
-import 'package:dmakla_flutter/src/business_logic/blocs/login/bloc/login_state.dart';
-import 'package:dmakla_flutter/src/views/elements/BlockButtonWidget.dart';
-import 'package:dmakla_flutter/src/views/elements/common/loading.dart';
+import 'package:dmakla/config/app_config.dart' as config;
+import 'package:dmakla/src/business_logic/blocs/auth/auth.bloc.dart';
+import 'package:dmakla/src/business_logic/blocs/auth/auth.state.dart';
+import 'package:dmakla/src/business_logic/blocs/login/bloc/login_bloc.dart';
+import 'package:dmakla/src/business_logic/blocs/login/bloc/login_event.dart';
+import 'package:dmakla/src/business_logic/blocs/login/bloc/login_state.dart';
+import 'package:dmakla/src/views/elements/BlockButtonWidget.dart';
+import 'package:dmakla/src/views/elements/common/loading.dart';
 
 class LoginForm extends StatefulWidget {
   LoginForm();

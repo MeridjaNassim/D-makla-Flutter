@@ -1,12 +1,12 @@
-import 'package:dmakla_flutter/src/views/blocs/tabNavigation.cubit.dart';
-import 'package:dmakla_flutter/src/views/constants/navigation.dart';
-import 'package:dmakla_flutter/src/views/elements/common/loading.dart';
+import 'package:dmakla/src/views/blocs/tabNavigation.cubit.dart';
+import 'package:dmakla/src/views/constants/navigation.dart';
+import 'package:dmakla/src/views/elements/common/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:dmakla_flutter/src/business_logic/blocs/auth/auth.bloc.dart';
-import 'package:dmakla_flutter/src/business_logic/blocs/auth/auth.event.dart';
-import 'package:dmakla_flutter/src/business_logic/blocs/auth/auth.state.dart';
-import 'package:dmakla_flutter/src/business_logic/models/user.dart';
+import 'package:dmakla/src/business_logic/blocs/auth/auth.bloc.dart';
+import 'package:dmakla/src/business_logic/blocs/auth/auth.event.dart';
+import 'package:dmakla/src/business_logic/blocs/auth/auth.state.dart';
+import 'package:dmakla/src/business_logic/models/user.dart';
 import 'package:octo_image/octo_image.dart';
 
 class DrawerWidget extends StatefulWidget {

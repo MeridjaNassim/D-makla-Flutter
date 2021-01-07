@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:dmakla_flutter/src/business_logic/blocs/cart/cart.bloc.dart';
-import 'package:dmakla_flutter/src/business_logic/blocs/cart/cart.event.dart';
-import 'package:dmakla_flutter/src/business_logic/blocs/cart/cart.state.dart';
-import 'package:dmakla_flutter/src/business_logic/blocs/store/order.cubit.dart';
-import 'package:dmakla_flutter/src/business_logic/models/order.dart';
-import 'package:dmakla_flutter/src/models/route_argument.dart';
-import 'package:dmakla_flutter/src/views/utils/image_handling.dart';
+import 'package:dmakla/src/business_logic/blocs/cart/cart.bloc.dart';
+import 'package:dmakla/src/business_logic/blocs/cart/cart.event.dart';
+import 'package:dmakla/src/business_logic/blocs/cart/cart.state.dart';
+import 'package:dmakla/src/business_logic/blocs/store/order.cubit.dart';
+import 'package:dmakla/src/business_logic/models/order.dart';
+import 'package:dmakla/src/models/route_argument.dart';
+import 'package:dmakla/src/views/utils/image_handling.dart';
 import 'package:octo_image/octo_image.dart';
 
 import 'common/loading.dart';

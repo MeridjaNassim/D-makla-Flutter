@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:dmakla_flutter/src/business_logic/blocs/store/store.cubit.dart';
-import 'package:dmakla_flutter/src/views/elements/CardsCarouselWidget.dart';
-import 'package:dmakla_flutter/src/views/elements/CategoriesGridWidget.dart';
-import 'package:dmakla_flutter/src/views/elements/FoodsCarouselWidget.dart';
-import 'package:dmakla_flutter/src/views/elements/SearchBarWidget.dart';
-import 'package:dmakla_flutter/src/views/elements/common/loading.dart';
+import 'package:dmakla/src/business_logic/blocs/store/store.cubit.dart';
+import 'package:dmakla/src/views/elements/CardsCarouselWidget.dart';
+import 'package:dmakla/src/views/elements/CategoriesGridWidget.dart';
+import 'package:dmakla/src/views/elements/FoodsCarouselWidget.dart';
+import 'package:dmakla/src/views/elements/SearchBarWidget.dart';
+import 'package:dmakla/src/views/elements/common/loading.dart';
 import '../../business_logic/models/common/image.dart' as BusinessImage;
 
 // /// Get all data of HomeScreen

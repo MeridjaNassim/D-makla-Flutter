@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:dmakla_flutter/src/business_logic/models/user.dart';
+import 'package:dmakla/src/business_logic/models/user.dart';
 
 
 abstract class LoginState extends Equatable{

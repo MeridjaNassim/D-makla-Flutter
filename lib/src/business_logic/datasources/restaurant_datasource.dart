@@ -1,6 +1,6 @@
-import 'package:dmakla_flutter/src/business_logic/models/common/image.dart';
-import 'package:dmakla_flutter/src/business_logic/models/common/wilaya.dart';
-import 'package:dmakla_flutter/src/business_logic/models/restaurant.dart';
+import 'package:dmakla/src/business_logic/models/common/image.dart';
+import 'package:dmakla/src/business_logic/models/common/wilaya.dart';
+import 'package:dmakla/src/business_logic/models/restaurant.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 

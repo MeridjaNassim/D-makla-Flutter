@@ -1,7 +1,7 @@
-import 'package:dmakla_flutter/src/business_logic/datasources/delivery_datasource.dart';
-import 'package:dmakla_flutter/src/business_logic/models/cart.dart';
-import 'package:dmakla_flutter/src/business_logic/models/common/wilaya.dart';
-import 'package:dmakla_flutter/src/business_logic/models/delivery.dart';
+import 'package:dmakla/src/business_logic/datasources/delivery_datasource.dart';
+import 'package:dmakla/src/business_logic/models/cart.dart';
+import 'package:dmakla/src/business_logic/models/common/wilaya.dart';
+import 'package:dmakla/src/business_logic/models/delivery.dart';
 
 abstract class DeliveryRepository {
   Future<List<Commune>> getDeliveryLocationDataOfWilaya(Wilaya wilaya);

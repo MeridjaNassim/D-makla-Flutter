@@ -1,12 +1,12 @@
-import 'package:dmakla_flutter/src/business_logic/blocs/orders/orders.cubit.dart';
-import 'package:dmakla_flutter/src/business_logic/blocs/store/store.cubit.dart';
-import 'package:dmakla_flutter/src/views/blocs/tabNavigation.cubit.dart';
-import 'package:dmakla_flutter/src/views/constants/navigation.dart';
+import 'package:dmakla/src/business_logic/blocs/orders/orders.cubit.dart';
+import 'package:dmakla/src/business_logic/blocs/store/store.cubit.dart';
+import 'package:dmakla/src/views/blocs/tabNavigation.cubit.dart';
+import 'package:dmakla/src/views/constants/navigation.dart';
 import 'package:flutter/material.dart';
-import 'package:dmakla_flutter/src/views/elements/DrawerWidget.dart';
-import 'package:dmakla_flutter/src/views/elements/ShoppingCartButtonWidget.dart';
-import 'package:dmakla_flutter/src/views/pages/home.dart';
-import 'package:dmakla_flutter/src/views/pages/profile.dart';
+import 'package:dmakla/src/views/elements/DrawerWidget.dart';
+import 'package:dmakla/src/views/elements/ShoppingCartButtonWidget.dart';
+import 'package:dmakla/src/views/pages/home.dart';
+import 'package:dmakla/src/views/pages/profile.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'orders.dart';
 

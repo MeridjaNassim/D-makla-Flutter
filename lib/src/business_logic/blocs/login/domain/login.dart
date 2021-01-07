@@ -1,8 +1,8 @@
 import 'package:http/http.dart' as http;
-import 'package:dmakla_flutter/src/business_logic/models/common/wilaya.dart' ;
+import 'package:dmakla/src/business_logic/models/common/wilaya.dart' ;
 import 'dart:convert';
 
-import 'package:dmakla_flutter/src/business_logic/models/user.dart';
+import 'package:dmakla/src/business_logic/models/user.dart';
 const String login_url_dev = "https://www.d-makla.com/nassim_api/AppAndroid_all_apiBis.php?login";
 const String login_url_dev2 =
     "https://www.d-makla.com/nassim_api/AppFlutter_all_api.php?login";

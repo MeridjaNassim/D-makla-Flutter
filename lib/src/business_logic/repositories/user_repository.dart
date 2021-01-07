@@ -1,5 +1,5 @@
-import 'package:dmakla_flutter/src/business_logic/models/common/wilaya.dart';
-import 'package:dmakla_flutter/src/business_logic/models/user.dart';
+import 'package:dmakla/src/business_logic/models/common/wilaya.dart';
+import 'package:dmakla/src/business_logic/models/user.dart';
 
 abstract class UserRepository  {
   Future<User> loginWithPhoneNumber(String phoneNumber,String password);

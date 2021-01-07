@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:dmakla_flutter/src/models/chat.dart';
-import 'package:dmakla_flutter/src/models/user.dart';
+import 'package:dmakla/src/models/chat.dart';
+import 'package:dmakla/src/models/user.dart';
 
 class Conversation {
   String id = UniqueKey().toString();

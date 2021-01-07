@@ -1,6 +1,6 @@
-import 'package:dmakla_flutter/src/business_logic/models/order.dart';
-import 'package:dmakla_flutter/src/views/elements/BlockButtonWidget.dart';
-import 'package:dmakla_flutter/src/views/pages/order_detail.dart';
+import 'package:dmakla/src/business_logic/models/order.dart';
+import 'package:dmakla/src/views/elements/BlockButtonWidget.dart';
+import 'package:dmakla/src/views/pages/order_detail.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:octo_image/octo_image.dart';

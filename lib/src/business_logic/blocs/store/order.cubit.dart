@@ -1,12 +1,12 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:dmakla_flutter/src/business_logic/blocs/cart/cart.bloc.dart';
-import 'package:dmakla_flutter/src/business_logic/blocs/cart/cart.event.dart';
-import 'package:dmakla_flutter/src/business_logic/controllers/pricing.controller.dart';
-import 'package:dmakla_flutter/src/business_logic/models/menu.dart';
-import 'package:dmakla_flutter/src/business_logic/models/order.dart';
-import 'package:dmakla_flutter/src/business_logic/models/topping.dart';
-import 'package:dmakla_flutter/src/business_logic/models/variant.dart';
+import 'package:dmakla/src/business_logic/blocs/cart/cart.bloc.dart';
+import 'package:dmakla/src/business_logic/blocs/cart/cart.event.dart';
+import 'package:dmakla/src/business_logic/controllers/pricing.controller.dart';
+import 'package:dmakla/src/business_logic/models/menu.dart';
+import 'package:dmakla/src/business_logic/models/order.dart';
+import 'package:dmakla/src/business_logic/models/topping.dart';
+import 'package:dmakla/src/business_logic/models/variant.dart';
 
 abstract class OrderState extends Equatable {
 

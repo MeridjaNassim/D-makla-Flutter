@@ -1,9 +1,9 @@
 import 'package:bloc/bloc.dart';
-import 'package:dmakla_flutter/src/business_logic/blocs/auth/auth.bloc.dart';
-import 'package:dmakla_flutter/src/business_logic/blocs/auth/auth.state.dart';
-import 'package:dmakla_flutter/src/business_logic/models/order.dart';
-import 'package:dmakla_flutter/src/business_logic/models/user.dart';
-import 'package:dmakla_flutter/src/business_logic/repositories/order_repository.dart';
+import 'package:dmakla/src/business_logic/blocs/auth/auth.bloc.dart';
+import 'package:dmakla/src/business_logic/blocs/auth/auth.state.dart';
+import 'package:dmakla/src/business_logic/models/order.dart';
+import 'package:dmakla/src/business_logic/models/user.dart';
+import 'package:dmakla/src/business_logic/repositories/order_repository.dart';
 import 'package:equatable/equatable.dart';
 abstract class OrdersState extends Equatable {
   @override

@@ -1,12 +1,12 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:dmakla_flutter/src/business_logic/blocs/auth/auth.bloc.dart';
-import 'package:dmakla_flutter/src/business_logic/blocs/auth/auth.state.dart';
-import 'package:dmakla_flutter/src/business_logic/models/category.dart';
-import 'package:dmakla_flutter/src/business_logic/models/menu.dart';
-import 'package:dmakla_flutter/src/business_logic/models/restaurant.dart';
-import 'package:dmakla_flutter/src/business_logic/models/user.dart';
-import 'package:dmakla_flutter/src/business_logic/repositories/menu_repository.dart';
+import 'package:dmakla/src/business_logic/blocs/auth/auth.bloc.dart';
+import 'package:dmakla/src/business_logic/blocs/auth/auth.state.dart';
+import 'package:dmakla/src/business_logic/models/category.dart';
+import 'package:dmakla/src/business_logic/models/menu.dart';
+import 'package:dmakla/src/business_logic/models/restaurant.dart';
+import 'package:dmakla/src/business_logic/models/user.dart';
+import 'package:dmakla/src/business_logic/repositories/menu_repository.dart';
 
 abstract class MenuState extends Equatable {}
 

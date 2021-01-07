@@ -1,6 +1,6 @@
-import 'package:dmakla_flutter/src/business_logic/blocs/auth/auth.bloc.dart';
-import 'package:dmakla_flutter/src/business_logic/blocs/auth/auth.state.dart';
-import 'package:dmakla_flutter/src/views/elements/common/widgets.dart';
+import 'package:dmakla/src/business_logic/blocs/auth/auth.bloc.dart';
+import 'package:dmakla/src/business_logic/blocs/auth/auth.state.dart';
+import 'package:dmakla/src/views/elements/common/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

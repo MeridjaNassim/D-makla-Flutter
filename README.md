@@ -1,6 +1,6 @@
-# dmakla_flutter
+# dmakla
 
-dmakla_flutter
+dmakla
 
 ## Getting Started
 

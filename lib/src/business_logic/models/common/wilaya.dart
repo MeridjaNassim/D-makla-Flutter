@@ -1,7 +1,7 @@
 
 
 import 'package:equatable/equatable.dart';
-import 'package:dmakla_flutter/src/business_logic/models/delivery.dart';
+import 'package:dmakla/src/business_logic/models/delivery.dart';
 
 class Wilaya extends Equatable{
   final String code;

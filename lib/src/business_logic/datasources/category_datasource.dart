@@ -1,8 +1,8 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-import 'package:dmakla_flutter/src/business_logic/models/category.dart';
-import 'package:dmakla_flutter/src/business_logic/models/common/image.dart';
+import 'package:dmakla/src/business_logic/models/category.dart';
+import 'package:dmakla/src/business_logic/models/common/image.dart';
 
 abstract class CategoryDataSource {
   Future<List<Category>> getCategoriesByRestaurant(String restaurant_id);

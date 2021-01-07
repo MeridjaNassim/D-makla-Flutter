@@ -1,10 +1,10 @@
 import 'package:bloc/bloc.dart';
-import 'package:dmakla_flutter/src/business_logic/blocs/auth/auth.bloc.dart';
-import 'package:dmakla_flutter/src/business_logic/blocs/auth/auth.event.dart';
-import 'package:dmakla_flutter/src/business_logic/blocs/login/domain/login.dart';
-import 'package:dmakla_flutter/src/business_logic/models/user.dart';
-import 'package:dmakla_flutter/src/business_logic/utils/conversion.dart';
-import 'package:dmakla_flutter/src/business_logic/utils/validation.dart';
+import 'package:dmakla/src/business_logic/blocs/auth/auth.bloc.dart';
+import 'package:dmakla/src/business_logic/blocs/auth/auth.event.dart';
+import 'package:dmakla/src/business_logic/blocs/login/domain/login.dart';
+import 'package:dmakla/src/business_logic/models/user.dart';
+import 'package:dmakla/src/business_logic/utils/conversion.dart';
+import 'package:dmakla/src/business_logic/utils/validation.dart';
 
 import 'login_event.dart';
 import 'login_state.dart';
