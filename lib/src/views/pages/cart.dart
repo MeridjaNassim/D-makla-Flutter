@@ -17,35 +17,33 @@ class _CartWidgetState extends State<CartWidget> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          actions: [
-            IconButton(
-              icon: Icon(
-                Icons.refresh,
-                color: Theme.of(context).accentColor,
-              ),
-              tooltip: "vider panier",
-              splashRadius: 10,
-              onPressed: () {
-                BlocProvider.of<CartBloc>(context).add(CartCleared());
-              },
-            )
-          ],
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          centerTitle: true,
-          title: Text(
-            'Panier',
-            style: Theme.of(context)
-                .textTheme
-                .title
-                .merge(TextStyle(letterSpacing: 1.3)),
-          ),
+    return Scaffold(
+      appBar: AppBar(
+        actions: [
+          IconButton(
+            icon: Icon(
+              Icons.refresh,
+              color: Theme.of(context).accentColor,
+            ),
+            tooltip: "vider panier",
+            splashRadius: 10,
+            onPressed: () {
+              BlocProvider.of<CartBloc>(context).add(CartCleared());
+            },
+          )
+        ],
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        centerTitle: true,
+        title: Text(
+          'Panier',
+          style: Theme.of(context)
+              .textTheme
+              .title
+              .merge(TextStyle(letterSpacing: 1.3)),
         ),
-        body: _buildCartScreen(),
       ),
+      body: _buildCartScreen(),
     );
   }
 

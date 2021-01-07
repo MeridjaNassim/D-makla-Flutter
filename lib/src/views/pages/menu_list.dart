@@ -236,31 +236,29 @@ class MenuWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return SafeArea(
-      child: Scaffold(
-        drawer: DrawerWidget(),
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          centerTitle: true,
-          title: BlocBuilder<MenuCubit, MenuState>(builder: (context, state) {
-            return Text(
-              _getTitleText(state),
-              style: Theme.of(context)
-                  .textTheme
-                  .title
-                  .merge(TextStyle(letterSpacing: 0)),
-            );
-          }),
-          actions: <Widget>[
-            new ShoppingCartButtonWidget(
-                iconColor: Theme.of(context).hintColor,
-                labelColor: Theme.of(context).accentColor),
-          ],
-        ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-        body: BlocBuilder<MenuCubit, MenuState>(builder: _buildMenus),
+    return Scaffold(
+      drawer: DrawerWidget(),
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        centerTitle: true,
+        title: BlocBuilder<MenuCubit, MenuState>(builder: (context, state) {
+          return Text(
+            _getTitleText(state),
+            style: Theme.of(context)
+                .textTheme
+                .title
+                .merge(TextStyle(letterSpacing: 0)),
+          );
+        }),
+        actions: <Widget>[
+          new ShoppingCartButtonWidget(
+              iconColor: Theme.of(context).hintColor,
+              labelColor: Theme.of(context).accentColor),
+        ],
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      body: BlocBuilder<MenuCubit, MenuState>(builder: _buildMenus),
     );
   }
 
