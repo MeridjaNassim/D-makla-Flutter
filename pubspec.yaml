@@ -64,7 +64,7 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - .env
+    - .api_endpoints
     - img/food1.jpg
     - img/food2.jpg
     - img/food3.jpg

@@ -27,10 +27,10 @@ import 'package:dmakla_flutter/src/business_logic/repositories/restaurant_reposi
 import 'package:dmakla_flutter/src/business_logic/services/auth.service.dart';
 import 'package:dmakla_flutter/src/business_logic/services/geolocalisation.service.dart';
 
-const String ENV_FILE = ".env";
+const String API_ENDPOINTS = ".api_endpoints";
 
 Future<void> setUpEnvironnement() async {
-  await DotEnv().load(ENV_FILE);
+  await DotEnv().load(API_ENDPOINTS);
   EquatableConfig.stringify = true;
 }
 
