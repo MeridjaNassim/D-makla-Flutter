@@ -45,8 +45,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                 ),
             currentAccountPicture: CircleAvatar(
                 backgroundColor: Theme.of(context).accentColor,
-                backgroundImage: NetworkImage(
-                    "https://scontent-mrs2-2.xx.fbcdn.net/v/t1.0-9/122494003_105148951389175_3661855520522376578_n.jpg?_nc_cat=102&ccb=2&_nc_sid=09cbfe&_nc_eui2=AeFxcuRlac4GH3vpvnSMNWlJTwaMXICKbSVPBoxcgIptJfrGHjEXcfBlob9Lk5qIFCD9_84FZKPBIPxDzuh8-L_Z&_nc_ohc=UxyCB4YJtzkAX9vPEzU&_nc_ht=scontent-mrs2-2.xx&oh=2b84f309b844e2c823fb231fbbda8b47&oe=6016F5C1")),
+                backgroundImage: AssetImage("img/dmakla-logo.png")),
           ),
           ListTile(
             onTap: () {

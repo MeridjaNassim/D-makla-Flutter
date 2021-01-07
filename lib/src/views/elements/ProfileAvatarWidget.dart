@@ -36,7 +36,8 @@ class ProfileAvatarWidget extends StatelessWidget {
                   SizedBox(
                       width: 135,
                       height: 135,
-                      child: CircleAvatar(backgroundImage: PLACEHOLDER_IMAGE)),
+                      child: CircleAvatar(
+                          backgroundImage: AssetImage("img/dmakla-logo.png"))),
                   // SizedBox(
                   //   width: 50,
                   //   height: 50,
