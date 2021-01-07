@@ -1,5 +1,5 @@
-import 'package:restaurant_rlutter_ui/src/business_logic/models/cart.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/models/order.dart';
+import 'package:dmakla_flutter/src/business_logic/models/cart.dart';
+import 'package:dmakla_flutter/src/business_logic/models/order.dart';
 
 class OrderPricingController {
   final Order order;

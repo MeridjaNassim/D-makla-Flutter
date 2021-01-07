@@ -1,4 +1,4 @@
-import 'package:restaurant_rlutter_ui/src/business_logic/models/user.dart';
+import 'package:dmakla_flutter/src/business_logic/models/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 abstract class AuthenticationService {

@@ -1,6 +1,6 @@
-# restaurant_rlutter_ui
+# dmakla_flutter
 
-restaurant_rlutter_ui
+dmakla_flutter
 
 ## Getting Started
 

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/blocs/store/store.cubit.dart';
-import 'package:restaurant_rlutter_ui/src/views/elements/CardsCarouselWidget.dart';
-import 'package:restaurant_rlutter_ui/src/views/elements/CategoriesGridWidget.dart';
-import 'package:restaurant_rlutter_ui/src/views/elements/FoodsCarouselWidget.dart';
-import 'package:restaurant_rlutter_ui/src/views/elements/SearchBarWidget.dart';
-import 'package:restaurant_rlutter_ui/src/views/elements/common/loading.dart';
+import 'package:dmakla_flutter/src/business_logic/blocs/store/store.cubit.dart';
+import 'package:dmakla_flutter/src/views/elements/CardsCarouselWidget.dart';
+import 'package:dmakla_flutter/src/views/elements/CategoriesGridWidget.dart';
+import 'package:dmakla_flutter/src/views/elements/FoodsCarouselWidget.dart';
+import 'package:dmakla_flutter/src/views/elements/SearchBarWidget.dart';
+import 'package:dmakla_flutter/src/views/elements/common/loading.dart';
 import '../../business_logic/models/common/image.dart' as BusinessImage;
 
 // /// Get all data of HomeScreen
@@ -90,72 +90,79 @@ class _HomeWidgetState extends State<HomeWidget> {
     super.initState();
   }
 
-  Widget _buildHomePage(StoreState state) {
-    return SingleChildScrollView(
-      padding: EdgeInsets.symmetric(horizontal: 0, vertical: 10),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.start,
-        mainAxisSize: MainAxisSize.max,
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: SearchBarWidget(title: "Rechercher votre plat préférer"),
-          ),
-          ListTile(
-            dense: true,
-            contentPadding: EdgeInsets.symmetric(horizontal: 20),
-            leading: Icon(
-              Icons.trending_up,
-              color: Theme.of(context).hintColor,
-            ),
-            title: Text(
-              "Menu tendence",
-              style: Theme.of(context).textTheme.display1,
-            ),
-            subtitle: null,
-          ),
-          BlocBuilder<StoreCubit, StoreState>(
-              builder: (context, state){
-                if(state is StoreLoadedState ) {
-                  return FoodsCarouselWidget(menus : state.store.trendingMenus);
-                }
-                  return LoadingIndicator(loadingText: "loading trending");
-              }),
-          Padding(
-            padding: const EdgeInsets.only(top: 15, left: 20, right: 20),
-            child: ListTile(
-              dense: true,
-              contentPadding: EdgeInsets.symmetric(vertical: 0),
-              leading: Icon(
-                Icons.stars,
-                color: Theme.of(context).hintColor,
-              ),
-              title: Text(
-                "Choisir par restaurant",
-                style: Theme.of(context).textTheme.display1,
-              ),
-            ),
-          ),
-          CardsCarouselWidget(),
+  Future<void> _refreshPage() async {
+    print("refreshing");
+    return BlocProvider.of<StoreCubit>(context).loadStore();
+  }
 
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: ListTile(
+  Widget _buildHomePage(StoreState state) {
+    return RefreshIndicator(
+      onRefresh: _refreshPage,
+      child: SingleChildScrollView(
+        padding: EdgeInsets.symmetric(horizontal: 0, vertical: 10),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisSize: MainAxisSize.max,
+          children: <Widget>[
+            // Padding(
+            //   padding: const EdgeInsets.symmetric(horizontal: 20),
+            //   child: SearchBarWidget(title: "Rechercher votre plat préférer"),
+            // ),
+            ListTile(
               dense: true,
-              contentPadding: EdgeInsets.symmetric(vertical: 0),
+              contentPadding: EdgeInsets.symmetric(horizontal: 20),
               leading: Icon(
-                Icons.category,
+                Icons.trending_up,
                 color: Theme.of(context).hintColor,
               ),
               title: Text(
-                "Choisir par catégorie",
+                "Menu tendence",
                 style: Theme.of(context).textTheme.display1,
               ),
+              subtitle: null,
             ),
-          ),
-          CategoriesGridWidget(),
-        ],
+            BlocBuilder<StoreCubit, StoreState>(builder: (context, state) {
+              if (state is StoreLoadedState) {
+                return FoodsCarouselWidget(menus: state.store.trendingMenus);
+              }
+              return LoadingIndicator(loadingText: "loading trending");
+            }),
+            Padding(
+              padding: const EdgeInsets.only(top: 15, left: 20, right: 20),
+              child: ListTile(
+                dense: true,
+                contentPadding: EdgeInsets.symmetric(vertical: 0),
+                leading: Icon(
+                  Icons.stars,
+                  color: Theme.of(context).hintColor,
+                ),
+                title: Text(
+                  "Choisir par restaurant",
+                  style: Theme.of(context).textTheme.display1,
+                ),
+              ),
+            ),
+            CardsCarouselWidget(),
+
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: ListTile(
+                dense: true,
+                contentPadding: EdgeInsets.symmetric(vertical: 0),
+                leading: Icon(
+                  Icons.category,
+                  color: Theme.of(context).hintColor,
+                ),
+                title: Text(
+                  "Choisir par catégorie",
+                  style: Theme.of(context).textTheme.display1,
+                ),
+              ),
+            ),
+            CategoriesGridWidget(),
+          ],
+        ),
       ),
     );
   }

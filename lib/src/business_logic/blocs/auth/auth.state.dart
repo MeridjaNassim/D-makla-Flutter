@@ -1,6 +1,6 @@
 import 'package:meta/meta.dart';
 import 'package:equatable/equatable.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/models/user.dart';
+import 'package:dmakla_flutter/src/business_logic/models/user.dart';
 
 abstract class AuthenticationState extends Equatable {
   const AuthenticationState();

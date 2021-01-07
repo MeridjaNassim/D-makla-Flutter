@@ -1,16 +1,15 @@
-import 'package:country_code_picker/country_code_picker.dart';
+import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:restaurant_rlutter_ui/config/app_config.dart' as config;
-import 'package:restaurant_rlutter_ui/src/business_logic/blocs/auth/auth.bloc.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/blocs/auth/auth.state.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/blocs/signup/bloc/signup_bloc.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/blocs/signup/bloc/signup_event.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/blocs/signup/bloc/signup_state.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/utils/constants/wilaya.dart';
-import 'package:restaurant_rlutter_ui/src/views/elements/BlockButtonWidget.dart';
-import 'package:restaurant_rlutter_ui/src/views/elements/common/loading.dart';
+import 'package:dmakla_flutter/config/app_config.dart' as config;
+import 'package:dmakla_flutter/src/business_logic/blocs/auth/auth.bloc.dart';
+import 'package:dmakla_flutter/src/business_logic/blocs/auth/auth.state.dart';
+import 'package:dmakla_flutter/src/business_logic/blocs/signup/bloc/signup_bloc.dart';
+import 'package:dmakla_flutter/src/business_logic/blocs/signup/bloc/signup_event.dart';
+import 'package:dmakla_flutter/src/business_logic/blocs/signup/bloc/signup_state.dart';
+import 'package:dmakla_flutter/src/business_logic/utils/constants/wilaya.dart';
+import 'package:dmakla_flutter/src/views/elements/BlockButtonWidget.dart';
+import 'package:dmakla_flutter/src/views/elements/common/loading.dart';
 
 class SignUpWidget extends StatefulWidget {
 
@@ -29,7 +28,9 @@ class _SignUpWidgetState extends State<SignUpWidget> {
       listener: (context,state){
         if(state is AuthenticationAuthenticated) {
           print("authenticated from signup");
-          Navigator.of(context).pushReplacementNamed("/Pages",arguments: 2);
+          Timer(Duration(seconds: 1),(){
+            Navigator.of(context).pushReplacementNamed("/Pages",arguments: 2);
+          });
         }
       },
       child: BlocProvider<SignUpBloc>(

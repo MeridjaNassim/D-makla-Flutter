@@ -1,0 +1,15 @@
+ALL_CATEGORY_ENDPOINT=https://www.d-makla.com/nassim_api/AppAndroid_all_apiBis.php?all_category
+ALL_RESTAURANT_ENDPOINT=https://www.d-makla.com/nassim_api/AppFlutter_all_api.php?all_restaurant
+RESTAURANT_CATEGORY_ENDPOINT=https://www.d-makla.com/nassim_api/AppFlutter_all_api.php?category
+CITY_AREA_LIST_ENDPOINT=https://www.d-makla.com/nassim_api/AppFlutter_all_api.php?city_area_list
+DELIVERY_FEES_ENDPOINT=https://www.d-makla.com/nassim_api/AppFlutter_all_api.php?total_cart_amount
+TRENDING_MENUS_ENDPOINT=https://www.d-makla.com/nassim_api/AppFlutter_all_api.php?trending_menu
+ALL_CATEGORY_MENUS_ENDPOINT=https://www.d-makla.com/nassim_api/AppFlutter_all_api.php?all_menu_category
+ALL_RESTAURANT_MENUS_ENDPOINT=https://www.d-makla.com/nassim_api/AppFlutter_all_api.php?menu_list_restaurant
+CREATE_NEW_ORDER_ENDPOINT=https://www.d-makla.com/nassim_api/AppFlutter_all_api.php?signup_order
+ORDER_HISTORY_ENDPOINT=https://www.d-makla.com/nassim_api/AppFlutter_all_api.php?history_order
+
+TOPPING_IMAGE=https://images.unsplash.com/photo-1514326640560-7d063ef2aed5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=80
+
+LOGIN_ENDPOINT=https://www.d-makla.com/nassim_api/AppFlutter_all_api.php?login
+SIGNUP_ENDPOINT=https://www.d-makla.com/nassim_api/AppFlutter_all_api.php?signup

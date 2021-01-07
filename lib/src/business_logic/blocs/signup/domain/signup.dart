@@ -1,10 +1,12 @@
-import 'package:restaurant_rlutter_ui/src/business_logic/models/common/wilaya.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/models/user.dart';
+import 'package:dmakla_flutter/src/business_logic/models/common/wilaya.dart';
+import 'package:dmakla_flutter/src/business_logic/models/user.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 const String signup_url_dev =
     "https://www.d-makla.com/nassim_api/AppAndroid_all_apiBis.php?signup";
+const String signup_url_dev2 =
+    "https://www.d-makla.com/nassim_api/AppFlutter_all_api.php?signup";
 const String RES_ATR = "USER_REGISTRATION";
 
 class SignUpManager {
@@ -24,7 +26,7 @@ class SignUpManager {
     };
 
     final http.Response response =
-        await http.post(signup_url_dev, body: formData);
+        await http.post(signup_url_dev2, body: formData);
     if (response.body.isEmpty) return null;
     final Map<String, dynamic> decodedBody = json.decode(response.body);
     Map<String, dynamic> data = decodedBody[RES_ATR];

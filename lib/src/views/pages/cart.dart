@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/blocs/cart/cart.bloc.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/blocs/cart/cart.event.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/blocs/cart/cart.state.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/blocs/delivery/delivery.cubit.dart';
-import 'package:restaurant_rlutter_ui/src/models/food.dart';
-import 'package:restaurant_rlutter_ui/src/views/elements/CartItemWidget.dart';
-import 'package:restaurant_rlutter_ui/src/views/elements/common/loading.dart';
+import 'package:dmakla_flutter/src/business_logic/blocs/cart/cart.bloc.dart';
+import 'package:dmakla_flutter/src/business_logic/blocs/cart/cart.event.dart';
+import 'package:dmakla_flutter/src/business_logic/blocs/cart/cart.state.dart';
+import 'package:dmakla_flutter/src/business_logic/blocs/delivery/delivery.cubit.dart';
+import 'package:dmakla_flutter/src/models/food.dart';
+import 'package:dmakla_flutter/src/views/elements/CartItemWidget.dart';
+import 'package:dmakla_flutter/src/views/elements/common/loading.dart';
 
 class CartWidget extends StatefulWidget {
   @override
@@ -17,113 +17,117 @@ class _CartWidgetState extends State<CartWidget> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return Scaffold(
-      appBar: AppBar(
-        actions: [
-          IconButton(
-            icon: Icon(
-              Icons.refresh,
-              color: Theme.of(context).accentColor,
-            ),
-            tooltip: "clear cart",
-            splashRadius: 10,
-            onPressed: () {
-              BlocProvider.of<CartBloc>(context).add(CartCleared());
-            },
-          )
-        ],
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        centerTitle: true,
-        title: Text(
-          'Cart',
-          style: Theme.of(context)
-              .textTheme
-              .title
-              .merge(TextStyle(letterSpacing: 1.3)),
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          actions: [
+            IconButton(
+              icon: Icon(
+                Icons.refresh,
+                color: Theme.of(context).accentColor,
+              ),
+              tooltip: "vider panier",
+              splashRadius: 10,
+              onPressed: () {
+                BlocProvider.of<CartBloc>(context).add(CartCleared());
+              },
+            )
+          ],
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          centerTitle: true,
+          title: Text(
+            'Panier',
+            style: Theme.of(context)
+                .textTheme
+                .title
+                .merge(TextStyle(letterSpacing: 1.3)),
+          ),
         ),
+        body: _buildCartScreen(),
       ),
-      body: _buildCartScreen(),
     );
   }
+
   Widget _buildCartItems(BuildContext context, LoadedCartState state) {
     final hasItems = state.cart.totalNumberOfOrders() > 0;
-    if(!hasItems)
-      return Center(child: Text(
-        'No cart items',
-        maxLines: 1,
-        overflow: TextOverflow.ellipsis,
-        style: Theme.of(context).textTheme.body2,
-      ),);
-    return Column(children: [
-      Padding(
-        padding: const EdgeInsets.only(left: 20, right: 20),
+    if (!hasItems)
+      return Center(
         child: Text(
-          'swipe to delete items',
+          'Pas d\'élements dans le panier',
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
-          style: Theme.of(context).textTheme.caption,
+          style: Theme.of(context).textTheme.body2,
         ),
-      ),
-      ListView.separated(
-        padding: EdgeInsets.symmetric(vertical: 15),
-        scrollDirection: Axis.vertical,
-        shrinkWrap: true,
-        primary: false,
-        itemCount: state.cart.numberOfOrders(),
-        separatorBuilder: (context, index) {
-          return SizedBox(height: 15);
-        },
-        itemBuilder: (context, index) {
-          final order = state.cart.getOrderByIndex(index);
-          return Dismissible(
-              background: Container(
-                color: Theme.of(context).accentColor,
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Container(
-                      margin: const EdgeInsets.only(left: 16),
-                      child: Icon(
-                        Icons.delete,
-                        size: 24,
-                        color: Theme.of(context).primaryColor,
-                      )),
+      );
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(left: 20, right: 20),
+          child: Text(
+            'glisser pour supprimer des éléments',
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: Theme.of(context).textTheme.caption,
+          ),
+        ),
+        ListView.separated(
+          padding: EdgeInsets.symmetric(vertical: 15),
+          scrollDirection: Axis.vertical,
+          shrinkWrap: true,
+          primary: false,
+          itemCount: state.cart.numberOfOrders(),
+          separatorBuilder: (context, index) {
+            return SizedBox(height: 15);
+          },
+          itemBuilder: (context, index) {
+            final order = state.cart.getOrderByIndex(index);
+            return Dismissible(
+                background: Container(
+                  color: Theme.of(context).accentColor,
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Container(
+                        margin: const EdgeInsets.only(left: 16),
+                        child: Icon(
+                          Icons.delete,
+                          size: 24,
+                          color: Theme.of(context).primaryColor,
+                        )),
+                  ),
                 ),
-              ),
-              secondaryBackground: Container(
-                color: Theme.of(context).accentColor,
-                child: Align(
-                  alignment: Alignment.centerRight,
-                  child: Container(
-                      margin: const EdgeInsets.only(right: 16),
-                      child: Icon(
-                        Icons.delete,
-                        size: 24,
-                        color: Theme.of(context).primaryColor,
-                      )),
+                secondaryBackground: Container(
+                  color: Theme.of(context).accentColor,
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: Container(
+                        margin: const EdgeInsets.only(right: 16),
+                        child: Icon(
+                          Icons.delete,
+                          size: 24,
+                          color: Theme.of(context).primaryColor,
+                        )),
+                  ),
                 ),
-              ),
-              onDismissed: (direction) {
-                BlocProvider.of<CartBloc>(context)
-                    .add(OrderRemoved(order));
-                Scaffold.of(context).showSnackBar(SnackBar(
-                    backgroundColor:
-                    Theme.of(context).accentColor,
-                    content: Text(
-                        "Order ${order.menu.name + " " + order.variant.name} deleted",
-                        textAlign: TextAlign.start,
-                        style: TextStyle(
-                            color: Theme.of(context)
-                                .primaryColor))));
-                // Remove the item from the data source.
-              },
-              key: Key("${order.id}"),
-              child: CartItemWidget(
-                  order: order, heroTag: 'cart'));
-        },
-      ),
-    ],);
+                onDismissed: (direction) {
+                  BlocProvider.of<CartBloc>(context).add(OrderRemoved(order));
+                  Scaffold.of(context).showSnackBar(SnackBar(
+                      backgroundColor: Theme.of(context).accentColor,
+                      content: Text(
+                          "Order ${order.menu.name + " " + order.variant.name} deleted",
+                          textAlign: TextAlign.start,
+                          style: TextStyle(
+                              color: Theme.of(context).primaryColor))));
+                  // Remove the item from the data source.
+                },
+                key: Key("${order.id}"),
+                child: CartItemWidget(order: order, heroTag: 'cart'));
+          },
+        ),
+      ],
+    );
   }
+
   Widget _buildCartScreen() {
     return BlocConsumer<CartBloc, CartState>(
       listener: (context, state) {
@@ -138,7 +142,7 @@ class _CartWidgetState extends State<CartWidget> {
           return Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [LoadingIndicator(loadingText: "loading cart ...")],
+            children: [LoadingIndicator(loadingText: "chargement panier ...")],
           );
         }
         if (state is LoadedCartState) {
@@ -171,7 +175,7 @@ class _CartWidgetState extends State<CartWidget> {
                             style: Theme.of(context).textTheme.display1,
                           ),
                           subtitle: Text(
-                            'Verify your quantity and click checkout',
+                            'Vérifiez vos commandes et confirmez',
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: Theme.of(context).textTheme.caption,
@@ -206,16 +210,40 @@ class _CartWidgetState extends State<CartWidget> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisSize: MainAxisSize.max,
                       children: <Widget>[
+                        // Row(
+                        //   children: <Widget>[
+                        //     Expanded(
+                        //       child: Text(
+                        //         'Tax',
+                        //         style: Theme.of(context).textTheme.body2,
+                        //       ),
+                        //     ),
+                        //     Text(state.currentCartPrice.toString() + " DA",
+                        //         style: Theme.of(context).textTheme.subhead),
+                        //   ],
+                        // ),
+                        // Row(
+                        //   children: <Widget>[
+                        //     Expanded(
+                        //       child: Text(
+                        //         'Réduction',
+                        //         style: Theme.of(context).textTheme.body2,
+                        //       ),
+                        //     ),
+                        //     Text(state.currentCartPrice.toString() + " DA",
+                        //         style: Theme.of(context).textTheme.subhead),
+                        //   ],
+                        // ),
                         Row(
                           children: <Widget>[
                             Expanded(
                               child: Text(
                                 'Total',
-                                style: Theme.of(context).textTheme.body2,
+                                style: Theme.of(context).textTheme.display1,
                               ),
                             ),
                             Text(state.currentCartPrice.toString() + " DA",
-                                style: Theme.of(context).textTheme.subhead),
+                                style: Theme.of(context).textTheme.display3),
                           ],
                         ),
                         // Row(
@@ -248,7 +276,8 @@ class _CartWidgetState extends State<CartWidget> {
                                 disabledTextColor: Colors.black54,
                                 onPressed: numberOfOrders != 0
                                     ? () {
-                                        BlocProvider.of<DeliveryCubit>(context).initDelivery();
+                                        BlocProvider.of<DeliveryCubit>(context)
+                                            .initDelivery();
                                         Navigator.of(context)
                                             .pushNamed('/Checkout');
                                       }
@@ -258,26 +287,14 @@ class _CartWidgetState extends State<CartWidget> {
                                 shape: StadiumBorder(),
                                 child: Text(
                                   numberOfOrders != 0
-                                      ? 'Checkout'
-                                      : "Cart Empty",
+                                      ? 'Confirmer'
+                                      : "Panier Vide",
                                   textAlign: TextAlign.start,
                                   style: TextStyle(
                                       color: Theme.of(context).primaryColor),
                                 ),
                               ),
                             ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 20),
-                              child: Text(
-                                state.currentCartPrice.toString() + " DA",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .display1
-                                    .merge(TextStyle(
-                                        color: Theme.of(context).primaryColor)),
-                              ),
-                            )
                           ],
                         ),
                       ],

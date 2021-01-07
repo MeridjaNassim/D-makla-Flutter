@@ -117,7 +117,10 @@ class ToppingListImpl extends ToppingList {
 
   @override
   List<dynamic> toJson() {
-    return this._items.map((e) => e.id).toList();
+    return this._items.map((e) => {
+      "id" : e.id,
+      "name" : e.name
+    }).toList();
   }
 
 

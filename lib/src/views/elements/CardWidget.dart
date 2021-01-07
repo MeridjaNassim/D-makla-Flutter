@@ -1,9 +1,11 @@
+import 'package:dmakla_flutter/src/views/elements/common/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/blocs/store/menu.cubit.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/models/restaurant.dart';
-import 'package:restaurant_rlutter_ui/src/views/utils/image_handling.dart';
-
+import 'package:dmakla_flutter/src/business_logic/blocs/store/menu.cubit.dart';
+import 'package:dmakla_flutter/src/business_logic/models/restaurant.dart';
+import 'package:dmakla_flutter/src/views/elements/common/loading.dart';
+import 'package:dmakla_flutter/src/views/utils/image_handling.dart';
+import 'package:octo_image/octo_image.dart';
 class CardWidget extends StatelessWidget {
   Restaurant restaurant;
 
@@ -31,12 +33,11 @@ class CardWidget extends StatelessWidget {
             child: Container(
               width: 292,
               height: 150,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: getImageProvider(restaurant.image),
-                  fit: BoxFit.cover,
-                ),
-                borderRadius: BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10)),
+              child: OctoImage(
+                placeholderBuilder: (context)=> LoadingImage(size : 70),
+                errorBuilder: (context,obj,trace)=> Image(image: FAILED_TO_LOAD_FOOD_IMAGE),
+                fit: BoxFit.cover,
+                image: getImageProvider(restaurant.image),
               ),
             ),
           ),

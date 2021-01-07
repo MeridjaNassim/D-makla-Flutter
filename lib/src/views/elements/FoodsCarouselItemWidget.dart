@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/blocs/store/order.cubit.dart';
-import 'package:restaurant_rlutter_ui/src/business_logic/models/menu.dart';
-import 'package:restaurant_rlutter_ui/src/models/food.dart';
-import 'package:restaurant_rlutter_ui/src/models/route_argument.dart';
-import 'package:restaurant_rlutter_ui/src/views/utils/image_handling.dart';
+import 'package:dmakla_flutter/src/business_logic/blocs/store/order.cubit.dart';
+import 'package:dmakla_flutter/src/business_logic/models/menu.dart';
+import 'package:dmakla_flutter/src/models/food.dart';
+import 'package:dmakla_flutter/src/models/route_argument.dart';
+import 'package:dmakla_flutter/src/views/utils/image_handling.dart';
+import 'package:octo_image/octo_image.dart';
 
+import 'common/loading.dart';
 class FoodsCarouselItemWidget extends StatelessWidget {
   double marginLeft;
   Food food;
@@ -32,15 +34,18 @@ class FoodsCarouselItemWidget extends StatelessWidget {
           Stack(
             alignment: AlignmentDirectional.topEnd,
             children: <Widget>[
-              Hero(
-                tag: heroTag + menu.id,
-                child: Container(
-                  margin: EdgeInsets.only(left: this.marginLeft, right: 20),
-                  width: 100,
-                  height: 130,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(5)),
-                    image: DecorationImage(
+              ClipRRect(
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+                child: Hero(
+                  tag: heroTag + menu.id,
+                  child: Container(
+                    margin: EdgeInsets.only(left: this.marginLeft, right: 20),
+                    width: 100,
+                    height: 130,
+                    child: OctoImage(
+                      placeholderBuilder: (context)=> LoadingImage(),
+                      errorBuilder: (context,obj,trace)=> Image(image: NetworkImage("https://scontent-mrs2-2.xx.fbcdn.net/v/t1.0-9/122494003_105148951389175_3661855520522376578_n.jpg?_nc_cat=102&ccb=2&_nc_sid=09cbfe&_nc_eui2=AeFxcuRlac4GH3vpvnSMNWlJTwaMXICKbSVPBoxcgIptJfrGHjEXcfBlob9Lk5qIFCD9_84FZKPBIPxDzuh8-L_Z&_nc_ohc=GnQTehWWkuUAX9YpUPA&_nc_ht=scontent-mrs2-2.xx&oh=5b069011fd606cd7b3182cd228beb4f1&oe=600723C1"),
+                      ),
                       fit: BoxFit.cover,
                       image: getImageProvider(menu.image),
                     ),

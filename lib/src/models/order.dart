@@ -1,4 +1,4 @@
-import 'package:restaurant_rlutter_ui/src/models/food.dart';
+import 'package:dmakla_flutter/src/models/food.dart';
 
 class Order {
   String id;

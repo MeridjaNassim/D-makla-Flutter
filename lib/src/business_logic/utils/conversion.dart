@@ -1,4 +1,4 @@
-import 'package:restaurant_rlutter_ui/src/business_logic/utils/constants/wilaya.dart';
+import 'package:dmakla_flutter/src/business_logic/utils/constants/wilaya.dart';
 
 
 String convertWilayaStringToCode(String wilaya) => WILAYA_MAP.keys.firstWhere((element) => WILAYA_MAP[element] == wilaya,orElse: ()=> null);
