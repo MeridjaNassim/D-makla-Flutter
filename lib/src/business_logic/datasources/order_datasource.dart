@@ -69,15 +69,19 @@ class RemoteOrderDataSource extends OrderDataSource {
   @override
   Future<List<ConfirmedOrder>> getOrders(String userId) async {
     ///TODO : Change this to userId
-    final formData = {"user_id": "21"};
+    final formData = {"user_id": userId};
     final response = await http.post(history_orders, body: formData);
     final data = response.body;
     print(data);
     if (data.isEmpty) {
       ///TODO Handle Error no data in body
-      return [];
+      throw Exception("Une erreur est survenu");
     }
     final jsonDecoded = json.decode(data);
+    final error = jsonDecoded["error"];
+    if (error == "true") {
+      throw Exception(jsonDecoded["message"]);
+    }
     final items = jsonDecoded["HISTORY_MENU"];
 
     ConfirmedOrder _convertDataToConfirmedOrder(dynamic data) {

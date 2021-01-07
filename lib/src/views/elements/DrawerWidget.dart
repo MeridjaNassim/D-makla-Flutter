@@ -146,8 +146,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                     child: OctoImage(
                       progressIndicatorBuilder: (context, event) =>
                           LoadingImage(),
-                      image: NetworkImage(
-                          "https://img.apksum.com/3f/se.onlinepizza/5.19.1/icon.png"),
+                      image: AssetImage("img/dmakla-logo.png"),
                     ),
                   ));
             },

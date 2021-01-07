@@ -5,18 +5,16 @@ import 'package:dmakla/src/business_logic/models/order.dart';
 import 'package:dmakla/src/business_logic/models/user.dart';
 import 'package:dmakla/src/business_logic/repositories/order_repository.dart';
 import 'package:equatable/equatable.dart';
+
 abstract class OrdersState extends Equatable {
   @override
   // TODO: implement props
   List<Object> get props => null;
 }
-class InitialOrdersState extends OrdersState {
 
-}
+class InitialOrdersState extends OrdersState {}
 
-class LoadingOrdersState extends OrdersState {
-
-}
+class LoadingOrdersState extends OrdersState {}
 
 class LoadedOrdersState extends OrdersState {
   List<ConfirmedOrder> orders;
@@ -26,10 +24,11 @@ class LoadedOrdersState extends OrdersState {
   // TODO: implement props
   List<Object> get props => orders;
 }
-class ErrorOrdersState extends OrdersState {
- final String message;
 
- ErrorOrdersState(this.message);
+class ErrorOrdersState extends OrdersState {
+  final String message;
+
+  ErrorOrdersState(this.message);
   @override
   // TODO: implement props
   List<Object> get props => [message];
@@ -38,25 +37,27 @@ class ErrorOrdersState extends OrdersState {
 class OrdersCubit extends Cubit<OrdersState> {
   final AuthenticationBloc _authenticationBloc;
   final OrderRepository _orderRepository;
-  OrdersCubit(AuthenticationBloc authenticationBloc, OrderRepository orderRepository) :
-        assert(authenticationBloc != null),
+  OrdersCubit(
+      AuthenticationBloc authenticationBloc, OrderRepository orderRepository)
+      : assert(authenticationBloc != null),
         assert(orderRepository != null),
         this._authenticationBloc = authenticationBloc,
-      this._orderRepository = orderRepository,
+        this._orderRepository = orderRepository,
         super(InitialOrdersState());
 
-
-  Future<void> loadOrders() async{
+  Future<void> loadOrders() async {
     print("loading orders");
     emit(LoadingOrdersState());
-    AuthenticationAuthenticated authState ;
+    AuthenticationAuthenticated authState;
+
     /// try to cast authState to authenticated State
-    try{
+    try {
       authState = _authenticationBloc.state;
-    }catch (e) {
+    } catch (e) {
       emit(ErrorOrdersState("User Not Authenticated"));
-      return ;
+      return;
     }
+
     /// user is authenticated.
 
     /// perform the loading of the state.
@@ -64,17 +65,13 @@ class OrdersCubit extends Cubit<OrdersState> {
       List<ConfirmedOrder> orders = await _loadOrders(authState.user);
       print(orders);
       emit(LoadedOrdersState(orders));
-    }catch (e) {
+    } catch (e) {
       print(e);
       emit(ErrorOrdersState(e.message.toString()));
     }
-
-
   }
 
-
-  Future<List<ConfirmedOrder>> _loadOrders(User user){
+  Future<List<ConfirmedOrder>> _loadOrders(User user) {
     return _orderRepository.getOrders(user);
-    //throw UnimplementedError("implement orders");
   }
 }
