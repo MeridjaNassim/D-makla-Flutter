@@ -12,29 +12,25 @@ import 'package:dmakla_flutter/src/views/elements/BlockButtonWidget.dart';
 import 'package:dmakla_flutter/src/views/elements/common/loading.dart';
 
 class SignUpWidget extends StatefulWidget {
-
   @override
   _SignUpWidgetState createState() => _SignUpWidgetState();
 }
 
 class _SignUpWidgetState extends State<SignUpWidget> {
-
-
-
-
   @override
   Widget build(BuildContext context) {
-    return BlocListener<AuthenticationBloc,AuthenticationState>(
-      listener: (context,state){
-        if(state is AuthenticationAuthenticated) {
+    return BlocListener<AuthenticationBloc, AuthenticationState>(
+      listener: (context, state) {
+        if (state is AuthenticationAuthenticated) {
           print("authenticated from signup");
-          Timer(Duration(seconds: 1),(){
-            Navigator.of(context).pushReplacementNamed("/Pages",arguments: 2);
+          Timer(Duration(seconds: 1), () {
+            Navigator.of(context).pushReplacementNamed("/Pages", arguments: 2);
           });
         }
       },
       child: BlocProvider<SignUpBloc>(
-        create: (context)=> SignUpBloc(BlocProvider.of<AuthenticationBloc>(context)),
+        create: (context) =>
+            SignUpBloc(BlocProvider.of<AuthenticationBloc>(context)),
         child: Scaffold(
           body: SingleChildScrollView(
             child: Container(
@@ -48,41 +44,47 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                     child: Container(
                       width: config.App(context).appWidth(100),
                       height: config.App(context).appHeight(29.5),
-                      decoration: BoxDecoration(image: DecorationImage(
-                        image: AssetImage('img/food3.jpg'),
-                        fit: BoxFit.cover
-                      )),
+                      decoration: BoxDecoration(
+                          image: DecorationImage(
+                              image: AssetImage('img/food3.jpg'),
+                              fit: BoxFit.cover)),
                     ),
                   ),
-                  BlocBuilder<SignUpBloc,SignUpState>(
-                    builder: (context,state) {
-                      if(state is SigningUpState) {
-                        return Center(child: LoadingIndicator(loadingText: "Signing you up"));
+                  BlocBuilder<SignUpBloc, SignUpState>(
+                    builder: (context, state) {
+                      if (state is SigningUpState) {
+                        return Center(
+                            child: LoadingIndicator(
+                                loadingText: "Création de votre compte"));
                       }
-                      if(state is SignUpServerErrorState)
+                      if (state is SignUpServerErrorState)
                         return Center(
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
                                 state.message,
-                                style: Theme.of(context).textTheme.bodyText1.merge(
-                                    TextStyle(color: Theme.of(context).accentColor)),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyText1
+                                    .merge(TextStyle(
+                                        color: Theme.of(context).accentColor)),
                               ),
                               Container(
                                 margin: const EdgeInsets.only(top: 16),
                                 child: BlockButtonWidget(
                                   text: Text(
-                                    'Try again',
-                                    style: TextStyle(color: Theme.of(context).primaryColor),
+                                    'Essayer encore',
+                                    style: TextStyle(
+                                        color: Theme.of(context).primaryColor),
                                   ),
                                   color: Theme.of(context).accentColor,
-                                  onPressed: (){
-                                    BlocProvider.of<SignUpBloc>(context).add(RetryEvent());
+                                  onPressed: () {
+                                    BlocProvider.of<SignUpBloc>(context)
+                                        .add(RetryEvent());
                                   },
                                 ),
                               ),
-
                             ],
                           ),
                         );
@@ -91,7 +93,8 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                           child: Text(
                             'Welcome to D-makla ${state.user.fullName}',
                             style: Theme.of(context).textTheme.bodyText1.merge(
-                                TextStyle(color: Theme.of(context).accentColor)),
+                                TextStyle(
+                                    color: Theme.of(context).accentColor)),
                           ),
                         );
                       }
@@ -114,7 +117,6 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                   //   },
                   //   child: Container(height: 0, width: 0,),
                   // ),
-
                 ],
               ),
             ),
@@ -124,7 +126,6 @@ class _SignUpWidgetState extends State<SignUpWidget> {
     );
   }
 }
-
 
 class SignUpForm extends StatefulWidget {
   @override
@@ -151,6 +152,7 @@ class _SignUpFormState extends State<SignUpForm> {
     _passwordController = TextEditingController();
     _resetValues();
   }
+
   @override
   void dispose() {
     // TODO: implement dispose
@@ -159,33 +161,40 @@ class _SignUpFormState extends State<SignUpForm> {
     _phoneController.dispose();
     _passwordController.dispose();
   }
-  void _resetValues(){
+
+  void _resetValues() {
     showPassword = false;
-    _selectedWilaya =DEFAULT_WILAYA_DROPDOWN;
+    _selectedWilaya = DEFAULT_WILAYA_DROPDOWN;
     _userFullName = '';
     _selectedCountryCode = '';
     _mobileNumber = '';
     _password = '';
-
-
   }
-  void _clearFields(){
+
+  void _clearFields() {
     _nameController.clear();
     _passwordController.clear();
     _phoneController.clear();
   }
-  void dispatchSignup(){
+
+  void dispatchSignup() {
     print(_userFullName);
     print(_mobileNumber);
     print(_password);
-    BlocProvider.of<SignUpBloc>(context).add(StartSignUpEvent(fullName: _userFullName, phoneNumber: _mobileNumber, countryCode: _selectedCountryCode, wilaya: _selectedWilaya, password: _password));
-
+    BlocProvider.of<SignUpBloc>(context).add(StartSignUpEvent(
+        fullName: _userFullName,
+        phoneNumber: _mobileNumber,
+        countryCode: _selectedCountryCode,
+        wilaya: _selectedWilaya,
+        password: _password));
   }
-  void _togglePassword(){
+
+  void _togglePassword() {
     this.setState(() {
       showPassword = !showPassword;
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -204,40 +213,50 @@ class _SignUpFormState extends State<SignUpForm> {
       padding: EdgeInsets.symmetric(vertical: 50, horizontal: 27),
       width: config.App(context).appWidth(88),
 //              height: config.App(context).appHeight(55),
-      child: BlocBuilder<SignUpBloc,SignUpState>(
-        builder:(context,state)=> Column(
+      child: BlocBuilder<SignUpBloc, SignUpState>(
+        builder: (context, state) => Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Container(
               margin: const EdgeInsets.only(bottom: 40),
               child: Text(
-                'Signup to D-makla!',
-                style: Theme.of(context).textTheme.display3.merge(TextStyle(color: Theme.of(context).accentColor)),
+                'S\'inscrire à D-makla!',
+                style: Theme.of(context)
+                    .textTheme
+                    .display3
+                    .merge(TextStyle(color: Theme.of(context).accentColor)),
               ),
             ),
             TextField(
-              controller: _nameController ,
+              controller: _nameController,
               keyboardType: TextInputType.name,
-              onChanged: (value){
+              onChanged: (value) {
                 this.setState(() {
                   _userFullName = value;
                 });
               },
               decoration: InputDecoration(
-                labelText: "Full Name",
+                labelText: "Nom complet",
                 labelStyle: TextStyle(color: Theme.of(context).accentColor),
-                errorText: (state is SignUpInputValidationErrorState) ? state.fullNameError : null,
+                errorText: (state is SignUpInputValidationErrorState)
+                    ? state.fullNameError
+                    : null,
                 contentPadding: EdgeInsets.all(12),
-                hintText: 'Miral Mia',
-                hintStyle: TextStyle(color: Theme.of(context).focusColor.withOpacity(0.7)),
-                prefixIcon: Icon(Icons.person_outline, color: Theme.of(context).accentColor),
+                hintText: 'Joe Doe',
+                hintStyle: TextStyle(
+                    color: Theme.of(context).focusColor.withOpacity(0.7)),
+                prefixIcon: Icon(Icons.person_outline,
+                    color: Theme.of(context).accentColor),
                 border: OutlineInputBorder(
-                    borderSide: BorderSide(color: Theme.of(context).focusColor.withOpacity(0.2))),
+                    borderSide: BorderSide(
+                        color: Theme.of(context).focusColor.withOpacity(0.2))),
                 focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Theme.of(context).focusColor.withOpacity(0.5))),
+                    borderSide: BorderSide(
+                        color: Theme.of(context).focusColor.withOpacity(0.5))),
                 enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Theme.of(context).focusColor.withOpacity(0.2))),
+                    borderSide: BorderSide(
+                        color: Theme.of(context).focusColor.withOpacity(0.2))),
               ),
             ),
             SizedBox(height: 30),
@@ -247,11 +266,17 @@ class _SignUpFormState extends State<SignUpForm> {
                 iconSize: 24,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(
-                      borderSide: BorderSide(color: Theme.of(context).focusColor.withOpacity(0.2))),
+                      borderSide: BorderSide(
+                          color:
+                              Theme.of(context).focusColor.withOpacity(0.2))),
                   focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Theme.of(context).focusColor.withOpacity(0.5))),
+                      borderSide: BorderSide(
+                          color:
+                              Theme.of(context).focusColor.withOpacity(0.5))),
                   enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Theme.of(context).focusColor.withOpacity(0.2))),
+                      borderSide: BorderSide(
+                          color:
+                              Theme.of(context).focusColor.withOpacity(0.2))),
                 ),
                 elevation: 16,
                 style: TextStyle(color: Theme.of(context).accentColor),
@@ -260,11 +285,16 @@ class _SignUpFormState extends State<SignUpForm> {
                     _selectedWilaya = newValue;
                   });
                 },
-                items: WILAYA_MAP.values.toList()
+                items: WILAYA_MAP.values
+                    .toList()
                     .map<DropdownMenuItem<String>>((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
-                    child: Text(value, textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.w700),),
+                    child: Text(
+                      value,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontWeight: FontWeight.w700),
+                    ),
                   );
                 }).toList()),
             SizedBox(height: 30),
@@ -315,25 +345,32 @@ class _SignUpFormState extends State<SignUpForm> {
             TextField(
               controller: _phoneController,
               keyboardType: TextInputType.phone,
-              onChanged: (value){
+              onChanged: (value) {
                 this.setState(() {
                   _mobileNumber = value;
                 });
               },
               decoration: InputDecoration(
-                labelText: "Mobile No.",
+                labelText: "No. Mobile",
                 labelStyle: TextStyle(color: Theme.of(context).accentColor),
-                errorText: (state is SignUpInputValidationErrorState) ? state.phoneNumberError : null,
+                errorText: (state is SignUpInputValidationErrorState)
+                    ? state.phoneNumberError
+                    : null,
                 contentPadding: EdgeInsets.all(12),
                 hintText: '0123456789',
-                hintStyle: TextStyle(color: Theme.of(context).focusColor.withOpacity(0.7)),
-                prefixIcon: Icon(Icons.phone, color: Theme.of(context).accentColor),
+                hintStyle: TextStyle(
+                    color: Theme.of(context).focusColor.withOpacity(0.7)),
+                prefixIcon:
+                    Icon(Icons.phone, color: Theme.of(context).accentColor),
                 border: OutlineInputBorder(
-                    borderSide: BorderSide(color: Theme.of(context).focusColor.withOpacity(0.2))),
+                    borderSide: BorderSide(
+                        color: Theme.of(context).focusColor.withOpacity(0.2))),
                 focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Theme.of(context).focusColor.withOpacity(0.5))),
+                    borderSide: BorderSide(
+                        color: Theme.of(context).focusColor.withOpacity(0.5))),
                 enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Theme.of(context).focusColor.withOpacity(0.2))),
+                    borderSide: BorderSide(
+                        color: Theme.of(context).focusColor.withOpacity(0.2))),
               ),
             ),
             SizedBox(height: 30),
@@ -341,32 +378,43 @@ class _SignUpFormState extends State<SignUpForm> {
               keyboardType: TextInputType.text,
               controller: _passwordController,
               obscureText: !showPassword,
-              onChanged: (value){
+              onChanged: (value) {
                 this.setState(() {
                   _password = value;
                 });
               },
               decoration: InputDecoration(
-                labelText: "Password",
+                labelText: "Mot de passe",
                 labelStyle: TextStyle(color: Theme.of(context).accentColor),
-                errorText: (state is SignUpInputValidationErrorState) ? state.passwordError : null,
+                errorText: (state is SignUpInputValidationErrorState)
+                    ? state.passwordError
+                    : null,
                 contentPadding: EdgeInsets.all(12),
                 hintText: '••••••••••••',
-                hintStyle: TextStyle(color: Theme.of(context).focusColor.withOpacity(0.7)),
-                prefixIcon: Icon(Icons.lock_outline, color: Theme.of(context).accentColor),
-                suffixIcon: IconButton(icon: Icon(Icons.remove_red_eye, color: Theme.of(context).focusColor), onPressed: _togglePassword,),
+                hintStyle: TextStyle(
+                    color: Theme.of(context).focusColor.withOpacity(0.7)),
+                prefixIcon: Icon(Icons.lock_outline,
+                    color: Theme.of(context).accentColor),
+                suffixIcon: IconButton(
+                  icon: Icon(Icons.remove_red_eye,
+                      color: Theme.of(context).focusColor),
+                  onPressed: _togglePassword,
+                ),
                 border: OutlineInputBorder(
-                    borderSide: BorderSide(color: Theme.of(context).focusColor.withOpacity(0.2))),
+                    borderSide: BorderSide(
+                        color: Theme.of(context).focusColor.withOpacity(0.2))),
                 focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Theme.of(context).focusColor.withOpacity(0.5))),
+                    borderSide: BorderSide(
+                        color: Theme.of(context).focusColor.withOpacity(0.5))),
                 enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Theme.of(context).focusColor.withOpacity(0.2))),
+                    borderSide: BorderSide(
+                        color: Theme.of(context).focusColor.withOpacity(0.2))),
               ),
             ),
             SizedBox(height: 30),
             BlockButtonWidget(
               text: Text(
-                'Sign up',
+                'S\'inscrire',
                 style: TextStyle(color: Theme.of(context).primaryColor),
               ),
               color: Theme.of(context).accentColor,
@@ -375,11 +423,13 @@ class _SignUpFormState extends State<SignUpForm> {
             SizedBox(height: 10),
             FlatButton(
               onPressed: () {
-                if(Navigator.canPop(context)) Navigator.of(context).pop();
-                else Navigator.of(context).pushNamed('/Login');
+                if (Navigator.canPop(context))
+                  Navigator.of(context).pop();
+                else
+                  Navigator.of(context).pushNamed('/Login');
               },
               textColor: Theme.of(context).hintColor,
-              child: Text('I have account? Back to login'),
+              child: Text('J\'ai un compte, se connecter'),
             ),
           ],
         ),
