@@ -66,7 +66,8 @@ DmaklaApp createApp() {
   final deliveryRepository = DeliveryRepositoryImpl(
       remoteDeliveryDataSource: remoteDeliveryDataSource);
   final menuRepository = MenuRepositoryImpl(menuDataSource);
-
+  SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(statusBarColor: Colors.transparent));
   return DmaklaApp(
     categoryRepository: categoryRepository,
     menuRepository: menuRepository,

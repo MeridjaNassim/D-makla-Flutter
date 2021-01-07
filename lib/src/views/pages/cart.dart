@@ -4,7 +4,6 @@ import 'package:dmakla_flutter/src/business_logic/blocs/cart/cart.bloc.dart';
 import 'package:dmakla_flutter/src/business_logic/blocs/cart/cart.event.dart';
 import 'package:dmakla_flutter/src/business_logic/blocs/cart/cart.state.dart';
 import 'package:dmakla_flutter/src/business_logic/blocs/delivery/delivery.cubit.dart';
-import 'package:dmakla_flutter/src/models/food.dart';
 import 'package:dmakla_flutter/src/views/elements/CartItemWidget.dart';
 import 'package:dmakla_flutter/src/views/elements/common/loading.dart';
 
@@ -19,6 +18,7 @@ class _CartWidgetState extends State<CartWidget> {
     // TODO: implement build
     return Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(color: Theme.of(context).accentColor),
         actions: [
           IconButton(
             icon: Icon(

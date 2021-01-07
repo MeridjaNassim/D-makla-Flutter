@@ -11,6 +11,7 @@ class DeliveryScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
+        iconTheme: IconThemeData(color: Theme.of(context).accentColor),
         elevation: 0,
         centerTitle: true,
         title: Text(

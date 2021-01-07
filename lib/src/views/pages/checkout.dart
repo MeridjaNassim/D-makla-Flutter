@@ -636,7 +636,7 @@ class _CheckoutWidgetState extends State<CheckoutWidget> {
       return Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [LoadingIndicator(loadingText: "loading delivery ...")],
+        children: [LoadingIndicator(loadingText: "chargement livraison ...")],
       );
     });
   }
@@ -647,10 +647,11 @@ class _CheckoutWidgetState extends State<CheckoutWidget> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
+        iconTheme: IconThemeData(color: Theme.of(context).accentColor),
         elevation: 0,
         centerTitle: true,
         title: Text(
-          'Confirmation commande',
+          'Livraison',
           style: Theme.of(context)
               .textTheme
               .title

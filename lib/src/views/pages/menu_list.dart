@@ -79,7 +79,7 @@ import 'package:dmakla_flutter/src/views/elements/common/loading.dart';
 
 class MenuWidget extends StatelessWidget {
   String _getTitleText(MenuState state) {
-    if (state is MenuStateLoading) return "loading";
+    if (state is MenuStateLoading) return "chargement...";
     if (state is MenuByCategoryStateReady)
       return "Categorie: " + state.category.name;
     if (state is MenuByRestaurantStateReady)
