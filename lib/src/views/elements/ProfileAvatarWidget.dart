@@ -56,10 +56,10 @@ class ProfileAvatarWidget extends StatelessWidget {
               state.user.fullName,
               style: Theme.of(context).textTheme.headline,
             ),
-            Text(
-              state.user.wilaya.name ?? "wilaya non spécifié",
-              style: Theme.of(context).textTheme.caption,
-            ),
+            // Text(
+            //   state.user.wilaya.name ?? "wilaya non spécifié",
+            //   style: Theme.of(context).textTheme.caption,
+            // ),
           ],
         );
       }

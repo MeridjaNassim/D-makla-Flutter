@@ -136,7 +136,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             onTap: () {
               showAboutDialog(
                   context: context,
-                  applicationVersion: "0.1.0",
+                  applicationVersion: "0.9.0 - beta",
                   applicationName: "D-makla",
                   applicationLegalese:
                       "Service de livraison de nourritures par Sirius Net",
@@ -176,7 +176,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
           ListTile(
             dense: true,
             title: Text(
-              "Version 0.0.1",
+              "Version 0.9.0 - beta",
               style: Theme.of(context).textTheme.body1,
             ),
             trailing: Icon(
