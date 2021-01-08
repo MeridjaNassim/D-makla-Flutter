@@ -1,4 +1,6 @@
+import 'package:dmakla/src/core/connectivity.dart';
 import 'package:dmakla/src/views/elements/common/widgets.dart';
+import 'package:dmakla/src/views/utils/connectivity_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lazy_load_refresh_indicator/lazy_load_refresh_indicator.dart';
@@ -258,7 +260,15 @@ class MenuWidget extends StatelessWidget {
         ],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-      body: BlocBuilder<MenuCubit, MenuState>(builder: _buildMenus),
+      body: BlocListener<ConnectivityCubit, ConnectivityState>(
+          listener: (context, state) {
+            if (!state.isConnected) {
+              showConnectivityWidget(context, () {});
+            } else {
+              Navigator.of(context).pop();
+            }
+          },
+          child: BlocBuilder<MenuCubit, MenuState>(builder: _buildMenus)),
     );
   }
 

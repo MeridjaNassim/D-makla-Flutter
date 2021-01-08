@@ -189,8 +189,14 @@ class DeliveryCubit extends Cubit<DeliveryState> {
   void confirmDelivery({ConfirmDeliveryPayload payload}) async {
     GeoLocalisationPosition position;
     if (payload.useGpsPosition) {
-      position = await geoLocalisationService.getCurrentPosition();
-      print("position:" + position.toString());
+      try {
+        position = await geoLocalisationService.getCurrentPosition();
+        print("position:" + position.toString());
+      } catch (e) {
+        emit(RejectedDeliveryState(
+            "Permission de localisation désactivé, veuillez la réactiver"));
+        return initDelivery();
+      }
     }
     final authState = _authenticationBloc.state;
     if (authState is AuthenticationAuthenticated) {
@@ -208,7 +214,9 @@ class DeliveryCubit extends Cubit<DeliveryState> {
             additionalInfo: AdditionalDataPayload.fromConfirmDeliveryPayload(
                 payload: payload, position: position));
         emit(ApprovedDeliveryState(confirmation));
+        print("hello");
       } catch (e) {
+        print(e);
         emit(RejectedDeliveryState(e));
       }
     }

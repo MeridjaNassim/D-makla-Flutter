@@ -1,3 +1,4 @@
+import 'package:dmakla/src/views/utils/connectivity_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dmakla/src/business_logic/blocs/cart/cart.bloc.dart';
@@ -6,6 +7,7 @@ import 'package:dmakla/src/business_logic/blocs/cart/cart.state.dart';
 import 'package:dmakla/src/business_logic/blocs/delivery/delivery.cubit.dart';
 import 'package:dmakla/src/views/elements/CartItemWidget.dart';
 import 'package:dmakla/src/views/elements/common/loading.dart';
+import 'package:dmakla/src/core/connectivity.dart';
 
 class CartWidget extends StatefulWidget {
   @override
@@ -167,7 +169,7 @@ class _CartWidgetState extends State<CartWidget> {
                             color: Theme.of(context).hintColor,
                           ),
                           title: Text(
-                            'Shopping Cart',
+                            'Panier',
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: Theme.of(context).textTheme.display1,
@@ -240,7 +242,9 @@ class _CartWidgetState extends State<CartWidget> {
                                 style: Theme.of(context).textTheme.display1,
                               ),
                             ),
-                            Text(state.currentCartPrice.toString() + " DA",
+                            Text(
+                                state.currentCartPrice.toInt().toString() +
+                                    " DA",
                                 style: Theme.of(context).textTheme.display3),
                           ],
                         ),
@@ -274,10 +278,18 @@ class _CartWidgetState extends State<CartWidget> {
                                 disabledTextColor: Colors.black54,
                                 onPressed: numberOfOrders != 0
                                     ? () {
-                                        BlocProvider.of<DeliveryCubit>(context)
-                                            .initDelivery();
-                                        Navigator.of(context)
-                                            .pushNamed('/Checkout');
+                                        final connectivity =
+                                            BlocProvider.of<ConnectivityCubit>(
+                                                context);
+                                        if (connectivity.state.isConnected) {
+                                          BlocProvider.of<DeliveryCubit>(
+                                                  context)
+                                              .initDelivery();
+                                          Navigator.of(context)
+                                              .pushNamed('/Checkout');
+                                          return;
+                                        }
+                                        showConnectivityWidget(context, () {});
                                       }
                                     : null,
                                 padding: EdgeInsets.symmetric(vertical: 14),

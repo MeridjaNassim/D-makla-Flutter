@@ -1,7 +1,10 @@
 import 'dart:async';
 
+import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:dmakla/src/views/elements/common/loading.dart';
+import 'package:dmakla/src/views/utils/connectivity_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dmakla/src/business_logic/blocs/auth/auth.bloc.dart';
 import 'package:dmakla/src/business_logic/blocs/auth/auth.event.dart';
@@ -22,8 +25,27 @@ class _SplashScreenState extends State<SplashScreen> {
 
   Future<void> start() async {
     print("starting app");
-    Timer(Duration(seconds: 2), () {
+    bool canUse = await tryUseApplication();
+    if (!canUse) {
+      _showNoInternetDialog();
+    }
+  }
+
+  Future<bool> tryUseApplication() async {
+    bool result = await DataConnectionChecker().hasConnection;
+    if (result == true) {
       BlocProvider.of<AuthenticationBloc>(context).add(AppLoaded());
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  void _showNoInternetDialog() {
+    // dialog implementation
+    showConnectivityWidget(context, () {
+      Navigator.of(context).pop();
+      start();
     });
   }
 

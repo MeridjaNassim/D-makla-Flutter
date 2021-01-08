@@ -11,12 +11,12 @@ import 'package:dmakla/src/views/pages/pages.dart';
 import 'package:dmakla/src/views/pages/signup.dart';
 import 'package:dmakla/src/views/pages/splash.dart';
 import 'package:dmakla/src/views/pages/order_detail.dart';
+import 'package:flutter/services.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     // Getting arguments passed in while calling Navigator.pushNamed
     final args = settings.arguments;
-
     switch (settings.name) {
       case "/":
         return MaterialPageRoute(builder: (_) => SplashScreen());
