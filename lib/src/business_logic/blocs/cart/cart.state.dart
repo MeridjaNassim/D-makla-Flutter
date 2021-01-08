@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:dmakla_flutter/src/business_logic/models/cart.dart';
+import 'package:dmakla/src/business_logic/models/cart.dart';
 
 abstract class CartState extends Equatable {
   final String name;

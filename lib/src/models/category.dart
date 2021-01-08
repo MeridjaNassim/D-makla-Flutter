@@ -1,6 +1,6 @@
 
 
-import 'package:dmakla_flutter/src/business_logic/models/category.dart';
+import 'package:dmakla/src/business_logic/models/category.dart';
 
 class CategoriesList {
   List<Category> _categoriesList;

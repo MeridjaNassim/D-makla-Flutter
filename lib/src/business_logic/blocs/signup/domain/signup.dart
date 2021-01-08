@@ -1,5 +1,6 @@
-import 'package:dmakla_flutter/src/business_logic/models/common/wilaya.dart';
-import 'package:dmakla_flutter/src/business_logic/models/user.dart';
+import 'package:dmakla/src/business_logic/models/common/wilaya.dart';
+import 'package:dmakla/src/business_logic/models/user.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -24,17 +25,16 @@ class SignUpManager {
       "mobile": phoneNumber,
       "city_id": wilayaCode
     };
-
+    final env = DotEnv().env;
     final http.Response response =
-        await http.post(signup_url_dev2, body: formData);
+        await http.post(env["SIGNUP_ENDPOINT"], body: formData);
     if (response.body.isEmpty) return null;
     final Map<String, dynamic> decodedBody = json.decode(response.body);
     Map<String, dynamic> data = decodedBody[RES_ATR];
     if (data == null) return null;
-    if (data["error"] == "true")
-       {
-         throw Exception(data["message"]);
-       }
+    if (data["error"] == "true") {
+      throw Exception(data["message"]);
+    }
 
     ///TODO : add other fields to user object
     User user = User(
@@ -42,8 +42,7 @@ class SignUpManager {
         fullName: data["name"],
         phoneNumber: data["mobile"],
         email: data["email"],
-        wilaya: Wilaya(code: data["city_id"])
-    );
+        wilaya: Wilaya(code: data["city_id"]));
     return user;
   }
 }

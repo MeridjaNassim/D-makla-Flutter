@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:dmakla_flutter/src/business_logic/blocs/cart/cart.bloc.dart';
-import 'package:dmakla_flutter/src/business_logic/blocs/cart/cart.event.dart';
-import 'package:dmakla_flutter/src/business_logic/blocs/cart/cart.state.dart';
-import 'package:dmakla_flutter/src/business_logic/blocs/delivery/delivery.cubit.dart';
-import 'package:dmakla_flutter/src/models/food.dart';
-import 'package:dmakla_flutter/src/views/elements/CartItemWidget.dart';
-import 'package:dmakla_flutter/src/views/elements/common/loading.dart';
+import 'package:dmakla/src/business_logic/blocs/cart/cart.bloc.dart';
+import 'package:dmakla/src/business_logic/blocs/cart/cart.event.dart';
+import 'package:dmakla/src/business_logic/blocs/cart/cart.state.dart';
+import 'package:dmakla/src/business_logic/blocs/delivery/delivery.cubit.dart';
+import 'package:dmakla/src/views/elements/CartItemWidget.dart';
+import 'package:dmakla/src/views/elements/common/loading.dart';
 
 class CartWidget extends StatefulWidget {
   @override
@@ -17,35 +16,34 @@ class _CartWidgetState extends State<CartWidget> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          actions: [
-            IconButton(
-              icon: Icon(
-                Icons.refresh,
-                color: Theme.of(context).accentColor,
-              ),
-              tooltip: "vider panier",
-              splashRadius: 10,
-              onPressed: () {
-                BlocProvider.of<CartBloc>(context).add(CartCleared());
-              },
-            )
-          ],
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          centerTitle: true,
-          title: Text(
-            'Panier',
-            style: Theme.of(context)
-                .textTheme
-                .title
-                .merge(TextStyle(letterSpacing: 1.3)),
-          ),
+    return Scaffold(
+      appBar: AppBar(
+        iconTheme: IconThemeData(color: Theme.of(context).accentColor),
+        actions: [
+          IconButton(
+            icon: Icon(
+              Icons.refresh,
+              color: Theme.of(context).accentColor,
+            ),
+            tooltip: "vider panier",
+            splashRadius: 10,
+            onPressed: () {
+              BlocProvider.of<CartBloc>(context).add(CartCleared());
+            },
+          )
+        ],
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        centerTitle: true,
+        title: Text(
+          'Panier',
+          style: Theme.of(context)
+              .textTheme
+              .title
+              .merge(TextStyle(letterSpacing: 1.3)),
         ),
-        body: _buildCartScreen(),
       ),
+      body: _buildCartScreen(),
     );
   }
 

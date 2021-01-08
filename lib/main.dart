@@ -1,31 +1,31 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:dmakla_flutter/src/business_logic/blocs/orders/orders.cubit.dart';
-import 'package:dmakla_flutter/src/views/blocs/tabNavigation.cubit.dart';
+import 'package:dmakla/src/business_logic/blocs/orders/orders.cubit.dart';
+import 'package:dmakla/src/views/blocs/tabNavigation.cubit.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:dmakla_flutter/config/app_config.dart' as config;
-import 'package:dmakla_flutter/route_generator.dart';
-import 'package:dmakla_flutter/src/business_logic/blocs/auth/auth.bloc.dart';
-import 'package:dmakla_flutter/src/business_logic/blocs/cart/cart.bloc.dart';
-import 'package:dmakla_flutter/src/business_logic/blocs/delivery/delivery.cubit.dart';
-import 'package:dmakla_flutter/src/business_logic/blocs/store/menu.cubit.dart';
-import 'package:dmakla_flutter/src/business_logic/blocs/store/order.cubit.dart';
-import 'package:dmakla_flutter/src/business_logic/blocs/store/restaurant.cubit.dart';
-import 'package:dmakla_flutter/src/business_logic/blocs/store/store.cubit.dart';
-import 'package:dmakla_flutter/src/business_logic/datasources/category_datasource.dart';
-import 'package:dmakla_flutter/src/business_logic/datasources/delivery_datasource.dart';
-import 'package:dmakla_flutter/src/business_logic/datasources/menu_datasource.dart';
-import 'package:dmakla_flutter/src/business_logic/datasources/order_datasource.dart';
-import 'package:dmakla_flutter/src/business_logic/datasources/restaurant_datasource.dart';
-import 'package:dmakla_flutter/src/business_logic/repositories/category_repository.dart';
-import 'package:dmakla_flutter/src/business_logic/repositories/delivery_repository.dart';
-import 'package:dmakla_flutter/src/business_logic/repositories/menu_repository.dart';
-import 'package:dmakla_flutter/src/business_logic/repositories/order_repository.dart';
-import 'package:dmakla_flutter/src/business_logic/repositories/restaurant_repository.dart';
-import 'package:dmakla_flutter/src/business_logic/services/auth.service.dart';
-import 'package:dmakla_flutter/src/business_logic/services/geolocalisation.service.dart';
+import 'package:dmakla/config/app_config.dart' as config;
+import 'package:dmakla/route_generator.dart';
+import 'package:dmakla/src/business_logic/blocs/auth/auth.bloc.dart';
+import 'package:dmakla/src/business_logic/blocs/cart/cart.bloc.dart';
+import 'package:dmakla/src/business_logic/blocs/delivery/delivery.cubit.dart';
+import 'package:dmakla/src/business_logic/blocs/store/menu.cubit.dart';
+import 'package:dmakla/src/business_logic/blocs/store/order.cubit.dart';
+import 'package:dmakla/src/business_logic/blocs/store/restaurant.cubit.dart';
+import 'package:dmakla/src/business_logic/blocs/store/store.cubit.dart';
+import 'package:dmakla/src/business_logic/datasources/category_datasource.dart';
+import 'package:dmakla/src/business_logic/datasources/delivery_datasource.dart';
+import 'package:dmakla/src/business_logic/datasources/menu_datasource.dart';
+import 'package:dmakla/src/business_logic/datasources/order_datasource.dart';
+import 'package:dmakla/src/business_logic/datasources/restaurant_datasource.dart';
+import 'package:dmakla/src/business_logic/repositories/category_repository.dart';
+import 'package:dmakla/src/business_logic/repositories/delivery_repository.dart';
+import 'package:dmakla/src/business_logic/repositories/menu_repository.dart';
+import 'package:dmakla/src/business_logic/repositories/order_repository.dart';
+import 'package:dmakla/src/business_logic/repositories/restaurant_repository.dart';
+import 'package:dmakla/src/business_logic/services/auth.service.dart';
+import 'package:dmakla/src/business_logic/services/geolocalisation.service.dart';
 
 const String API_ENDPOINTS = ".api_endpoints";
 
@@ -66,7 +66,8 @@ DmaklaApp createApp() {
   final deliveryRepository = DeliveryRepositoryImpl(
       remoteDeliveryDataSource: remoteDeliveryDataSource);
   final menuRepository = MenuRepositoryImpl(menuDataSource);
-
+  SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(statusBarColor: Colors.transparent));
   return DmaklaApp(
     categoryRepository: categoryRepository,
     menuRepository: menuRepository,

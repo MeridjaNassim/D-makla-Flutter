@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
-import 'package:dmakla_flutter/src/business_logic/repositories/user_repository.dart';
-import 'package:dmakla_flutter/src/business_logic/services/auth.service.dart';
+import 'package:dmakla/src/business_logic/repositories/user_repository.dart';
+import 'package:dmakla/src/business_logic/services/auth.service.dart';
 
 import 'auth.event.dart';
 import 'auth.state.dart';

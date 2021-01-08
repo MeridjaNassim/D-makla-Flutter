@@ -1,14 +1,14 @@
 import 'package:bloc/bloc.dart';
-import 'package:dmakla_flutter/src/business_logic/blocs/auth/auth.bloc.dart';
-import 'package:dmakla_flutter/src/business_logic/blocs/cart/cart.event.dart';
-import 'package:dmakla_flutter/src/business_logic/blocs/cart/cart.state.dart';
-import 'package:dmakla_flutter/src/business_logic/controllers/pricing.controller.dart';
-import 'package:dmakla_flutter/src/business_logic/models/cart.dart';
-import 'package:dmakla_flutter/src/business_logic/models/menu.dart';
-import 'package:dmakla_flutter/src/business_logic/models/order.dart';
-import 'package:dmakla_flutter/src/business_logic/models/topping.dart';
-import 'package:dmakla_flutter/src/business_logic/models/variant.dart';
-import 'package:dmakla_flutter/src/business_logic/repositories/menu_repository.dart';
+import 'package:dmakla/src/business_logic/blocs/auth/auth.bloc.dart';
+import 'package:dmakla/src/business_logic/blocs/cart/cart.event.dart';
+import 'package:dmakla/src/business_logic/blocs/cart/cart.state.dart';
+import 'package:dmakla/src/business_logic/controllers/pricing.controller.dart';
+import 'package:dmakla/src/business_logic/models/cart.dart';
+import 'package:dmakla/src/business_logic/models/menu.dart';
+import 'package:dmakla/src/business_logic/models/order.dart';
+import 'package:dmakla/src/business_logic/models/topping.dart';
+import 'package:dmakla/src/business_logic/models/variant.dart';
+import 'package:dmakla/src/business_logic/repositories/menu_repository.dart';
 
 class CartBloc extends Bloc<CartEvent,CartState> {
   final AuthenticationBloc _authenticationBloc;

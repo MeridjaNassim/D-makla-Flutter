@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
-import 'package:dmakla_flutter/src/business_logic/models/menu.dart';
-import 'package:dmakla_flutter/src/business_logic/models/topping.dart';
-import 'package:dmakla_flutter/src/business_logic/models/variant.dart';
+import 'package:dmakla/src/business_logic/models/menu.dart';
+import 'package:dmakla/src/business_logic/models/topping.dart';
+import 'package:dmakla/src/business_logic/models/variant.dart';
 
 class OrderedMenuData {
   final String menuName;

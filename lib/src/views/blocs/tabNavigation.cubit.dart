@@ -1,5 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:dmakla_flutter/src/views/constants/navigation.dart';
+import 'package:dmakla/src/views/constants/navigation.dart';
 import 'package:equatable/equatable.dart';
 
 class TabNavigationState extends Equatable{

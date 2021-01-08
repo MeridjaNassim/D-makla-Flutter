@@ -1,6 +1,6 @@
-import 'package:dmakla_flutter/src/business_logic/blocs/auth/auth.bloc.dart';
-import 'package:dmakla_flutter/src/business_logic/blocs/auth/auth.state.dart';
-import 'package:dmakla_flutter/src/views/elements/common/widgets.dart';
+import 'package:dmakla/src/business_logic/blocs/auth/auth.bloc.dart';
+import 'package:dmakla/src/business_logic/blocs/auth/auth.state.dart';
+import 'package:dmakla/src/views/elements/common/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -56,10 +56,10 @@ class ProfileAvatarWidget extends StatelessWidget {
               state.user.fullName,
               style: Theme.of(context).textTheme.headline,
             ),
-            Text(
-              state.user.wilaya.name ?? "wilaya non spécifié",
-              style: Theme.of(context).textTheme.caption,
-            ),
+            // Text(
+            //   state.user.wilaya.name ?? "wilaya non spécifié",
+            //   style: Theme.of(context).textTheme.caption,
+            // ),
           ],
         );
       }

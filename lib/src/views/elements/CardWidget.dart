@@ -1,10 +1,10 @@
-import 'package:dmakla_flutter/src/views/elements/common/widgets.dart';
+import 'package:dmakla/src/views/elements/common/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:dmakla_flutter/src/business_logic/blocs/store/menu.cubit.dart';
-import 'package:dmakla_flutter/src/business_logic/models/restaurant.dart';
-import 'package:dmakla_flutter/src/views/elements/common/loading.dart';
-import 'package:dmakla_flutter/src/views/utils/image_handling.dart';
+import 'package:dmakla/src/business_logic/blocs/store/menu.cubit.dart';
+import 'package:dmakla/src/business_logic/models/restaurant.dart';
+import 'package:dmakla/src/views/elements/common/loading.dart';
+import 'package:dmakla/src/views/utils/image_handling.dart';
 import 'package:octo_image/octo_image.dart';
 class CardWidget extends StatelessWidget {
   Restaurant restaurant;

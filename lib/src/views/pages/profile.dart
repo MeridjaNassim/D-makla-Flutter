@@ -1,9 +1,9 @@
-import 'package:dmakla_flutter/src/business_logic/blocs/auth/auth.bloc.dart';
-import 'package:dmakla_flutter/src/business_logic/blocs/auth/auth.state.dart';
+import 'package:dmakla/src/business_logic/blocs/auth/auth.bloc.dart';
+import 'package:dmakla/src/business_logic/blocs/auth/auth.state.dart';
 import 'package:flutter/material.dart';
-import 'package:dmakla_flutter/src/models/order.dart';
-import 'package:dmakla_flutter/src/views/elements/OrderItemWidget.dart';
-import 'package:dmakla_flutter/src/views/elements/ProfileAvatarWidget.dart';
+import 'package:dmakla/src/models/order.dart';
+import 'package:dmakla/src/views/elements/OrderItemWidget.dart';
+import 'package:dmakla/src/views/elements/ProfileAvatarWidget.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProfileWidget extends StatelessWidget {

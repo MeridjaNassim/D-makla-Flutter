@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:dmakla_flutter/src/business_logic/models/common/image.dart' as businessImage;
+import 'package:dmakla/src/business_logic/models/common/image.dart' as businessImage;
 ImageProvider getImageProvider(businessImage.Image image){
   if(image == null) return null;
   if( image is businessImage.NetworkImage) return NetworkImage(image.url);

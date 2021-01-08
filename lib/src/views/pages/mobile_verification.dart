@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:dmakla_flutter/config/app_config.dart' as config;
-import 'package:dmakla_flutter/src/views/elements/BlockButtonWidget.dart';
+import 'package:dmakla/config/app_config.dart' as config;
+import 'package:dmakla/src/views/elements/BlockButtonWidget.dart';
 
 class MobileVerification extends StatelessWidget {
   @override

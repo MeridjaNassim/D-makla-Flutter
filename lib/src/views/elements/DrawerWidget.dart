@@ -1,12 +1,12 @@
-import 'package:dmakla_flutter/src/views/blocs/tabNavigation.cubit.dart';
-import 'package:dmakla_flutter/src/views/constants/navigation.dart';
-import 'package:dmakla_flutter/src/views/elements/common/loading.dart';
+import 'package:dmakla/src/views/blocs/tabNavigation.cubit.dart';
+import 'package:dmakla/src/views/constants/navigation.dart';
+import 'package:dmakla/src/views/elements/common/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:dmakla_flutter/src/business_logic/blocs/auth/auth.bloc.dart';
-import 'package:dmakla_flutter/src/business_logic/blocs/auth/auth.event.dart';
-import 'package:dmakla_flutter/src/business_logic/blocs/auth/auth.state.dart';
-import 'package:dmakla_flutter/src/business_logic/models/user.dart';
+import 'package:dmakla/src/business_logic/blocs/auth/auth.bloc.dart';
+import 'package:dmakla/src/business_logic/blocs/auth/auth.event.dart';
+import 'package:dmakla/src/business_logic/blocs/auth/auth.state.dart';
+import 'package:dmakla/src/business_logic/models/user.dart';
 import 'package:octo_image/octo_image.dart';
 
 class DrawerWidget extends StatefulWidget {
@@ -136,7 +136,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             onTap: () {
               showAboutDialog(
                   context: context,
-                  applicationVersion: "0.1.0",
+                  applicationVersion: "0.9.0 - beta",
                   applicationName: "D-makla",
                   applicationLegalese:
                       "Service de livraison de nourritures par Sirius Net",
@@ -146,8 +146,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                     child: OctoImage(
                       progressIndicatorBuilder: (context, event) =>
                           LoadingImage(),
-                      image: NetworkImage(
-                          "https://img.apksum.com/3f/se.onlinepizza/5.19.1/icon.png"),
+                      image: AssetImage("img/dmakla-logo.png"),
                     ),
                   ));
             },
@@ -177,7 +176,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
           ListTile(
             dense: true,
             title: Text(
-              "Version 0.0.1",
+              "Version 0.9.0 - beta",
               style: Theme.of(context).textTheme.body1,
             ),
             trailing: Icon(

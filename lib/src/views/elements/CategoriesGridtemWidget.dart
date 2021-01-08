@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:optimized_cached_image/optimized_cached_image.dart';
-import 'package:dmakla_flutter/src/business_logic/models/category.dart';
-import 'package:dmakla_flutter/src/views/elements/common/loading.dart';
-import 'package:dmakla_flutter/src/views/utils/image_handling.dart';
+import 'package:dmakla/src/business_logic/models/category.dart';
+import 'package:dmakla/src/views/elements/common/loading.dart';
+import 'package:dmakla/src/views/utils/image_handling.dart';
 
 // ignore: must_be_immutable
 class CategoriesGridItemWidget extends StatelessWidget {

@@ -1,8 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:dmakla_flutter/src/business_logic/models/category.dart';
-import 'package:dmakla_flutter/src/business_logic/models/restaurant.dart';
-import 'package:dmakla_flutter/src/business_logic/repositories/category_repository.dart';
+import 'package:dmakla/src/business_logic/models/category.dart';
+import 'package:dmakla/src/business_logic/models/restaurant.dart';
+import 'package:dmakla/src/business_logic/repositories/category_repository.dart';
 
 abstract class RestaurantState extends Equatable {
   final Restaurant restaurant;

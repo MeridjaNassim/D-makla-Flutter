@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
-import 'package:dmakla_flutter/src/business_logic/blocs/auth/auth.bloc.dart';
-import 'package:dmakla_flutter/src/business_logic/blocs/auth/auth.state.dart';
-import 'package:dmakla_flutter/src/business_logic/blocs/cart/cart.bloc.dart';
-import 'package:dmakla_flutter/src/business_logic/blocs/cart/cart.state.dart';
-import 'package:dmakla_flutter/src/business_logic/blocs/delivery/delivery.cubit.dart';
-import 'package:dmakla_flutter/src/business_logic/models/common/wilaya.dart';
-import 'package:dmakla_flutter/src/business_logic/models/delivery.dart';
-import 'package:dmakla_flutter/src/business_logic/models/user.dart';
-import 'package:dmakla_flutter/src/views/elements/common/loading.dart';
+import 'package:dmakla/src/business_logic/blocs/auth/auth.bloc.dart';
+import 'package:dmakla/src/business_logic/blocs/auth/auth.state.dart';
+import 'package:dmakla/src/business_logic/blocs/cart/cart.bloc.dart';
+import 'package:dmakla/src/business_logic/blocs/cart/cart.state.dart';
+import 'package:dmakla/src/business_logic/blocs/delivery/delivery.cubit.dart';
+import 'package:dmakla/src/business_logic/models/common/wilaya.dart';
+import 'package:dmakla/src/business_logic/models/delivery.dart';
+import 'package:dmakla/src/business_logic/models/user.dart';
+import 'package:dmakla/src/views/elements/common/loading.dart';
 
 class CheckoutWidget extends StatefulWidget {
   @override
@@ -83,7 +83,7 @@ class _CheckoutWidgetState extends State<CheckoutWidget> {
         return Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [LoadingIndicator(loadingText: "chargement panier ...")],
+          children: [LoadingIndicator(loadingText: "chargement")],
         );
       }
       if (state is LoadedDeliveryState) {
@@ -294,6 +294,9 @@ class _CheckoutWidgetState extends State<CheckoutWidget> {
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: FlatButton(
                     onPressed: () {
+                      final state = BlocProvider.of<DeliveryCubit>(context)
+                          .state as LoadedDeliveryState;
+                      final currentDateTime = state.deliveryTime.dateTime;
                       DatePicker.showDateTimePicker(context,
                           theme: DatePickerTheme(
                             cancelStyle: Theme.of(context).textTheme.body2,
@@ -317,7 +320,7 @@ class _CheckoutWidgetState extends State<CheckoutWidget> {
                         }
                         BlocProvider.of<DeliveryCubit>(context)
                             .setDeliveryTime(DeliveryTime(date));
-                      }, currentTime: starting, locale: LocaleType.fr);
+                      }, currentTime: currentDateTime, locale: LocaleType.fr);
                     },
                     padding: EdgeInsets.symmetric(vertical: 0),
                     color: Theme.of(context).accentColor,
@@ -592,6 +595,15 @@ class _CheckoutWidgetState extends State<CheckoutWidget> {
                       width: 320,
                       child: FlatButton(
                         onPressed: () {
+                          final state = BlocProvider.of<DeliveryCubit>(context)
+                              .state as LoadedDeliveryState;
+                          final hour = state.deliveryTime.dateTime.hour;
+                          if (hour > 20 || hour < 10) {
+                            return Scaffold.of(context).showSnackBar(SnackBar(
+                                backgroundColor: Theme.of(context).accentColor,
+                                content: Text(
+                                    "Heure de livraison doit être entre 10:00 et 20:00")));
+                          }
                           final payload = ConfirmDeliveryPayload(
                               useGpsPosition: useMyGeoLocalisationPosition,
                               contactPhoneNumber: _phoneNumberValue,
@@ -636,7 +648,7 @@ class _CheckoutWidgetState extends State<CheckoutWidget> {
       return Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [LoadingIndicator(loadingText: "loading delivery ...")],
+        children: [LoadingIndicator(loadingText: "chargement livraison ...")],
       );
     });
   }
@@ -647,10 +659,11 @@ class _CheckoutWidgetState extends State<CheckoutWidget> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
+        iconTheme: IconThemeData(color: Theme.of(context).accentColor),
         elevation: 0,
         centerTitle: true,
         title: Text(
-          'Confirmation commande',
+          'Livraison',
           style: Theme.of(context)
               .textTheme
               .title

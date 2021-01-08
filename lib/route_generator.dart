@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:dmakla_flutter/src/models/route_argument.dart';
-import 'package:dmakla_flutter/src/views/pages/cart.dart';
-import 'package:dmakla_flutter/src/views/pages/checkout.dart';
-import 'package:dmakla_flutter/src/views/pages/delivery.dart';
-import 'package:dmakla_flutter/src/views/pages/details.dart';
-import 'package:dmakla_flutter/src/views/pages/food.dart';
-import 'package:dmakla_flutter/src/views/pages/login.dart';
-import 'package:dmakla_flutter/src/views/pages/menu_list.dart';
-import 'package:dmakla_flutter/src/views/pages/pages.dart';
-import 'package:dmakla_flutter/src/views/pages/signup.dart';
-import 'package:dmakla_flutter/src/views/pages/splash.dart';
-import 'package:dmakla_flutter/src/views/pages/order_detail.dart';
+import 'package:dmakla/src/models/route_argument.dart';
+import 'package:dmakla/src/views/pages/cart.dart';
+import 'package:dmakla/src/views/pages/checkout.dart';
+import 'package:dmakla/src/views/pages/delivery.dart';
+import 'package:dmakla/src/views/pages/details.dart';
+import 'package:dmakla/src/views/pages/food.dart';
+import 'package:dmakla/src/views/pages/login.dart';
+import 'package:dmakla/src/views/pages/menu_list.dart';
+import 'package:dmakla/src/views/pages/pages.dart';
+import 'package:dmakla/src/views/pages/signup.dart';
+import 'package:dmakla/src/views/pages/splash.dart';
+import 'package:dmakla/src/views/pages/order_detail.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {

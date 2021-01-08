@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:dmakla_flutter/src/business_logic/blocs/store/menu.cubit.dart';
-import 'package:dmakla_flutter/src/business_logic/blocs/store/store.cubit.dart';
+import 'package:dmakla/src/business_logic/blocs/store/menu.cubit.dart';
+import 'package:dmakla/src/business_logic/blocs/store/store.cubit.dart';
 import 'CategoriesGridtemWidget.dart';
 import 'common/loading.dart';
-import 'package:dmakla_flutter/src/models/category.dart';
+import 'package:dmakla/src/models/category.dart';
 
 class CategoriesGridWidget extends StatelessWidget {
   CategoriesList _categoriesList = new CategoriesList();

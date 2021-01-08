@@ -1,17 +1,17 @@
-import 'package:dmakla_flutter/src/views/elements/common/widgets.dart';
+import 'package:dmakla/src/views/elements/common/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lazy_load_refresh_indicator/lazy_load_refresh_indicator.dart';
 
-import 'package:dmakla_flutter/src/business_logic/blocs/store/menu.cubit.dart';
-import 'package:dmakla_flutter/src/business_logic/models/menu.dart';
+import 'package:dmakla/src/business_logic/blocs/store/menu.cubit.dart';
+import 'package:dmakla/src/business_logic/models/menu.dart';
 
-import 'package:dmakla_flutter/src/views/elements/DrawerWidget.dart';
-import 'package:dmakla_flutter/src/views/elements/FoodsCarouselWidget.dart';
-import 'package:dmakla_flutter/src/views/elements/MenuItemWidget.dart';
+import 'package:dmakla/src/views/elements/DrawerWidget.dart';
+import 'package:dmakla/src/views/elements/FoodsCarouselWidget.dart';
+import 'package:dmakla/src/views/elements/MenuItemWidget.dart';
 import 'package:octo_image/octo_image.dart';
-import 'package:dmakla_flutter/src/views/elements/ShoppingCartButtonWidget.dart';
-import 'package:dmakla_flutter/src/views/elements/common/loading.dart';
+import 'package:dmakla/src/views/elements/ShoppingCartButtonWidget.dart';
+import 'package:dmakla/src/views/elements/common/loading.dart';
 // class MenuListWidget extends StatefulWidget {
 //   final List<Menu> menus;
 //
@@ -79,7 +79,7 @@ import 'package:dmakla_flutter/src/views/elements/common/loading.dart';
 
 class MenuWidget extends StatelessWidget {
   String _getTitleText(MenuState state) {
-    if (state is MenuStateLoading) return "loading";
+    if (state is MenuStateLoading) return "chargement...";
     if (state is MenuByCategoryStateReady)
       return "Categorie: " + state.category.name;
     if (state is MenuByRestaurantStateReady)
@@ -236,31 +236,29 @@ class MenuWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return SafeArea(
-      child: Scaffold(
-        drawer: DrawerWidget(),
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          centerTitle: true,
-          title: BlocBuilder<MenuCubit, MenuState>(builder: (context, state) {
-            return Text(
-              _getTitleText(state),
-              style: Theme.of(context)
-                  .textTheme
-                  .title
-                  .merge(TextStyle(letterSpacing: 0)),
-            );
-          }),
-          actions: <Widget>[
-            new ShoppingCartButtonWidget(
-                iconColor: Theme.of(context).hintColor,
-                labelColor: Theme.of(context).accentColor),
-          ],
-        ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-        body: BlocBuilder<MenuCubit, MenuState>(builder: _buildMenus),
+    return Scaffold(
+      drawer: DrawerWidget(),
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        centerTitle: true,
+        title: BlocBuilder<MenuCubit, MenuState>(builder: (context, state) {
+          return Text(
+            _getTitleText(state),
+            style: Theme.of(context)
+                .textTheme
+                .title
+                .merge(TextStyle(letterSpacing: 0)),
+          );
+        }),
+        actions: <Widget>[
+          new ShoppingCartButtonWidget(
+              iconColor: Theme.of(context).hintColor,
+              labelColor: Theme.of(context).accentColor),
+        ],
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      body: BlocBuilder<MenuCubit, MenuState>(builder: _buildMenus),
     );
   }
 

@@ -23,7 +23,7 @@
 //       this.information, this.lat, this.lon);
 // }
 
-import 'package:dmakla_flutter/src/business_logic/models/restaurant.dart';
+import 'package:dmakla/src/business_logic/models/restaurant.dart';
 
 class RestaurantsList {
   List<Restaurant> _restaurantsList;

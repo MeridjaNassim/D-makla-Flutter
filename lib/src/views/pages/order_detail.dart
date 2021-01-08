@@ -1,13 +1,13 @@
 import 'dart:math';
 import 'dart:async';
-import 'package:dmakla_flutter/src/business_logic/models/order.dart';
-import 'package:dmakla_flutter/src/views/elements/common/loading.dart';
-import 'package:dmakla_flutter/src/views/elements/common/widgets.dart';
+import 'package:dmakla/src/business_logic/models/order.dart';
+import 'package:dmakla/src/views/elements/common/loading.dart';
+import 'package:dmakla/src/views/elements/common/widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:dmakla_flutter/src/models/order.dart';
-import 'package:dmakla_flutter/src/models/user.dart';
-import 'package:dmakla_flutter/src/views/elements/OrderItemWidget.dart';
-import 'package:dmakla_flutter/src/views/elements/ShoppingCartButtonWidget.dart';
+import 'package:dmakla/src/models/order.dart';
+import 'package:dmakla/src/models/user.dart';
+import 'package:dmakla/src/views/elements/OrderItemWidget.dart';
+import 'package:dmakla/src/views/elements/ShoppingCartButtonWidget.dart';
 
 import 'package:octo_image/octo_image.dart';
 import 'package:webview_flutter/webview_flutter.dart';

@@ -1,5 +1,5 @@
-import 'package:dmakla_flutter/src/business_logic/models/cart.dart';
-import 'package:dmakla_flutter/src/models/order.dart';
+import 'package:dmakla/src/business_logic/models/cart.dart';
+import 'package:dmakla/src/models/order.dart';
 
 abstract class CartRepository {
 
