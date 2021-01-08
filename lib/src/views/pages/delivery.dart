@@ -87,7 +87,7 @@ class DeliveryScreen extends StatelessWidget {
                               .copyWith(color: Theme.of(context).accentColor),
                         ),
                         trailing: Text(
-                          confirmation.orderPrice.toString() + "DA",
+                          confirmation.orderPrice.toInt().toString() + "DA",
                           overflow: TextOverflow.ellipsis,
                           maxLines: 2,
                           style: Theme.of(context).textTheme.display2,
@@ -104,7 +104,7 @@ class DeliveryScreen extends StatelessWidget {
                               .copyWith(color: Theme.of(context).accentColor),
                         ),
                         trailing: Text(
-                          confirmation.deliveryFees.toString() + "DA",
+                          confirmation.deliveryFees.toInt().toString() + "DA",
                           overflow: TextOverflow.ellipsis,
                           maxLines: 2,
                           style: Theme.of(context).textTheme.display2,
@@ -121,7 +121,7 @@ class DeliveryScreen extends StatelessWidget {
                               .copyWith(color: Theme.of(context).accentColor),
                         ),
                         trailing: Text(
-                          confirmation.discountAmount.toString() + "DA",
+                          confirmation.discountAmount.toInt().toString() + "DA",
                           overflow: TextOverflow.ellipsis,
                           maxLines: 2,
                           style: Theme.of(context).textTheme.display2,
@@ -138,7 +138,7 @@ class DeliveryScreen extends StatelessWidget {
                               .copyWith(color: Theme.of(context).accentColor),
                         ),
                         trailing: Text(
-                          confirmation.total.toString() + "DA",
+                          confirmation.total.toInt().toString() + "DA",
                           overflow: TextOverflow.ellipsis,
                           maxLines: 2,
                           style: Theme.of(context).textTheme.display2,

@@ -137,7 +137,8 @@ class _CartItemWidgetState extends State<CartItemWidget> {
                           ),
                           Expanded(
                             child: Text(
-                              widget.order.getUnitPrice().toString() + " DA",
+                              widget.order.getUnitPrice().toInt().toString() +
+                                  " DA",
                               style: Theme.of(context)
                                   .textTheme
                                   .subhead
@@ -150,12 +151,13 @@ class _CartItemWidgetState extends State<CartItemWidget> {
                       Row(
                         children: [
                           Text(
-                            "full : ",
+                            "total : ",
                             style: Theme.of(context).textTheme.body2,
                           ),
                           Expanded(
                             child: Text(
-                              widget.order.getFullPrice().toString() + " DA",
+                              widget.order.getFullPrice().toInt().toString() +
+                                  " DA",
                               style: Theme.of(context).textTheme.display2,
                             ),
                           ),

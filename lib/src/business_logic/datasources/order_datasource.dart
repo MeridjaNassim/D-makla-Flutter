@@ -34,19 +34,22 @@ class RemoteOrderDataSource extends OrderDataSource {
       "timestamps": time.dateTime.millisecondsSinceEpoch,
       "orders": cart.orderList.toJson(),
       "zone_id": location.zone.id,
-      "order_place_latitude": additionalInfo.gpsPosition.latitude,
-      "order_place_longitude": additionalInfo.gpsPosition.longitude,
-      "delivery_address_latitude": additionalInfo.gpsPosition.latitude,
-      "delivery_address_longitude": additionalInfo.gpsPosition.longitude,
+      "order_place_latitude": additionalInfo?.gpsPosition?.latitude,
+      "order_place_longitude": additionalInfo?.gpsPosition?.longitude,
+      "delivery_address_latitude": additionalInfo?.gpsPosition?.latitude,
+      "delivery_address_longitude": additionalInfo?.gpsPosition?.longitude,
       "name_adr_livr": "",
-      "mobile_adr_livr": additionalInfo.contactPhoneNumber,
-      "adresse_text": additionalInfo.address,
-      "comment_livr": additionalInfo.deliveryComment,
+      "mobile_adr_livr": additionalInfo?.contactPhoneNumber,
+      "adresse_text": additionalInfo?.address,
+      "comment_livr": additionalInfo?.deliveryComment,
     };
     final encodedJson = json.encode(body);
+
     print("Encoded JSON data");
     print(encodedJson);
     final response = await http.post(create_order_endpoint, body: encodedJson);
+    print("heoo");
+    print(response.body);
     if (response.body.isNotEmpty) {
       final decoded = json.decode(response.body);
       final data = decoded["ORDER_REGISTRATION"];
@@ -55,7 +58,7 @@ class RemoteOrderDataSource extends OrderDataSource {
       final error = data["error"];
       if (error != "true")
         return OrderConfirmation(
-            orderId: data["orderId"].toString(),
+            orderId: data["order_id"].toString(),
             message: data["message"],
             orderPrice: (data["order_subtotal"] as int).toDouble(),
             deliveryFees:

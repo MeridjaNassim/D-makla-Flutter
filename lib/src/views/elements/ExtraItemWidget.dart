@@ -146,7 +146,7 @@ class _ExtraItemWidgetState extends State<ExtraItemWidget>
                   ),
                 ),
                 SizedBox(width: 8),
-                Text(widget.topping.price.toString() + "DA",
+                Text(widget.topping.price.toInt().toString() + "DA",
                     style: Theme.of(context).textTheme.display1),
               ],
             ),

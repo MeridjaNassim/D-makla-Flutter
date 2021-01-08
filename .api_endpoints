@@ -13,3 +13,5 @@ TOPPING_IMAGE=https://images.unsplash.com/photo-1514326640560-7d063ef2aed5?ixlib
 
 LOGIN_ENDPOINT=https://www.d-makla.com/nassim_api/AppFlutter_all_api.php?login
 SIGNUP_ENDPOINT=https://www.d-makla.com/nassim_api/AppFlutter_all_api.php?signup
+
+WORKING_HOURS_ENDPOINT=https://www.d-makla.com/nassim_api/AppFlutter_all_api.php?delivery_working_time

@@ -1,3 +1,7 @@
+import 'dart:async';
+
+import 'package:data_connection_checker/data_connection_checker.dart';
+import 'package:dmakla/src/core/connectivity.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:dmakla/src/business_logic/blocs/orders/orders.cubit.dart';
 import 'package:dmakla/src/views/blocs/tabNavigation.cubit.dart';
@@ -83,7 +87,7 @@ Future<void> main() async {
   runApp(app);
 }
 
-class DmaklaApp extends StatelessWidget {
+class DmaklaApp extends StatefulWidget {
   OrderRepository orderRepository;
   DeliveryRepository deliveryRepository;
   CategoryRepository categoryRepository;
@@ -100,7 +104,41 @@ class DmaklaApp extends StatelessWidget {
         assert(restaurantRepository != null),
         assert(menuRepository != null),
         assert(orderRepository != null);
-  // This widget is the root of your application.
+
+  @override
+  _DmaklaAppState createState() => _DmaklaAppState();
+}
+
+class _DmaklaAppState extends State<DmaklaApp> {
+  bool isConnected;
+  StreamSubscription listener;
+  @override
+  void initState() {
+    super.initState();
+    isConnected = true;
+    listener = DataConnectionChecker().onStatusChange.listen((status) async {
+      switch (status) {
+        case DataConnectionStatus.connected:
+          print("connected");
+          setState(() {
+            isConnected = true;
+          });
+          break;
+        case DataConnectionStatus.disconnected:
+          print("disconnected");
+          setState(() {
+            isConnected = false;
+          });
+          break;
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    listener.cancel();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -111,7 +149,7 @@ class DmaklaApp extends StatelessWidget {
           BlocProvider(
               create: (context) => OrdersCubit(
                   BlocProvider.of<AuthenticationBloc>(context),
-                  orderRepository)),
+                  widget.orderRepository)),
           BlocProvider(create: (context) => TabNavigationCubit()),
           BlocProvider<CartBloc>(
               create: (context) =>
@@ -120,25 +158,28 @@ class DmaklaApp extends StatelessWidget {
               create: (context) => DeliveryCubit(
                   BlocProvider.of<AuthenticationBloc>(context),
                   BlocProvider.of<CartBloc>(context),
-                  deliveryRepository,
-                  orderRepository,
+                  widget.deliveryRepository,
+                  widget.orderRepository,
                   GeoLocalisationImplGeolocator())),
           BlocProvider<RestaurantCubit>(
-              create: (context) => RestaurantCubit(categoryRepository)),
+              create: (context) => RestaurantCubit(widget.categoryRepository)),
           BlocProvider<MenuCubit>(
               create: (context) => MenuCubit(
                   BlocProvider.of<AuthenticationBloc>(context),
-                  menuRepository)),
+                  widget.menuRepository)),
           BlocProvider<OrderCubit>(
               create: (context) =>
                   OrderCubit(BlocProvider.of<CartBloc>(context))),
           BlocProvider<StoreCubit>(
               create: (context) => StoreCubit(
                     BlocProvider.of<AuthenticationBloc>(context),
-                    restaurantRepository: restaurantRepository,
-                    menuRepository: menuRepository,
-                    categoryRepository: categoryRepository,
+                    restaurantRepository: widget.restaurantRepository,
+                    menuRepository: widget.menuRepository,
+                    categoryRepository: widget.categoryRepository,
                   )),
+          BlocProvider<ConnectivityCubit>(
+            create: (context) => ConnectivityCubit(isConnected),
+          )
         ],
         child: MaterialApp(
           title: 'D-makla',

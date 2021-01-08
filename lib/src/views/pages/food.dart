@@ -51,7 +51,7 @@ class _FoodWidgetState extends State<FoodWidget> {
         return ListTile(
           title: Text(variant.name),
           trailing: Text(
-            state.menu.pricings.getPriceOfVariant(variant).toStringAsFixed(2) +
+            state.menu.pricings.getPriceOfVariant(variant).toInt().toString() +
                 "DA",
             style: Theme.of(context).textTheme.display2,
           ),
@@ -478,7 +478,8 @@ class _FoodWidgetState extends State<FoodWidget> {
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 20),
                               child: Text(
-                                state.currentOrderPrice.toString() + "DA",
+                                state.currentOrderPrice.toInt().toString() +
+                                    "DA",
                                 style: Theme.of(context)
                                     .textTheme
                                     .display1

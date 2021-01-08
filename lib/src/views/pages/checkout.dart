@@ -10,6 +10,9 @@ import 'package:dmakla/src/business_logic/models/common/wilaya.dart';
 import 'package:dmakla/src/business_logic/models/delivery.dart';
 import 'package:dmakla/src/business_logic/models/user.dart';
 import 'package:dmakla/src/views/elements/common/loading.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class CheckoutWidget extends StatefulWidget {
   @override
@@ -24,6 +27,10 @@ class _CheckoutWidgetState extends State<CheckoutWidget> {
   TextEditingController _addressController;
   TextEditingController _phoneNumberController;
   TextEditingController _commentaireController;
+  int startHour;
+  int startMinute;
+  int endhour;
+  int endMinute;
   @override
   void initState() {
     // TODO: implement initState
@@ -41,6 +48,11 @@ class _CheckoutWidgetState extends State<CheckoutWidget> {
     _addressController.text = _addressValue;
     _commentaireController.text = _commentaireLivraison;
     _phoneNumberController.text = _phoneNumberValue;
+    startHour = 9;
+    startMinute = 0;
+    endhour = 21;
+    endMinute = 0;
+    initWorkingHours();
   }
 
   @override
@@ -50,6 +62,28 @@ class _CheckoutWidgetState extends State<CheckoutWidget> {
     _addressController.dispose();
     _phoneNumberController.dispose();
     _commentaireController.dispose();
+  }
+
+  Future<void> initWorkingHours() async {
+    final endpoint = DotEnv().env["WORKING_HOURS_ENDPOINT"];
+    final response = await http.post(endpoint);
+    if (response.body.isNotEmpty) {
+      final decoded = json.decode(response.body);
+      print(decoded);
+      setState(() {
+        try {
+          startHour = num.parse(decoded["start_time_hour"]).toInt();
+          startMinute = num.parse(decoded["start_time_minute"]).toInt();
+          endhour = num.parse(decoded["end_time_hour"]).toInt();
+          endMinute = num.parse(decoded["end_time_minute"]).toInt();
+        } catch (e) {
+          startHour = 9;
+          startMinute = 0;
+          endhour = 21;
+          endMinute = 0;
+        }
+      });
+    }
   }
 
   Widget _buildScreen() {
@@ -312,11 +346,12 @@ class _CheckoutWidgetState extends State<CheckoutWidget> {
                         print('change $date');
                       }, onConfirm: (date) {
                         print('confirm $date');
-                        if (date.hour > 20 || date.hour < 10) {
+
+                        if (date.hour > endhour || date.hour < startHour) {
                           return Scaffold.of(context).showSnackBar(SnackBar(
                               backgroundColor: Theme.of(context).accentColor,
                               content: Text(
-                                  "Heure de livraison doit être entre 10:00 et 20:00")));
+                                  "Heure de livraison doit être entre ${startHour.toString()}:00 et ${endhour.toString()}:00")));
                         }
                         BlocProvider.of<DeliveryCubit>(context)
                             .setDeliveryTime(DeliveryTime(date));
@@ -528,7 +563,7 @@ class _CheckoutWidgetState extends State<CheckoutWidget> {
                       trailing: BlocBuilder<CartBloc, CartState>(
                         builder: (context, state) => Text(
                           (state is LoadedCartState)
-                              ? state.currentCartPrice.toString() + "DA"
+                              ? state.currentCartPrice.toInt().toString() + "DA"
                               : "...",
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1,
@@ -554,10 +589,10 @@ class _CheckoutWidgetState extends State<CheckoutWidget> {
                         style: Theme.of(context).textTheme.display1,
                       ),
                       trailing: Text(
-                        (state.delivery.delivery_fee).toStringAsFixed(2) + "DA",
+                        (state.delivery.delivery_fee).toInt().toString() + "DA",
                         overflow: TextOverflow.ellipsis,
                         maxLines: 1,
-                        style: Theme.of(context).textTheme.display3,
+                        style: Theme.of(context).textTheme.display2,
                       ),
                     ),
                   ),
@@ -578,10 +613,15 @@ class _CheckoutWidgetState extends State<CheckoutWidget> {
                         style: Theme.of(context).textTheme.display1,
                       ),
                       trailing: Text(
-                        (state.delivery.discount).toStringAsFixed(2) + "DA",
+                        "-" +
+                            (state.delivery.discount).toInt().toString() +
+                            "DA",
                         overflow: TextOverflow.ellipsis,
                         maxLines: 1,
-                        style: Theme.of(context).textTheme.display3,
+                        style: Theme.of(context)
+                            .textTheme
+                            .display3
+                            .copyWith(color: Colors.green),
                       ),
                     ),
                   ),
@@ -597,12 +637,13 @@ class _CheckoutWidgetState extends State<CheckoutWidget> {
                         onPressed: () {
                           final state = BlocProvider.of<DeliveryCubit>(context)
                               .state as LoadedDeliveryState;
-                          final hour = state.deliveryTime.dateTime.hour;
-                          if (hour > 20 || hour < 10) {
+                          final date = state.deliveryTime.dateTime;
+
+                          if (date.hour > endhour || date.hour < startHour) {
                             return Scaffold.of(context).showSnackBar(SnackBar(
                                 backgroundColor: Theme.of(context).accentColor,
                                 content: Text(
-                                    "Heure de livraison doit être entre 10:00 et 20:00")));
+                                    "Heure de livraison doit être entre ${startHour.toString()}:00 et ${endhour.toString()}:00")));
                           }
                           final payload = ConfirmDeliveryPayload(
                               useGpsPosition: useMyGeoLocalisationPosition,
@@ -681,7 +722,7 @@ class _CheckoutWidgetState extends State<CheckoutWidget> {
         (deliveryState as LoadedDeliveryState).delivery.delivery_fee;
     final discountPrice =
         (deliveryState as LoadedDeliveryState).delivery.discount;
-    return (cartPrice + deliveryPrice - discountPrice).toStringAsFixed(2) +
+    return (cartPrice + deliveryPrice - discountPrice).toInt().toString() +
         "DA";
   }
 }

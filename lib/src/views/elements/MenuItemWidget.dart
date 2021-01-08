@@ -1,4 +1,3 @@
-
 import 'package:dmakla/src/views/elements/common/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,6 +9,7 @@ import 'package:dmakla/src/views/utils/image_handling.dart';
 import 'package:octo_image/octo_image.dart';
 
 import 'common/loading.dart';
+
 class MenuItemWidget extends StatelessWidget {
   final String heroTag;
   final Menu menu;
@@ -25,14 +25,18 @@ class MenuItemWidget extends StatelessWidget {
       onTap: () {
         //Navigator.of(context).pushNamed('/Tracking');
         BlocProvider.of<OrderCubit>(context).setCurrentMenu(menu);
-        Navigator.of(context).pushNamed('/Food', arguments: RouteArgument(id: menu.id, heroTag: heroTag));
+        Navigator.of(context).pushNamed('/Food',
+            arguments: RouteArgument(id: menu.id, heroTag: heroTag));
       },
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
         decoration: BoxDecoration(
           color: Theme.of(context).primaryColor.withOpacity(0.9),
           boxShadow: [
-            BoxShadow(color: Theme.of(context).focusColor.withOpacity(0.1), blurRadius: 5, offset: Offset(0, 2)),
+            BoxShadow(
+                color: Theme.of(context).focusColor.withOpacity(0.1),
+                blurRadius: 5,
+                offset: Offset(0, 2)),
           ],
         ),
         child: Row(
@@ -46,8 +50,9 @@ class MenuItemWidget extends StatelessWidget {
                   height: 60,
                   width: 60,
                   child: OctoImage(
-                    placeholderBuilder: (context)=> LoadingImage(),
-                    errorBuilder: (context,obj,trace)=> Image(image: FAILED_TO_LOAD_FOOD_IMAGE),
+                    placeholderBuilder: (context) => LoadingImage(),
+                    errorBuilder: (context, obj, trace) =>
+                        Image(image: FAILED_TO_LOAD_FOOD_IMAGE),
                     fit: BoxFit.cover,
                     image: getImageProvider(menu.image),
                   ),
@@ -112,8 +117,8 @@ class MenuItemWidget extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: <Widget>[
-                      Text(menu.getBasePrice().toString()+"DA", style: Theme.of(context).textTheme.display1),
-
+                      Text(menu.getBasePrice().toInt().toString() + "DA",
+                          style: Theme.of(context).textTheme.display1),
                     ],
                   ),
                 ],
