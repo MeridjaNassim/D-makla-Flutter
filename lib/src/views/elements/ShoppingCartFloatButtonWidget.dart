@@ -34,18 +34,24 @@ class ShoppingCartFloatButtonWidget extends StatelessWidget {
               size: 28,
             ),
             Container(
-              child: BlocBuilder<CartBloc,CartState>(
-                builder:(context,state)=> Text(
-                  (state is LoadedCartState) ? state.cart.totalNumberOfOrders().toString() : "..",
+              child: BlocBuilder<CartBloc, CartState>(
+                builder: (context, state) => Text(
+                  (state is LoadedCartState)
+                      ? state.cart.totalNumberOfOrders().toString()
+                      : "..",
                   textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.caption.merge(
-                        TextStyle(color: Theme.of(context).primaryColor, fontSize: 9),
+                        TextStyle(
+                            color: Theme.of(context).primaryColor, fontSize: 9),
                       ),
                 ),
               ),
               padding: EdgeInsets.all(0),
-              decoration: BoxDecoration(color: this.labelColor, borderRadius: BorderRadius.all(Radius.circular(10))),
-              constraints: BoxConstraints(minWidth: 15, maxWidth: 15, minHeight: 15, maxHeight: 15),
+              decoration: BoxDecoration(
+                  color: this.labelColor,
+                  borderRadius: BorderRadius.all(Radius.circular(10))),
+              constraints: BoxConstraints(
+                  minWidth: 15, maxWidth: 15, minHeight: 15, maxHeight: 15),
             ),
           ],
         ),
@@ -53,7 +59,7 @@ class ShoppingCartFloatButtonWidget extends StatelessWidget {
     );
 //    return FlatButton(
 //      onPressed: () {
-//        print('to shopping cart');
+//        //print('to shopping cart');
 //      },
 //      child:
 //      color: Colors.transparent,

@@ -57,13 +57,13 @@ import '../../business_logic/models/common/image.dart' as BusinessImage;
 //   final categoriesData = data["Category"];
 //   if(categoriesData == null)
 //     {
-//       print("null categories data");
+//       //print("null categories data");
 //       return null;
 //     }
 //   final List<dynamic> categoriesList = categoriesData["list"];
 //   final categories = convertCategoryListFromData(categoriesList);
 //   if(categories == null)
-//     print("null categories");
+//     //print("null categories");
 //   return categories;
 // }
 //
@@ -71,13 +71,13 @@ import '../../business_logic/models/common/image.dart' as BusinessImage;
 //   final restaurantData = data["Restaurant"];
 //   if(restaurantData == null)
 //   {
-//     print("null categories data");
+//     //print("null categories data");
 //     return null;
 //   }
 //   final List<dynamic> restaurantList = restaurantData["list"];
 //   final restaurants = convertRestaurantListFromData(restaurantList);
 //   if(restaurants == null)
-//     print("null categories");
+//     //print("null categories");
 //   return restaurants;
 // }
 
@@ -93,7 +93,7 @@ class _HomeWidgetState extends State<HomeWidget> {
   }
 
   Future<void> _refreshPage() async {
-    print("refreshing");
+    //print("refreshing");
     return BlocProvider.of<StoreCubit>(context).loadStore();
   }
 

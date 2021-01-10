@@ -45,16 +45,16 @@ class RemoteOrderDataSource extends OrderDataSource {
     };
     final encodedJson = json.encode(body);
 
-    print("Encoded JSON data");
-    print(encodedJson);
+    //print("Encoded JSON data");
+    //print(encodedJson);
     final response = await http.post(create_order_endpoint, body: encodedJson);
-    print("heoo");
-    print(response.body);
+    //print("heoo");
+    //print(response.body);
     if (response.body.isNotEmpty) {
       final decoded = json.decode(response.body);
       final data = decoded["ORDER_REGISTRATION"];
-      print("Decoded JSON data");
-      print(data);
+      //print("Decoded JSON data");
+      //print(data);
       final error = data["error"];
       if (error != "true")
         return OrderConfirmation(
@@ -75,7 +75,7 @@ class RemoteOrderDataSource extends OrderDataSource {
     final formData = {"user_id": userId};
     final response = await http.post(history_orders, body: formData);
     final data = response.body;
-    print(data);
+    //print(data);
     if (data.isEmpty) {
       ///TODO Handle Error no data in body
       throw Exception("Une erreur est survenu");

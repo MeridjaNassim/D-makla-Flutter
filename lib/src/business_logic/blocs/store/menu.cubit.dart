@@ -82,7 +82,7 @@ class MenuCubit extends Cubit<MenuState> {
         super(InitialMenuState());
 
   Future<void> setMenusByCategory(Category category) async {
-    print(category);
+    //print(category);
     emit(MenuStateLoading("chargement menus de ${category.name}"));
     //final trending = await _menuRepository.getTrendingMenusByCategory(category);
     final authState = _authenticationBloc.state;
@@ -95,7 +95,7 @@ class MenuCubit extends Cubit<MenuState> {
   }
 
   Future<void> setMenusByRestaurant(Restaurant restaurant) async {
-    print(restaurant);
+    //print(restaurant);
     emit(MenuStateLoading("chargement menus de ${restaurant.name}"));
     final menus = await _menuRepository.getAllMenusByRestaurant(restaurant);
     emit(MenuByRestaurantStateReady(restaurant, [], menus));
@@ -103,8 +103,8 @@ class MenuCubit extends Cubit<MenuState> {
 
   Future<void> setMenusByRestaurantCategory(
       Restaurant restaurant, Category category) async {
-    print(restaurant);
-    print(category);
+    //print(restaurant);
+    //print(category);
     emit(MenuStateLoading(
         "chargement ${category.name} menus de ${restaurant.name}"));
     final menus = await _menuRepository.getAllMenusOfCategoryByRestaurant(

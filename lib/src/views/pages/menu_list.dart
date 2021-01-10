@@ -40,14 +40,14 @@ import 'package:dmakla/src/views/elements/common/loading.dart';
 //   }
 //
 //   Future<bool> _onRefresh() async{
-//     print("refreshing");
+//     //print("refreshing");
 //     setState(() {
 //       isLoading = false;
 //     });
 //     return true;
 //   }
 //   Future<void> _onEndOfPage() async{
-//     print("showing more items");
+//     //print("showing more items");
 //     setState(()=> isLoading = true);
 //
 //     await Future.delayed(Duration(seconds: 2),(){});
@@ -239,9 +239,10 @@ class MenuWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
-      drawer: DrawerWidget(),
+      //drawer: DrawerWidget(),
       appBar: AppBar(
         backgroundColor: Colors.transparent,
+        iconTheme: IconThemeData(color: Theme.of(context).accentColor),
         elevation: 0,
         centerTitle: true,
         title: BlocBuilder<MenuCubit, MenuState>(builder: (context, state) {
@@ -273,7 +274,7 @@ class MenuWidget extends StatelessWidget {
   }
 
   Future<void> _refreshList(BuildContext context, MenuReadyState state) {
-    print("refreshing menus ... ");
+    //print("refreshing menus ... ");
     if (state is MenuByRestaurantStateReady)
       return BlocProvider.of<MenuCubit>(context)
           .setMenusByRestaurant(state.restaurant);

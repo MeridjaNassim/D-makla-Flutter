@@ -5,7 +5,8 @@ import 'package:dmakla/src/business_logic/services/auth.service.dart';
 import 'auth.event.dart';
 import 'auth.state.dart';
 
-class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> {
+class AuthenticationBloc
+    extends Bloc<AuthenticationEvent, AuthenticationState> {
   final AuthenticationService _authenticationService;
   AuthenticationBloc(AuthenticationService authenticationService)
       : assert(authenticationService != null),
@@ -13,9 +14,10 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
         super(AuthenticationInitial());
 
   @override
-  Stream<AuthenticationState> mapEventToState(AuthenticationEvent event) async* {
+  Stream<AuthenticationState> mapEventToState(
+      AuthenticationEvent event) async* {
     if (event is AppLoaded) {
-      print("app loaded");
+      ////print("app loaded");
       yield* _mapAppLoadedToState(event);
     }
 
@@ -32,31 +34,32 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
     yield AuthenticationLoading();
     try {
       final currentUser = await _authenticationService.getCurrentUser();
-      print(currentUser);
+      ////print(currentUser);
       if (currentUser != null) {
         yield AuthenticationAuthenticated(user: currentUser);
       } else {
         yield AuthenticationNotAuthenticated();
       }
     } catch (e) {
-      yield AuthenticationFailure(message: e.message ?? 'An unknown error occurred');
+      yield AuthenticationFailure(
+          message: e.message ?? 'An unknown error occurred');
     }
   }
 
-  Stream<AuthenticationState> _mapUserLoggedInToState(UserLoggedIn event) async* {
-    print("user logged in " + event.user.toString());
+  Stream<AuthenticationState> _mapUserLoggedInToState(
+      UserLoggedIn event) async* {
+    ////print("user logged in " + event.user.toString());
     yield AuthenticationAuthenticated(user: event.user);
     await _authenticationService.setUser(event.user);
-
-
   }
 
-  Stream<AuthenticationState> _mapUserLoggedOutToState(UserLoggedOut event) async* {
+  Stream<AuthenticationState> _mapUserLoggedOutToState(
+      UserLoggedOut event) async* {
     await _authenticationService.signOut();
     yield AuthenticationNotAuthenticated();
   }
 
-  Future<bool> isFirstLogin() async{
-      return !await this._authenticationService.didFirstLogin();
+  Future<bool> isFirstLogin() async {
+    return !await this._authenticationService.didFirstLogin();
   }
 }

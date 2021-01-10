@@ -140,7 +140,7 @@ class OrderListImpl extends OrderList {
   void addNewOrder(Order order) {
     if (_items.isEmpty) return _items.add(order);
     // check if this order exists first
-    print("checking if exists");
+    //print("checking if exists");
     Order existOrder = _items.firstWhere((element) {
       return element.menu == order.menu &&
           element.variant == order.variant &&
@@ -148,7 +148,7 @@ class OrderListImpl extends OrderList {
           element.note == order.note;
     }, orElse: () => null);
     if (existOrder == null) {
-      print("order does not exist");
+      //print("order does not exist");
       return _items.add(order);
     }
     int quantity = existOrder.quantity;
@@ -183,9 +183,9 @@ class OrderListImpl extends OrderList {
 
   @override
   void decrementQuantity(Order order, int amount) {
-    print("current order quantity:" + order.quantity.toString());
+    //print("current order quantity:" + order.quantity.toString());
     if (order.quantity > amount) order.quantity = order.quantity - amount;
-    print("current order quantity:" + order.quantity.toString());
+    //print("current order quantity:" + order.quantity.toString());
   }
 
   @override
@@ -201,10 +201,10 @@ class OrderListImpl extends OrderList {
 
   @override
   void incrementQuantity(Order order, int amount) {
-    print("current order quantity:" + order.quantity.toString());
+    //print("current order quantity:" + order.quantity.toString());
     int value = order.quantity + amount;
     if (value < 99) order.quantity = value;
-    print("current order quantity:" + order.quantity.toString());
+    //print("current order quantity:" + order.quantity.toString());
   }
 
   @override

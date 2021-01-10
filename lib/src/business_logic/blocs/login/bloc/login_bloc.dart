@@ -23,21 +23,21 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           validateLoginWithPhoneCredentials(
               phoneNumber: event.phoneNumber, password: event.password);
       if (validation.hasError()) {
-        print("validation error? ");
+        //print("validation error? ");
         yield LoginInputValidationErrorState(
             phoneNumberError: validation.phoneNumberError,
             passwordError: validation.passwordError);
         return;
       }
       yield LoggingInState();
-      print('logging in ....');
+      //print('logging in ....');
       try {
         //TODO add better error handling
         User user = await (LoginManager()).loginUserWithPhoneNumber(
             formatPhoneNumberToLocal(event.phoneNumber), event.password);
-        print(user);
+        //print(user);
         if (user == null) {
-          print('error in loggin');
+          //print('error in loggin');
           throw Exception('Cannot log in... try later');
         }
 
@@ -45,7 +45,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         // User _user = await AuthManager().getCurrentLoggedUser();
         _authenticationBloc.add(UserLoggedIn(user: user));
         yield LoggedInState(user: user);
-        print('logged in');
+        //print('logged in');
         return;
       } catch (e) {
         yield LoginServerErrorState(message: e.message);

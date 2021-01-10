@@ -49,9 +49,9 @@ class RemoteMenuDataSourceImpl extends MenuDataSource {
         await http.post(this.all_menus_restaurant_endpoint, body: formData);
     if (response.body.isNotEmpty) {
       final jsonDecoded = json.decode(response.body);
-      print(jsonDecoded);
+      //print(jsonDecoded);
       final data = jsonDecoded["RESTAURANT_TRENDING_MENU"] as List;
-      print(data);
+      //print(data);
       if (data.isNotEmpty) {
         final retData = data.map<Menu>(_convertMenuDataToMenu).toList();
         return retData;
@@ -68,9 +68,9 @@ class RemoteMenuDataSourceImpl extends MenuDataSource {
         await http.post(this.all_menus_restaurant_endpoint, body: formData);
     if (response.body.isNotEmpty) {
       final jsonDecoded = json.decode(response.body);
-      print(jsonDecoded);
+      //print(jsonDecoded);
       final data = jsonDecoded["RESTAURANT_TRENDING_MENU"] as List;
-      print(data);
+      //print(data);
       if (data.isNotEmpty) {
         final retData = data.map<Menu>(_convertMenuDataToMenu).toList();
         return retData;
@@ -87,9 +87,9 @@ class RemoteMenuDataSourceImpl extends MenuDataSource {
         await http.post(this.all_menus_category_endpoint, body: formData);
     if (response.body.isNotEmpty) {
       final jsonDecoded = json.decode(response.body);
-      print(jsonDecoded);
+      ////print(jsonDecoded);
       final data = jsonDecoded["ALL_MENU_CATEGORY"] as List;
-      print(data);
+      ////print(data);
       if (data.isNotEmpty) {
         final retData = data.map<Menu>(_convertMenuDataToMenu).toList();
         return retData;
@@ -106,8 +106,8 @@ class RemoteMenuDataSourceImpl extends MenuDataSource {
         id: variant["id"],
         name: variant["name"],
       );
-      print(_variant);
-      print(variant["price"]);
+      // //print(_variant);
+      // //print(variant["price"]);
       final priceStr = variant["price"] as String;
       double price = 0;
       if (priceStr.isNotEmpty) price = double.parse(priceStr);

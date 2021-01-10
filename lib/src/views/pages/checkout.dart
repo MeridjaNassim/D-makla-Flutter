@@ -69,7 +69,7 @@ class _CheckoutWidgetState extends State<CheckoutWidget> {
     final response = await http.post(endpoint);
     if (response.body.isNotEmpty) {
       final decoded = json.decode(response.body);
-      print(decoded);
+      //print(decoded);
       setState(() {
         try {
           startHour = num.parse(decoded["start_time_hour"]).toInt();
@@ -343,9 +343,9 @@ class _CheckoutWidgetState extends State<CheckoutWidget> {
                           showTitleActions: true,
                           minTime: starting,
                           maxTime: maxDeliveryTimeFromToday, onChanged: (date) {
-                        print('change $date');
+                        //print('change $date');
                       }, onConfirm: (date) {
-                        print('confirm $date');
+                        //print('confirm $date');
 
                         if (date.hour > endhour || date.hour < startHour) {
                           return Scaffold.of(context).showSnackBar(SnackBar(

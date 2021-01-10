@@ -22,7 +22,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
     return BlocListener<AuthenticationBloc, AuthenticationState>(
       listener: (context, state) {
         if (state is AuthenticationAuthenticated) {
-          print("authenticated from signup");
+          //print("authenticated from signup");
           Timer(Duration(seconds: 1), () {
             Navigator.of(context).pushReplacementNamed("/Pages", arguments: 2);
           });
@@ -178,9 +178,9 @@ class _SignUpFormState extends State<SignUpForm> {
   }
 
   void dispatchSignup() {
-    print(_userFullName);
-    print(_mobileNumber);
-    print(_password);
+    //print(_userFullName);
+    //print(_mobileNumber);
+    //print(_password);
     BlocProvider.of<SignUpBloc>(context).add(StartSignUpEvent(
         fullName: _userFullName,
         phoneNumber: _mobileNumber,

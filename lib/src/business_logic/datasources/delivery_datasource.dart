@@ -50,21 +50,21 @@ class RemoteDeliveryDataSource extends DeliveryDataSource {
       "orders":
           json.encode(deliveryPriceParams.menus.map((e) => e.toJson()).toList())
     };
-    print(formData);
+    //print(formData);
     final response =
         await http.post(this.delivery_fees_endpoint, body: formData);
     if (response.body.isNotEmpty) {
       final data = json.decode(response.body);
-      print(data);
+      //print(data);
       if (data != null) {
         final ret = DeliveryDataResult(
           delivery_fee: parsePrice(data["delivery_fees"]) ?? 0,
           order_fee: parsePrice(data["sub_total_cart"]) ?? 0,
           discount: parsePrice(data["discount_amount"]) ?? 0,
         );
-        print(ret.order_fee);
-        print(ret.delivery_fee);
-        print(ret.discount);
+        //print(ret.order_fee);
+        //print(ret.delivery_fee);
+        //print(ret.discount);
         return ret;
       }
     }

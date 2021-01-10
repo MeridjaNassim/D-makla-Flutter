@@ -62,8 +62,8 @@ class _LoginFormState extends State<LoginForm> {
   }
 
   void _dispatchLogin() {
-    print('phone: ' + _phoneNumber);
-    print('password: ' + _password);
+    //print('phone: ' + _phoneNumber);
+    //print('password: ' + _password);
     BlocProvider.of<LoginBloc>(context)
         .add(StartLoginEvent(phoneNumber: _phoneNumber, password: _password));
   }
@@ -218,7 +218,7 @@ class LoginWidget extends StatelessWidget {
     return BlocListener<AuthenticationBloc, AuthenticationState>(
       listener: (context, state) {
         if (state is AuthenticationAuthenticated) {
-          print("authenticated");
+          //print("authenticated");
           Timer(Duration(seconds: 1), () {
             Navigator.of(context).pushReplacementNamed("/Pages", arguments: 2);
           });

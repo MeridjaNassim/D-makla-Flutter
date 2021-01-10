@@ -50,19 +50,19 @@ class StoreCubit extends Cubit<StoreState> {
     final authState = this._authenticationBloc.state;
     if (authState is AuthenticationAuthenticated) {
       User user = authState.user;
-      print("chargement store ...");
+      //print("chargement store ...");
       emit(StoreLoadingState("chargement des restaurants"));
 
       ///TODO: implement load store
-      print("getting restaurants");
+      //print("getting restaurants");
       final wilayaId = user.wilaya.code;
       final restaurants =
           await restaurantRepository.getAllRestaurants(wilayaId);
       emit(StoreLoadingState("chargement des categories"));
-      print("getting categories");
+      //print("getting categories");
       final categories = await categoryRepository.getCategories();
       emit(StoreLoadingState("chargement des menus"));
-      print("getting trending");
+      //print("getting trending");
       final trending = await menuRepository.getTrendingMenus(user.wilaya);
       final store = Store(
           trendingMenus: trending,

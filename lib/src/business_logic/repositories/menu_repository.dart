@@ -15,6 +15,7 @@ abstract class MenuRepository {
   Future<List<Menu>> getTrendingMenus(Wilaya wilaya);
   Future<List<Menu>> getTrendingMenusByRestaurant(Restaurant restaurant);
   Future<List<Menu>> getTrendingMenusByCategory(Category category);
+
   /// Menu API
   Future<List<Menu>> getAllMenus();
   Future<Menu> getMenuById(String id);
@@ -22,7 +23,7 @@ abstract class MenuRepository {
 
   Future<List<Menu>> getAllMenusOfCategoryByRestaurant(
       Restaurant restaurant, Category category);
-  Future<List<Menu>> getMenusByCategory(Category category,Wilaya wilaya);
+  Future<List<Menu>> getMenusByCategory(Category category, Wilaya wilaya);
 }
 
 class MenuRepositoryImpl implements MenuRepository {
@@ -37,24 +38,26 @@ class MenuRepositoryImpl implements MenuRepository {
   }
 
   @override
-  Future<List<Menu>> getAllMenusByRestaurant(Restaurant restaurant) async{
+  Future<List<Menu>> getAllMenusByRestaurant(Restaurant restaurant) async {
     try {
-      final menus = await remoteMenuDataSourceImpl.getAllMenusOfRestaurant(restaurant.id);
+      final menus =
+          await remoteMenuDataSourceImpl.getAllMenusOfRestaurant(restaurant.id);
       return menus;
-    }catch (e) {
-      print(e);
+    } catch (e) {
+      //print(e);
       return [];
     }
   }
 
   @override
   Future<List<Menu>> getAllMenusOfCategoryByRestaurant(
-      Restaurant restaurant, Category category) async{
+      Restaurant restaurant, Category category) async {
     try {
-      final menus = await remoteMenuDataSourceImpl.getAllMenusOfCategoryOfRestaurant(restaurant.id,category.id);
+      final menus = await remoteMenuDataSourceImpl
+          .getAllMenusOfCategoryOfRestaurant(restaurant.id, category.id);
       return menus;
-    }catch (e) {
-      print(e);
+    } catch (e) {
+      //print(e);
       return [];
     }
   }
@@ -66,19 +69,22 @@ class MenuRepositoryImpl implements MenuRepository {
   }
 
   @override
-  Future<List<Menu>> getMenusByCategory(Category category,Wilaya wilaya) async{
+  Future<List<Menu>> getMenusByCategory(
+      Category category, Wilaya wilaya) async {
     try {
-      final menus = await remoteMenuDataSourceImpl.getAllMenusOfCategory(category.id,wilaya.code);
+      final menus = await remoteMenuDataSourceImpl.getAllMenusOfCategory(
+          category.id, wilaya.code);
       return menus;
-    }catch (e) {
-      print(e);
+    } catch (e) {
+      //print(e);
       return [];
     }
   }
 
   @override
-  Future<List<Menu>> getTrendingMenus(Wilaya wilaya)async {
-    final trendingMenus  = await this.remoteMenuDataSourceImpl.getTrendingMenus(wilaya.code);
+  Future<List<Menu>> getTrendingMenus(Wilaya wilaya) async {
+    final trendingMenus =
+        await this.remoteMenuDataSourceImpl.getTrendingMenus(wilaya.code);
     return trendingMenus;
   }
 
@@ -101,7 +107,8 @@ class MockMenuRepository extends MenuRepository {
         id: "menu1",
         name: "pizza peperroni",
         restaurant_name: "papas",
-        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam",
+        description:
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam",
         category: Category(id: "cat1", name: "pizza"),
         variants: VariantListImpl([
           Variant(id: "1", name: "Regulier"),
@@ -175,7 +182,7 @@ class MockMenuRepository extends MenuRepository {
         toppings: ToppingListImpl([]),
         image: NetworkImage(
             url:
-            "https://images.unsplash.com/photo-1555554317-766200eb80d6?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=700&q=80")),
+                "https://images.unsplash.com/photo-1555554317-766200eb80d6?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=700&q=80")),
     Menu(
         id: "menu3",
         name: "pizza vegeratrian",
@@ -192,8 +199,6 @@ class MockMenuRepository extends MenuRepository {
         image: NetworkImage(
             url:
                 "https://images.unsplash.com/photo-1594007654729-407eedc4be65?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=669&q=80")),
-
-
   ];
 
   @override
@@ -209,7 +214,8 @@ class MockMenuRepository extends MenuRepository {
   }
 
   @override
-  Future<List<Menu>> getMenusByCategory(Category category,Wilaya wilaya) async {
+  Future<List<Menu>> getMenusByCategory(
+      Category category, Wilaya wilaya) async {
     List<Menu> trending = [];
     mockData.forEach((element) {
       if (element.category == category) trending.add(element);
@@ -223,13 +229,12 @@ class MockMenuRepository extends MenuRepository {
   }
 
   @override
-  Future<List<Menu>> getAllMenusByRestaurant(Restaurant restaurant) async{
-   List<Menu> menus = [];
-   mockData.forEach((menu) {
-     if(menu.restaurant_name == restaurant.name)
-       menus.add(menu);
-   });
-   return menus;
+  Future<List<Menu>> getAllMenusByRestaurant(Restaurant restaurant) async {
+    List<Menu> menus = [];
+    mockData.forEach((menu) {
+      if (menu.restaurant_name == restaurant.name) menus.add(menu);
+    });
+    return menus;
   }
 
   @override
@@ -237,7 +242,7 @@ class MockMenuRepository extends MenuRepository {
       Restaurant restaurant, Category category) async {
     List<Menu> menus = [];
     mockData.forEach((menu) {
-      if(menu.restaurant_name == restaurant.name && menu.category == category)
+      if (menu.restaurant_name == restaurant.name && menu.category == category)
         menus.add(menu);
     });
     return menus;
@@ -253,7 +258,7 @@ class MockMenuRepository extends MenuRepository {
   }
 
   @override
-  Future<List<Menu>> getTrendingMenusByRestaurant(Restaurant restaurant) async{
+  Future<List<Menu>> getTrendingMenusByRestaurant(Restaurant restaurant) async {
     return await getAllMenusByRestaurant(restaurant);
   }
 }

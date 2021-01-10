@@ -157,10 +157,10 @@ class _FoodWidgetState extends State<FoodWidget> {
             itemBuilder: (context, index) {
               final topping = toppings.getToppingByIndex(index);
               final isSelected = state.selectedToppings.contains(topping);
-              print("is selected " +
-                  topping.toString() +
-                  ": " +
-                  isSelected.toString());
+              //print("is selected " +
+              // topping.toString() +
+              // ": " +
+              // isSelected.toString());
               return ExtraItemWidget(
                 topping: topping,
                 isSelected: isSelected,

@@ -131,10 +131,10 @@ class _CartWidgetState extends State<CartWidget> {
   Widget _buildCartScreen() {
     return BlocConsumer<CartBloc, CartState>(
       listener: (context, state) {
-        print(state.name);
+        //print(state.name);
         if (state is LoadedCartState) {
-          print(state.cart);
-          print("price : " + state.currentCartPrice.toString());
+          //print(state.cart);
+          //print("price : " + state.currentCartPrice.toString());
         }
       },
       builder: (context, state) {

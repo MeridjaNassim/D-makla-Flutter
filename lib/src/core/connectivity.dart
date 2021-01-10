@@ -33,11 +33,11 @@ class ConnectivityCubit extends Cubit<ConnectivityState> {
     listener = DataConnectionChecker().onStatusChange.listen((status) async {
       switch (status) {
         case DataConnectionStatus.connected:
-          print("connected");
+          //print("connected");
           setConnectivityState(true);
           break;
         case DataConnectionStatus.disconnected:
-          print("disconnected");
+          //print("disconnected");
           setConnectivityState(false);
           break;
       }

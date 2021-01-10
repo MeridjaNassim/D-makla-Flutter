@@ -83,6 +83,7 @@ class _PagesTestWidgetState extends State<PagesTestWidget> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
+        iconTheme: IconThemeData(color: Theme.of(context).accentColor),
         centerTitle: true,
         title: Text(
           this.currentTitle,
