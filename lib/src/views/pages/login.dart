@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:dmakla/src/business_logic/blocs/store/store.cubit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -219,6 +220,7 @@ class LoginWidget extends StatelessWidget {
       listener: (context, state) {
         if (state is AuthenticationAuthenticated) {
           //print("authenticated");
+          BlocProvider.of<StoreCubit>(context).loadStore();
           Timer(Duration(seconds: 1), () {
             Navigator.of(context).pushReplacementNamed("/Pages", arguments: 2);
           });

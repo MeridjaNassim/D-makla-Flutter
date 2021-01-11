@@ -1,4 +1,5 @@
 import 'package:dmakla/src/core/connectivity.dart';
+import 'package:dmakla/src/views/elements/common/widgets.dart';
 import 'package:dmakla/src/views/utils/connectivity_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,7 +10,7 @@ import 'package:dmakla/src/views/elements/FoodsCarouselWidget.dart';
 import 'package:dmakla/src/views/elements/SearchBarWidget.dart';
 import 'package:dmakla/src/views/elements/common/loading.dart';
 import '../../business_logic/models/common/image.dart' as BusinessImage;
-
+import 'package:octo_image/octo_image.dart';
 // /// Get all data of HomeScreen
 // Future<Map<String,dynamic>> getHomeData({String userId, String cityId}) async {
 //   final String repository_url = "https://www.d-makla.com/nassim_api/AppAndroid_all_apiBis.php?app_home_list";
@@ -190,6 +191,34 @@ class _HomeWidgetState extends State<HomeWidget> {
         }
       },
       child: BlocBuilder<StoreCubit, StoreState>(builder: (context, state) {
+        if (state is NotAvailableStoreState) {
+          return RefreshIndicator(
+            onRefresh: _refreshPage,
+            child: Container(
+                height: MediaQuery.of(context).size.height - 160,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Container(
+                        height: 160,
+                        width: 160,
+                        child: OctoImage(
+                            fit: BoxFit.cover,
+                            image: FAILED_TO_LOAD_FOOD_IMAGE)),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Center(
+                        child: Text(
+                      state.message,
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.body2,
+                    ))
+                  ],
+                )),
+          );
+        }
         if (state is StoreLoadedState) return _buildHomePage(state);
         if (state is StoreLoadingState) return _buildLoading(state.message);
         return _buildLoading("loading");
