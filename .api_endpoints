@@ -15,3 +15,4 @@ LOGIN_ENDPOINT=https://www.d-makla.com/nassim_api/AppFlutter_all_api.php?login
 SIGNUP_ENDPOINT=https://www.d-makla.com/nassim_api/AppFlutter_all_api.php?signup
 
 WORKING_HOURS_ENDPOINT=https://www.d-makla.com/nassim_api/AppFlutter_all_api.php?delivery_working_time
+PRIVACY_URL=https://www.d-makla.com/WebSite/accueil.php

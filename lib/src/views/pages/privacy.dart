@@ -1,33 +1,25 @@
-import 'dart:math';
 import 'dart:async';
-import 'package:dmakla/src/business_logic/models/order.dart';
-import 'package:dmakla/src/views/elements/common/loading.dart';
-import 'package:dmakla/src/views/elements/common/widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:dmakla/src/models/order.dart';
-import 'package:dmakla/src/models/user.dart';
-import 'package:dmakla/src/views/elements/OrderItemWidget.dart';
 import 'package:dmakla/src/views/elements/ShoppingCartButtonWidget.dart';
 
-import 'package:octo_image/octo_image.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-class OrderDetailArguments {
-  final ConfirmedOrder order;
+class ConfidentialityArguments {
+  final String webViewUrl;
 
-  OrderDetailArguments(this.order);
+  ConfidentialityArguments(this.webViewUrl);
 }
 
-class OrderDetailWidget extends StatefulWidget {
-  final OrderDetailArguments arguments;
+class ConfidentialityPage extends StatefulWidget {
+  final ConfidentialityArguments arguments;
 
-  OrderDetailWidget({this.arguments});
+  ConfidentialityPage({this.arguments});
 
   @override
-  _OrderDetailWidgetState createState() => _OrderDetailWidgetState();
+  _ConfidentialityPageState createState() => _ConfidentialityPageState();
 }
 
-class _OrderDetailWidgetState extends State<OrderDetailWidget> {
+class _ConfidentialityPageState extends State<ConfidentialityPage> {
   Completer<WebViewController> _controller = Completer<WebViewController>();
 
   @override
@@ -39,7 +31,7 @@ class _OrderDetailWidgetState extends State<OrderDetailWidget> {
           centerTitle: true,
           iconTheme: IconThemeData(color: Theme.of(context).accentColor),
           title: Text(
-            'Details commande',
+            'Confidentialité',
             style: Theme.of(context)
                 .textTheme
                 .title
@@ -53,7 +45,7 @@ class _OrderDetailWidgetState extends State<OrderDetailWidget> {
         ),
         body: WebView(
           javascriptMode: JavascriptMode.unrestricted,
-          initialUrl: widget.arguments.order.webViewUrl,
+          initialUrl: widget.arguments.webViewUrl,
           onWebViewCreated: (controller) {
             _controller.complete(controller);
           },

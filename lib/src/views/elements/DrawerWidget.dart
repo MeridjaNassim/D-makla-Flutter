@@ -1,12 +1,15 @@
 import 'package:dmakla/src/views/blocs/tabNavigation.cubit.dart';
 import 'package:dmakla/src/views/constants/navigation.dart';
 import 'package:dmakla/src/views/elements/common/loading.dart';
+import 'package:dmakla/src/views/pages/privacy.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dmakla/src/business_logic/blocs/auth/auth.bloc.dart';
 import 'package:dmakla/src/business_logic/blocs/auth/auth.event.dart';
 import 'package:dmakla/src/business_logic/blocs/auth/auth.state.dart';
 import 'package:dmakla/src/business_logic/models/user.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:octo_image/octo_image.dart';
 
 class DrawerWidget extends StatefulWidget {
@@ -134,12 +137,27 @@ class _DrawerWidgetState extends State<DrawerWidget> {
           // ),
           ListTile(
             onTap: () {
+              final privacyUrl = DotEnv().env["PRIVACY_URL"];
+              Navigator.of(context).pushNamed("/Privacy",
+                  arguments: ConfidentialityArguments(privacyUrl));
+            },
+            leading: Icon(
+              Icons.privacy_tip,
+              color: Theme.of(context).focusColor.withOpacity(1),
+            ),
+            title: Text(
+              "Confidentialité",
+              style: Theme.of(context).textTheme.subhead,
+            ),
+          ),
+          ListTile(
+            onTap: () {
               showAboutDialog(
                   context: context,
                   applicationVersion: "0.9.0 - beta",
                   applicationName: "D-makla",
                   applicationLegalese:
-                      "Service de livraison de nourritures par Sirius Net",
+                      "Service de livraison de nourritures par Sirius Net, contactez le développeur a : ha_meridja@esi.dz",
                   applicationIcon: Container(
                     height: 100,
                     width: 100,
@@ -165,11 +183,24 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               Navigator.of(context).pushReplacementNamed('/Login');
             },
             leading: Icon(
-              Icons.exit_to_app,
+              Icons.logout,
               color: Theme.of(context).focusColor.withOpacity(1),
             ),
             title: Text(
               "Déconnecter",
+              style: Theme.of(context).textTheme.subhead,
+            ),
+          ),
+          ListTile(
+            onTap: () async {
+              SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+            },
+            leading: Icon(
+              Icons.exit_to_app,
+              color: Theme.of(context).focusColor.withOpacity(1),
+            ),
+            title: Text(
+              "Quitter",
               style: Theme.of(context).textTheme.subhead,
             ),
           ),

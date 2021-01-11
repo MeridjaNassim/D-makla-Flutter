@@ -31,6 +31,15 @@ class StoreLoadedState extends StoreState {
   List<Object> get props => [store];
 }
 
+class NotAvailableStoreState extends StoreState {
+  final String message;
+
+  NotAvailableStoreState(this.message);
+  @override
+  // TODO: implement props
+  List<Object> get props => [message];
+}
+
 class StoreCubit extends Cubit<StoreState> {
   final CategoryRepository categoryRepository;
   final MenuRepository menuRepository;
