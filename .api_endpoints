@@ -1,4 +1,4 @@
-ALL_CATEGORY_ENDPOINT=https://www.d-makla.com/nassim_api/AppAndroid_all_apiBis.php?all_category
+ALL_CATEGORY_ENDPOINT=https://www.d-makla.com/nassim_api/AppFlutter_all_api.php?all_category
 ALL_RESTAURANT_ENDPOINT=https://www.d-makla.com/nassim_api/AppFlutter_all_api.php?all_restaurant
 RESTAURANT_CATEGORY_ENDPOINT=https://www.d-makla.com/nassim_api/AppFlutter_all_api.php?category
 CITY_AREA_LIST_ENDPOINT=https://www.d-makla.com/nassim_api/AppFlutter_all_api.php?city_area_list
