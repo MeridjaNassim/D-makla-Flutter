@@ -114,7 +114,7 @@ class _CartWidgetState extends State<CartWidget> {
                   Scaffold.of(context).showSnackBar(SnackBar(
                       backgroundColor: Theme.of(context).accentColor,
                       content: Text(
-                          "Order ${order.menu.name + " " + order.variant.name} deleted",
+                          "Order ${order.menu.name + " " + order.variant.name} supprimé",
                           textAlign: TextAlign.start,
                           style: TextStyle(
                               color: Theme.of(context).primaryColor))));
