@@ -47,6 +47,8 @@ dependencies:
   optimized_cached_image: ^1.0.0
   #env 
   flutter_dotenv: ^2.1.0
+  #utils
+  shortid: ^0.1.1
 dev_dependencies:
   flutter_test:
     sdk: flutter

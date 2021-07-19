@@ -68,7 +68,10 @@ class _LoginFormState extends State<LoginForm> {
     BlocProvider.of<LoginBloc>(context)
         .add(StartLoginEvent(phoneNumber: _phoneNumber, password: _password));
   }
-
+  void _dispatchLoginAsGuest() {
+    BlocProvider.of<LoginBloc>(context)
+        .add(LoginAsGuestEvent());
+  }
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<LoginBloc, LoginState>(
@@ -191,11 +194,18 @@ class _LoginFormState extends State<LoginForm> {
               textColor: Theme.of(context).hintColor,
               child: Text('Vous n\'avez pas encore un compte?'),
             ),
+            FlatButton(
+              onPressed: _dispatchLoginAsGuest,
+              textColor: Theme.of(context).accentColor,
+              child: Text('Où connecter vous comme invité'),
+            ),
           ],
         ),
       ),
     );
   }
+
+
 }
 
 class InputError extends StatelessWidget {

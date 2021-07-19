@@ -2,18 +2,17 @@ import 'package:equatable/equatable.dart';
 import 'package:dmakla/src/business_logic/models/cart.dart';
 import 'package:dmakla/src/business_logic/models/common/localisation.dart';
 import 'package:dmakla/src/business_logic/models/common/wilaya.dart';
+import 'package:shortid/shortid.dart';
 
+enum Gender { MALE, FEMALE }
 
-
-enum Gender {MALE, FEMALE}
-
-class UserWallet{
+class UserWallet {
   final double currentBalance;
 
   UserWallet(this.currentBalance);
 }
 
-class User extends Equatable{
+class User extends Equatable {
   final String id;
   final String fullName;
   final String phoneNumber;
@@ -26,10 +25,9 @@ class User extends Equatable{
   final String address;
   final String zipcode;
 
-
   User(
       {this.id,
-        this.cart,
+      this.cart,
       this.fullName,
       this.phoneNumber,
       this.email,
@@ -40,24 +38,47 @@ class User extends Equatable{
       this.address,
       this.zipcode});
 
-  factory User.fromJson(Map<String,dynamic> json) {
-    return User(id: json["id"],fullName: json["fullName"],phoneNumber: json["phoneNumber"] ,email: json["email"], wilaya: Wilaya(code: json["city_id"]));
+  factory User.fromJson(Map<String, dynamic> json) {
+    return User(
+        id: json["id"],
+        fullName: json["fullName"],
+        phoneNumber: json["phoneNumber"],
+        email: json["email"],
+        wilaya: Wilaya(code: json["city_id"]));
   }
 
-  Map<String,String> toJson() {
-    Map<String,String> mapValues = {
-      "id" : id,
-      "fullName" :fullName,
-      "phoneNumber" : phoneNumber,
-      "email" : email,
-      "gender" : gender.toString(),
-      "city_id" : wilaya.code
+  Map<String, String> toJson() {
+    Map<String, String> mapValues = {
+      "id": id,
+      "fullName": fullName,
+      "phoneNumber": phoneNumber,
+      "email": email,
+      "gender": gender.toString(),
+      "city_id": wilaya.code
     };
     return mapValues;
   }
 
   @override
   List<Object> get props {
-    return [id,fullName,phoneNumber];
+    return [id, fullName, phoneNumber];
   }
+}
+
+const String defaultWilaya = "15";
+const String defaultPrefix = "guest";
+
+class GuestUser extends User {
+  factory GuestUser.create() {
+    return GuestUser(shortid.generate(), defaultPrefix, defaultWilaya);
+  }
+
+  GuestUser(String id, String namePrefix, String wilayaCode)
+      : super(
+            id: id,
+            fullName: namePrefix + "-" + id,
+            wilaya: Wilaya(code: wilayaCode),
+            phoneNumber: "N/A",
+            email: "N/A",
+            wallet: UserWallet(0));
 }

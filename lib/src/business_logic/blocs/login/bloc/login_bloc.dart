@@ -18,6 +18,15 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
   @override
   Stream<LoginState> mapEventToState(LoginEvent event) async* {
+    if(event is LoginAsGuestEvent) {
+      //TODO: Implement Login as Guest Logic
+      GuestUser guestUser = GuestUser.create();
+      print(guestUser);
+      _authenticationBloc.add(UserLoggedIn(user: guestUser));
+      yield LoggedInState(user: guestUser);
+      //print('logged in');
+      return;
+    }
     if (event is StartLoginEvent) {
       LoginWithPhoneNumberValidation validation =
           validateLoginWithPhoneCredentials(
