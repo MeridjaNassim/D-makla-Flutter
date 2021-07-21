@@ -20,7 +20,7 @@ class User extends Equatable {
   final Gender gender;
   final UserWallet wallet;
   final Cart cart;
-  final Wilaya wilaya;
+  Wilaya wilaya;
   final Coordinates coordinates;
   final String address;
   final String zipcode;

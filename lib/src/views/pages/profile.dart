@@ -5,9 +5,25 @@ import 'package:dmakla/src/models/order.dart';
 import 'package:dmakla/src/views/elements/OrderItemWidget.dart';
 import 'package:dmakla/src/views/elements/ProfileAvatarWidget.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:dmakla/src/business_logic/utils/constants/wilaya.dart';
+import 'package:dmakla/src/business_logic/models/user.dart';
+import 'package:dmakla/src/business_logic/models/common/wilaya.dart';
+class ProfileWidget extends StatefulWidget {
+  @override
+  _ProfileWidgetState createState() => _ProfileWidgetState();
+}
 
-class ProfileWidget extends StatelessWidget {
-  OrdersList _ordersList = new OrdersList();
+class _ProfileWidgetState extends State<ProfileWidget> {
+  String _selectedWilaya;
+  User _user;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    AuthenticationAuthenticated state = BlocProvider.of<AuthenticationBloc>(context).state;
+    _user = state.user;
+    _selectedWilaya = WILAYA_MAP[_user.wilaya.code];
+  }
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -77,6 +93,7 @@ class ProfileWidget extends StatelessWidget {
                     ],
                   ),
                   child: Column(
+
                     children: [
                       ListTile(
                         dense: true,
@@ -114,12 +131,57 @@ class ProfileWidget extends StatelessWidget {
                               .copyWith(color: Theme.of(context).accentColor),
                         ),
                         trailing: Text(
-                          "N/A",
+                          _user.wallet == null ? "N/A" : _user.wallet.currentBalance.toString(),
                           overflow: TextOverflow.ellipsis,
                           maxLines: 2,
                           style: Theme.of(context).textTheme.display2,
                         ),
                       ),
+                  SizedBox(height: 10,),
+                  Text(
+                    "Votre wilaya courante",
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 2,
+                    style: Theme.of(context).textTheme.bodyText2,
+                  ),
+                      DropdownButtonFormField<String>(
+                          value: _selectedWilaya,
+                          isExpanded: true,
+                          iconSize: 24,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color:
+                                    Theme.of(context).focusColor.withOpacity(0.2))),
+                            focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color:
+                                    Theme.of(context).focusColor.withOpacity(0.5))),
+                            enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color:
+                                    Theme.of(context).focusColor.withOpacity(0.2))),
+                          ),
+                          elevation: 16,
+                          style: TextStyle(color: Theme.of(context).accentColor),
+                          onChanged: (String newValue) {
+                            setState(() {
+                              _selectedWilaya = newValue;
+                              _user.wilaya = Wilaya.fromName(_selectedWilaya);
+                            });
+                          },
+                          items: WILAYA_MAP.values
+                              .toList()
+                              .map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(
+                                value,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(fontWeight: FontWeight.w700),
+                              ),
+                            );
+                          }).toList()),
                     ],
                   ),
                 ),

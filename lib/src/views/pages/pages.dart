@@ -31,8 +31,7 @@ class _PagesTestWidgetState extends State<PagesTestWidget> {
 
   initState() {
     super.initState();
-    final tabIndex =
-        BlocProvider.of<TabNavigationCubit>(context).state.tabIndex;
+    final tabIndex = HOME_TAB_INDEX;
     _selectTab(tabIndex);
     currentTitle = "Accueil";
     currentPage = HomeWidget();
