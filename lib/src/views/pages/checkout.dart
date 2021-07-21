@@ -1,5 +1,7 @@
+import 'package:dmakla/src/views/pages/login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:dmakla/config/app_config.dart' as config;
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:dmakla/src/business_logic/blocs/auth/auth.bloc.dart';
 import 'package:dmakla/src/business_logic/blocs/auth/auth.state.dart';
@@ -11,6 +13,9 @@ import 'package:dmakla/src/business_logic/models/delivery.dart';
 import 'package:dmakla/src/business_logic/models/user.dart';
 import 'package:dmakla/src/views/elements/common/loading.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:dmakla/src/business_logic/blocs/login/bloc/login_bloc.dart';
+import 'package:dmakla/src/business_logic/blocs/login/bloc/login_event.dart';
+import 'package:dmakla/src/business_logic/blocs/login/bloc/login_state.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -31,10 +36,13 @@ class _CheckoutWidgetState extends State<CheckoutWidget> {
   int startMinute;
   int endhour;
   int endMinute;
+  OverlayEntry loginForm;
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    loginForm= null;
     User user = (BlocProvider.of<AuthenticationBloc>(context).state
             as AuthenticationAuthenticated)
         .user;
@@ -626,6 +634,32 @@ class _CheckoutWidgetState extends State<CheckoutWidget> {
                     ),
                   ),
                 ),
+                Container(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: ListTile(
+                      contentPadding: EdgeInsets.symmetric(vertical: 0),
+                      leading: Icon(
+                        Icons.account_box_rounded,
+                        color: Theme.of(context).hintColor,
+                      ),
+                      title: Text(
+                        'User',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context).textTheme.display1,
+                      ),
+                      trailing: BlocBuilder<AuthenticationBloc,AuthenticationState>(
+                        builder:(context,state)=> Text(
+                          getUserName(state),
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                          style: Theme.of(context).textTheme.display1,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
                 SizedBox(height: 20),
                 Stack(
                   fit: StackFit.loose,
@@ -634,7 +668,7 @@ class _CheckoutWidgetState extends State<CheckoutWidget> {
                     SizedBox(
                       width: 320,
                       child: FlatButton(
-                        onPressed: () {
+                        onPressed:  () async {
                           final state = BlocProvider.of<DeliveryCubit>(context)
                               .state as LoadedDeliveryState;
                           final date = state.deliveryTime.dateTime;
@@ -645,13 +679,22 @@ class _CheckoutWidgetState extends State<CheckoutWidget> {
                                 content: Text(
                                     "Heure de livraison doit être entre ${startHour.toString()}:00 et ${endhour.toString()}:00")));
                           }
-                          final payload = ConfirmDeliveryPayload(
-                              useGpsPosition: useMyGeoLocalisationPosition,
-                              contactPhoneNumber: _phoneNumberValue,
-                              address: _addressValue,
-                              deliveryComment: _commentaireLivraison);
-                          BlocProvider.of<DeliveryCubit>(context)
-                              .confirmDelivery(payload: payload);
+                          bool isGuest =  BlocProvider.of<AuthenticationBloc>(context).isGuest();
+                          if(!isGuest){
+                            print("is guest");
+                            final payload = ConfirmDeliveryPayload(
+                                useGpsPosition: useMyGeoLocalisationPosition,
+                                contactPhoneNumber: _phoneNumberValue,
+                                address: _addressValue,
+                                deliveryComment: _commentaireLivraison);
+                            BlocProvider.of<DeliveryCubit>(context)
+                                .confirmDelivery(payload: payload);
+                          }
+                          else
+                            {
+                              loginUser(context);
+                            }
+
                         },
                         padding: EdgeInsets.symmetric(vertical: 14),
                         color: Theme.of(context).accentColor,
@@ -724,6 +767,27 @@ class _CheckoutWidgetState extends State<CheckoutWidget> {
         (deliveryState as LoadedDeliveryState).delivery.discount;
     return (cartPrice + deliveryPrice - discountPrice).toInt().toString() +
         "DA";
+  }
+
+  Future<void> loginUser(BuildContext context) async {
+      await Navigator.of(context).push( MaterialPageRoute(builder: (_)=>LoginFromGuestWidget(
+      onLogin: (context,result){
+        print("user logged in");
+        Navigator.pop(context,result);
+      },
+      onCancel: (context,result){
+        print("cancel loggin");
+        Navigator.pop(context,result);
+      },
+    )));
+  }
+
+  String getUserName(AuthenticationState state) {
+    if(state is AuthenticationAuthenticated)
+      {
+        return state.user.fullName;
+      }
+    return "no user";
   }
 }
 

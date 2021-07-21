@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:dmakla/src/business_logic/models/user.dart';
 import 'package:dmakla/src/business_logic/repositories/user_repository.dart';
 import 'package:dmakla/src/business_logic/services/auth.service.dart';
 
@@ -33,9 +34,13 @@ class AuthenticationBloc
   Stream<AuthenticationState> _mapAppLoadedToState(AppLoaded event) async* {
     yield AuthenticationLoading();
     try {
-      final currentUser = await _authenticationService.getCurrentUser();
+      User currentUser = await _authenticationService.getCurrentUser();
+
       ////print(currentUser);
       if (currentUser != null) {
+        if(currentUser.fullName.startsWith(defaultGuestPrefix)){
+          currentUser  = GuestUser.fromUser(currentUser);
+        }
         yield AuthenticationAuthenticated(user: currentUser);
       } else {
         yield AuthenticationNotAuthenticated();
@@ -61,5 +66,12 @@ class AuthenticationBloc
 
   Future<bool> isFirstLogin() async {
     return !await this._authenticationService.didFirstLogin();
+  }
+  bool isGuest()  {
+    AuthenticationState state = this.state;
+    if(state is AuthenticationAuthenticated) {
+      return (state.user  is  GuestUser);
+    }
+    return false;
   }
 }

@@ -66,11 +66,20 @@ class User extends Equatable {
 }
 
 const String defaultWilaya = "15";
-const String defaultPrefix = "guest";
-
+const String defaultGuestPrefix = "guest";
+const String allowedChars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 class GuestUser extends User {
+  static bool charsSet = false;
   factory GuestUser.create() {
-    return GuestUser(shortid.generate(), defaultPrefix, defaultWilaya);
+    if(!charsSet){
+
+      shortid.characters(allowedChars);
+      charsSet = true;
+    }
+    return GuestUser(shortid.generate(), defaultGuestPrefix, defaultWilaya);
+  }
+  factory GuestUser.fromUser(User user) {
+    return GuestUser(user.id, user.fullName, user.wilaya.code);
   }
 
   GuestUser(String id, String namePrefix, String wilayaCode)
