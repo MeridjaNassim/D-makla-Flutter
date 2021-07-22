@@ -37,18 +37,18 @@ class _CheckoutWidgetState extends State<CheckoutWidget> {
   int endhour;
   int endMinute;
   OverlayEntry loginForm;
-
+  User _user;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     loginForm= null;
-    User user = (BlocProvider.of<AuthenticationBloc>(context).state
+    _user = (BlocProvider.of<AuthenticationBloc>(context).state
             as AuthenticationAuthenticated)
         .user;
-    _addressValue = user.address;
+    _addressValue = _user.address;
     useMyGeoLocalisationPosition = true;
-    _phoneNumberValue = user.phoneNumber;
+    _phoneNumberValue = _user.phoneNumber;
     _commentaireLivraison = "";
     _addressController = new TextEditingController();
     _phoneNumberController = new TextEditingController();
@@ -129,461 +129,29 @@ class _CheckoutWidgetState extends State<CheckoutWidget> {
         );
       }
       if (state is LoadedDeliveryState) {
-        return SingleChildScrollView(
-            padding: EdgeInsets.symmetric(vertical: 10),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisSize: MainAxisSize.max,
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.only(left: 20, right: 10),
-                  child: ListTile(
-                    contentPadding: EdgeInsets.symmetric(vertical: 0),
-                    leading: Icon(
-                      Icons.delivery_dining,
-                      color: Theme.of(context).hintColor,
-                    ),
-                    title: Text(
-                      'Information de livraison',
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.display1,
-                    ),
-                    subtitle: Text(
-                      'Séléctionner vos options de livraison',
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.caption,
-                    ),
-                  ),
-                ),
-                SizedBox(height: 20),
-                CheckboxListTile(
-                  title: Row(
-                    children: [
-                      Icon(Icons.gps_fixed,
-                          color: Theme.of(context).accentColor),
-                      SizedBox(
-                        width: 20,
-                      ),
-                      Expanded(
-                          child: Text(
-                              "Utiliser ma position GPS pour la livraison"))
-                    ],
-                  ),
-                  value: useMyGeoLocalisationPosition,
-                  onChanged: (newValue) {
-                    setState(() {
-                      useMyGeoLocalisationPosition = newValue;
-                    });
-                  },
-                  controlAffinity:
-                      ListTileControlAffinity.trailing, //  <-- leading Checkbox
-                ),
-                SizedBox(height: 20),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.info_outline_rounded,
-                        size: 14,
-                        color: Theme.of(context).accentColor,
-                      ),
-                      SizedBox(width: 5),
-                      Text(
-                        'Choisissez votre commune',
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.body1,
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 5),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: DropdownButtonFormField<Commune>(
-                      hint: Text("Commune de livraison"),
-                      value: state.selectedCommune,
-                      icon:
-                          Icon(Icons.map, color: Theme.of(context).accentColor),
-                      isExpanded: true,
-                      iconSize: 24,
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                            borderSide: BorderSide(
-                                color: Theme.of(context)
-                                    .focusColor
-                                    .withOpacity(0.2))),
-                        focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                                color: Theme.of(context)
-                                    .focusColor
-                                    .withOpacity(0.5))),
-                        enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                                color: Theme.of(context)
-                                    .focusColor
-                                    .withOpacity(0.2))),
-                      ),
-                      elevation: 16,
-                      style: TextStyle(color: Theme.of(context).accentColor),
-                      onChanged: (Commune newCommune) {
-                        BlocProvider.of<DeliveryCubit>(context)
-                            .setSelectedCommune(newCommune);
-                      },
-                      items: state.deliveryLocations
-                          .map<DropdownMenuItem<Commune>>((Commune value) {
-                        return DropdownMenuItem<Commune>(
-                          value: value,
-                          child: Text(
-                            value.name,
-                            textAlign: TextAlign.center,
-                            style: TextStyle(fontWeight: FontWeight.w700),
-                          ),
-                        );
-                      }).toList()),
-                ),
-                SizedBox(height: 20),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.info_outline_rounded,
-                        size: 14,
-                        color: Theme.of(context).accentColor,
-                      ),
-                      SizedBox(width: 5),
-                      Text(
-                        'Choisissez la zone de livraison',
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.body1,
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 5),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: DropdownButtonFormField<DeliveryZone>(
-                      hint: Text("Zone de livraison"),
-                      value: state.selectedZone,
-                      icon: Icon(Icons.add_location_alt,
-                          color: Theme.of(context).accentColor),
-                      isExpanded: true,
-                      iconSize: 24,
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                            borderSide: BorderSide(
-                                color: Theme.of(context)
-                                    .focusColor
-                                    .withOpacity(0.2))),
-                        focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                                color: Theme.of(context)
-                                    .focusColor
-                                    .withOpacity(0.5))),
-                        enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                                color: Theme.of(context)
-                                    .focusColor
-                                    .withOpacity(0.2))),
-                      ),
-                      elevation: 16,
-                      style: TextStyle(color: Theme.of(context).accentColor),
-                      onChanged: (DeliveryZone newZone) {
-                        BlocProvider.of<DeliveryCubit>(context)
-                            .setDeliveryZone(newZone);
-                      },
-                      items: state.selectedCommune.zones
-                          .map<DropdownMenuItem<DeliveryZone>>(
-                              (DeliveryZone value) {
-                        return DropdownMenuItem<DeliveryZone>(
-                          value: value,
-                          child: Text(
-                            value.name,
-                            textAlign: TextAlign.center,
-                            style: TextStyle(fontWeight: FontWeight.w700),
-                          ),
-                        );
-                      }).toList()),
-                ),
-                SizedBox(height: 20),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.info_outline_rounded,
-                        size: 14,
-                        color: Theme.of(context).accentColor,
-                      ),
-                      SizedBox(width: 5),
-                      Text(
-                        'Choisissez la date et heure de livraison',
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.body1,
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 5),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: FlatButton(
-                    onPressed: () {
-                      final state = BlocProvider.of<DeliveryCubit>(context)
-                          .state as LoadedDeliveryState;
-                      final currentDateTime = state.deliveryTime.dateTime;
-                      DatePicker.showDateTimePicker(context,
-                          theme: DatePickerTheme(
-                            cancelStyle: Theme.of(context).textTheme.body2,
-                            doneStyle: TextStyle(
-                                color: Theme.of(context).accentColor,
-                                fontWeight: FontWeight.bold),
-                            itemStyle:
-                                TextStyle(color: Theme.of(context).accentColor),
-                          ),
-                          showTitleActions: true,
-                          minTime: starting,
-                          maxTime: maxDeliveryTimeFromToday, onChanged: (date) {
-                        //print('change $date');
-                      }, onConfirm: (date) {
-                        //print('confirm $date');
+        return BlocConsumer<AuthenticationBloc,AuthenticationState>(
+          listener: (context,userState){
+            if(userState is AuthenticationAuthenticated) {
+              this.setState(() {
+                _user =userState.user;
+                print(_user.phoneNumber);
+                _phoneNumberValue = _user.phoneNumber;
 
-                        if (date.hour > endhour || date.hour < startHour) {
-                          return Scaffold.of(context).showSnackBar(SnackBar(
-                              backgroundColor: Theme.of(context).accentColor,
-                              content: Text(
-                                  "Heure de livraison doit être entre ${startHour.toString()}:00 et ${endhour.toString()}:00")));
-                        }
-                        BlocProvider.of<DeliveryCubit>(context)
-                            .setDeliveryTime(DeliveryTime(date));
-                      }, currentTime: currentDateTime, locale: LocaleType.fr);
-                    },
-                    padding: EdgeInsets.symmetric(vertical: 0),
-                    color: Theme.of(context).accentColor,
-                    child: Container(
-                        width: double.infinity,
-                        child: ListTile(
-                          trailing: Icon(
-                            Icons.calendar_today_rounded,
-                            color: Theme.of(context).primaryColor,
-                          ),
-                          title: Text(
-                            'Livrer le ${getDeliveryDateText(state.deliveryTime)} à ${getDeliveryTimeText(state.deliveryTime)}',
-                            textAlign: TextAlign.start,
-                            style: TextStyle(
-                                color: Theme.of(context).primaryColor),
-                          ),
-                        )),
-                  ),
-                ),
-                SizedBox(height: 20),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: TextField(
-                    autofocus: false,
-                    onChanged: (value) {
-                      this.setState(() {
-                        _commentaireLivraison = value;
-                      });
-                    },
-                    keyboardType: TextInputType.text,
-                    minLines: 3,
-                    maxLines: 10,
-                    controller: _commentaireController,
-                    decoration: InputDecoration(
-                      labelText: "Commentaire sur livraison",
-                      errorText: null,
-                      labelStyle:
-                          TextStyle(color: Theme.of(context).accentColor),
-                      contentPadding: EdgeInsets.all(12),
-                      hintText: 'Commentaire sur livraison',
-                      hintStyle: TextStyle(
-                          color: Theme.of(context).focusColor.withOpacity(0.7)),
-                      suffixIcon: Icon(Icons.comment,
-                          color: Theme.of(context).accentColor),
-                      border: OutlineInputBorder(
-                          borderSide: BorderSide(
-                              color: Theme.of(context)
-                                  .focusColor
-                                  .withOpacity(0.2))),
-                      focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                              color: Theme.of(context)
-                                  .focusColor
-                                  .withOpacity(0.5))),
-                      enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                              color: Theme.of(context)
-                                  .focusColor
-                                  .withOpacity(0.2))),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 20),
-                Padding(
-                  padding: const EdgeInsets.only(left: 20, right: 10),
-                  child: ListTile(
-                    contentPadding: EdgeInsets.symmetric(vertical: 0),
-                    leading: Icon(
-                      Icons.add,
-                      color: Theme.of(context).hintColor,
-                    ),
-                    title: Text(
-                      'Information de réception',
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.display1,
-                    ),
-                    subtitle: Text(
-                      'Entrez vos informations de réception',
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.caption,
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: TextField(
-                    autofocus: false,
-                    onChanged: (value) {
-                      this.setState(() {
-                        _addressValue = value;
-                      });
-                    },
-                    keyboardType: TextInputType.streetAddress,
-                    controller: _addressController,
-                    decoration: InputDecoration(
-                      labelText: "Adresse",
-                      errorText: null,
-                      labelStyle:
-                          TextStyle(color: Theme.of(context).accentColor),
-                      contentPadding: EdgeInsets.all(12),
-                      hintText: 'Votre adresse (optionnel)',
-                      hintStyle: TextStyle(
-                          color: Theme.of(context).focusColor.withOpacity(0.7)),
-                      suffixIcon: Icon(Icons.home,
-                          color: Theme.of(context).accentColor),
-                      border: OutlineInputBorder(
-                          borderSide: BorderSide(
-                              color: Theme.of(context)
-                                  .focusColor
-                                  .withOpacity(0.2))),
-                      focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                              color: Theme.of(context)
-                                  .focusColor
-                                  .withOpacity(0.5))),
-                      enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                              color: Theme.of(context)
-                                  .focusColor
-                                  .withOpacity(0.2))),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 20),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: TextField(
-                    autofocus: false,
-                    onChanged: (value) {
-                      this.setState(() {
-                        _phoneNumberValue = value;
-                      });
-                    },
-                    keyboardType: TextInputType.phone,
-                    controller: _phoneNumberController,
-                    decoration: InputDecoration(
-                      labelText: "Mobile N° de reception",
-                      errorText: null,
-                      labelStyle:
-                          TextStyle(color: Theme.of(context).accentColor),
-                      contentPadding: EdgeInsets.all(12),
-                      hintText: '0123456789',
-                      hintStyle: TextStyle(
-                          color: Theme.of(context).focusColor.withOpacity(0.7)),
-                      suffixIcon: Icon(Icons.phone,
-                          color: Theme.of(context).accentColor),
-                      border: OutlineInputBorder(
-                          borderSide: BorderSide(
-                              color: Theme.of(context)
-                                  .focusColor
-                                  .withOpacity(0.2))),
-                      focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                              color: Theme.of(context)
-                                  .focusColor
-                                  .withOpacity(0.5))),
-                      enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                              color: Theme.of(context)
-                                  .focusColor
-                                  .withOpacity(0.2))),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 20),
-                Padding(
-                  padding: const EdgeInsets.only(left: 20, right: 10),
-                  child: ListTile(
-                    contentPadding: EdgeInsets.symmetric(vertical: 0),
-                    leading: Icon(
-                      Icons.money,
-                      color: Theme.of(context).hintColor,
-                    ),
-                    title: Text(
-                      'Payement',
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.display1,
-                    ),
-                    subtitle: Text(
-                      'confirmez votre commande après vérification des informations',
-                      maxLines: 3,
-                      overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.caption,
-                    ),
-                  ),
-                ),
-                Container(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: ListTile(
-                      contentPadding: EdgeInsets.symmetric(vertical: 0),
-                      leading: Icon(
-                        Icons.shopping_cart,
-                        color: Theme.of(context).hintColor,
-                      ),
-                      title: Text(
-                        'Totale de Commande',
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.display1,
-                      ),
-                      trailing: BlocBuilder<CartBloc, CartState>(
-                        builder: (context, state) => Text(
-                          (state is LoadedCartState)
-                              ? state.currentCartPrice.toInt().toString() + "DA"
-                              : "...",
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 1,
-                          style: Theme.of(context).textTheme.display3,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                _phoneNumberController.text = _user.phoneNumber;
+                print(_user.address);
+                _addressController.text = _user.address;
+                _addressValue = _user.address;
+              });
+            }
+          },
+          builder:(context,userState)=> SingleChildScrollView(
+              padding: EdgeInsets.symmetric(vertical: 10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisSize: MainAxisSize.max,
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.only(left: 20, right: 10),
                     child: ListTile(
                       contentPadding: EdgeInsets.symmetric(vertical: 0),
                       leading: Icon(
@@ -591,87 +159,216 @@ class _CheckoutWidgetState extends State<CheckoutWidget> {
                         color: Theme.of(context).hintColor,
                       ),
                       title: Text(
-                        'Frais de livraison',
+                        'Information de livraison',
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: Theme.of(context).textTheme.display1,
                       ),
-                      trailing: Text(
-                        (state.delivery.delivery_fee).toInt().toString() + "DA",
-                        overflow: TextOverflow.ellipsis,
+                      subtitle: Text(
+                        'Séléctionner vos options de livraison',
                         maxLines: 1,
-                        style: Theme.of(context).textTheme.display2,
+                        overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context).textTheme.caption,
                       ),
                     ),
                   ),
-                ),
-                Container(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: ListTile(
-                      contentPadding: EdgeInsets.symmetric(vertical: 0),
-                      leading: Icon(
-                        Icons.payments_outlined,
-                        color: Theme.of(context).hintColor,
-                      ),
-                      title: Text(
-                        'Remise',
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.display1,
-                      ),
-                      trailing: Text(
-                        "-" +
-                            (state.delivery.discount).toInt().toString() +
-                            "DA",
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 1,
-                        style: Theme.of(context)
-                            .textTheme
-                            .display3
-                            .copyWith(color: Colors.green),
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: ListTile(
-                      contentPadding: EdgeInsets.symmetric(vertical: 0),
-                      leading: Icon(
-                        Icons.account_box_rounded,
-                        color: Theme.of(context).hintColor,
-                      ),
-                      title: Text(
-                        'User',
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.display1,
-                      ),
-                      trailing: BlocBuilder<AuthenticationBloc,AuthenticationState>(
-                        builder:(context,state)=> Text(
-                          getUserName(state),
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 1,
-                          style: Theme.of(context).textTheme.display1,
+                  SizedBox(height: 20),
+                  CheckboxListTile(
+                    title: Row(
+                      children: [
+                        Icon(Icons.gps_fixed,
+                            color: Theme.of(context).accentColor),
+                        SizedBox(
+                          width: 20,
                         ),
-                      ),
+                        Expanded(
+                            child: Text(
+                                "Utiliser ma position GPS pour la livraison"))
+                      ],
+                    ),
+                    value: useMyGeoLocalisationPosition,
+                    onChanged: (newValue) {
+                      setState(() {
+                        useMyGeoLocalisationPosition = newValue;
+                      });
+                    },
+                    controlAffinity:
+                        ListTileControlAffinity.trailing, //  <-- leading Checkbox
+                  ),
+                  SizedBox(height: 20),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.info_outline_rounded,
+                          size: 14,
+                          color: Theme.of(context).accentColor,
+                        ),
+                        SizedBox(width: 5),
+                        Text(
+                          'Choisissez votre commune',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: Theme.of(context).textTheme.body1,
+                        ),
+                      ],
                     ),
                   ),
-                ),
-                SizedBox(height: 20),
-                Stack(
-                  fit: StackFit.loose,
-                  alignment: AlignmentDirectional.centerEnd,
-                  children: <Widget>[
-                    SizedBox(
-                      width: 320,
-                      child: FlatButton(
-                        onPressed:  () async {
-                          final state = BlocProvider.of<DeliveryCubit>(context)
-                              .state as LoadedDeliveryState;
-                          final date = state.deliveryTime.dateTime;
+                  SizedBox(height: 5),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: DropdownButtonFormField<Commune>(
+                        hint: Text("Commune de livraison"),
+                        value: state.selectedCommune,
+                        icon:
+                            Icon(Icons.map, color: Theme.of(context).accentColor),
+                        isExpanded: true,
+                        iconSize: 24,
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: Theme.of(context)
+                                      .focusColor
+                                      .withOpacity(0.2))),
+                          focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: Theme.of(context)
+                                      .focusColor
+                                      .withOpacity(0.5))),
+                          enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: Theme.of(context)
+                                      .focusColor
+                                      .withOpacity(0.2))),
+                        ),
+                        elevation: 16,
+                        style: TextStyle(color: Theme.of(context).accentColor),
+                        onChanged: (Commune newCommune) {
+                          BlocProvider.of<DeliveryCubit>(context)
+                              .setSelectedCommune(newCommune);
+                        },
+                        items: state.deliveryLocations
+                            .map<DropdownMenuItem<Commune>>((Commune value) {
+                          return DropdownMenuItem<Commune>(
+                            value: value,
+                            child: Text(
+                              value.name,
+                              textAlign: TextAlign.center,
+                              style: TextStyle(fontWeight: FontWeight.w700),
+                            ),
+                          );
+                        }).toList()),
+                  ),
+                  SizedBox(height: 20),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.info_outline_rounded,
+                          size: 14,
+                          color: Theme.of(context).accentColor,
+                        ),
+                        SizedBox(width: 5),
+                        Text(
+                          'Choisissez la zone de livraison',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: Theme.of(context).textTheme.body1,
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 5),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: DropdownButtonFormField<DeliveryZone>(
+                        hint: Text("Zone de livraison"),
+                        value: state.selectedZone,
+                        icon: Icon(Icons.add_location_alt,
+                            color: Theme.of(context).accentColor),
+                        isExpanded: true,
+                        iconSize: 24,
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: Theme.of(context)
+                                      .focusColor
+                                      .withOpacity(0.2))),
+                          focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: Theme.of(context)
+                                      .focusColor
+                                      .withOpacity(0.5))),
+                          enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: Theme.of(context)
+                                      .focusColor
+                                      .withOpacity(0.2))),
+                        ),
+                        elevation: 16,
+                        style: TextStyle(color: Theme.of(context).accentColor),
+                        onChanged: (DeliveryZone newZone) {
+                          BlocProvider.of<DeliveryCubit>(context)
+                              .setDeliveryZone(newZone);
+                        },
+                        items: state.selectedCommune.zones
+                            .map<DropdownMenuItem<DeliveryZone>>(
+                                (DeliveryZone value) {
+                          return DropdownMenuItem<DeliveryZone>(
+                            value: value,
+                            child: Text(
+                              value.name,
+                              textAlign: TextAlign.center,
+                              style: TextStyle(fontWeight: FontWeight.w700),
+                            ),
+                          );
+                        }).toList()),
+                  ),
+                  SizedBox(height: 20),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.info_outline_rounded,
+                          size: 14,
+                          color: Theme.of(context).accentColor,
+                        ),
+                        SizedBox(width: 5),
+                        Text(
+                          'Choisissez la date et heure de livraison',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: Theme.of(context).textTheme.body1,
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 5),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: FlatButton(
+                      onPressed: () {
+                        final state = BlocProvider.of<DeliveryCubit>(context)
+                            .state as LoadedDeliveryState;
+                        final currentDateTime = state.deliveryTime.dateTime;
+                        DatePicker.showDateTimePicker(context,
+                            theme: DatePickerTheme(
+                              cancelStyle: Theme.of(context).textTheme.body2,
+                              doneStyle: TextStyle(
+                                  color: Theme.of(context).accentColor,
+                                  fontWeight: FontWeight.bold),
+                              itemStyle:
+                                  TextStyle(color: Theme.of(context).accentColor),
+                            ),
+                            showTitleActions: true,
+                            minTime: starting,
+                            maxTime: maxDeliveryTimeFromToday, onChanged: (date) {
+                          //print('change $date');
+                        }, onConfirm: (date) {
+                          //print('confirm $date');
 
                           if (date.hour > endhour || date.hour < startHour) {
                             return Scaffold.of(context).showSnackBar(SnackBar(
@@ -679,55 +376,376 @@ class _CheckoutWidgetState extends State<CheckoutWidget> {
                                 content: Text(
                                     "Heure de livraison doit être entre ${startHour.toString()}:00 et ${endhour.toString()}:00")));
                           }
-                          bool isGuest =  BlocProvider.of<AuthenticationBloc>(context).isGuest();
-                          if(!isGuest){
-                            print("is guest");
-                            final payload = ConfirmDeliveryPayload(
-                                useGpsPosition: useMyGeoLocalisationPosition,
-                                contactPhoneNumber: _phoneNumberValue,
-                                address: _addressValue,
-                                deliveryComment: _commentaireLivraison);
-                            BlocProvider.of<DeliveryCubit>(context)
-                                .confirmDelivery(payload: payload);
-                          }
-                          else
-                            {
-                              loginUser(context);
-                            }
-
-                        },
-                        padding: EdgeInsets.symmetric(vertical: 14),
-                        color: Theme.of(context).accentColor,
-                        shape: StadiumBorder(),
-                        child: Container(
+                          BlocProvider.of<DeliveryCubit>(context)
+                              .setDeliveryTime(DeliveryTime(date));
+                        }, currentTime: currentDateTime, locale: LocaleType.fr);
+                      },
+                      padding: EdgeInsets.symmetric(vertical: 0),
+                      color: Theme.of(context).accentColor,
+                      child: Container(
                           width: double.infinity,
-                          padding: const EdgeInsets.symmetric(horizontal: 20),
-                          child: Text(
-                            'Confirmer',
-                            textAlign: TextAlign.start,
-                            style: TextStyle(
-                                color: Theme.of(context).primaryColor),
+                          child: ListTile(
+                            trailing: Icon(
+                              Icons.calendar_today_rounded,
+                              color: Theme.of(context).primaryColor,
+                            ),
+                            title: Text(
+                              'Livrer le ${getDeliveryDateText(state.deliveryTime)} à ${getDeliveryTimeText(state.deliveryTime)}',
+                              textAlign: TextAlign.start,
+                              style: TextStyle(
+                                  color: Theme.of(context).primaryColor),
+                            ),
+                          )),
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: TextField(
+                      autofocus: false,
+                      onChanged: (value) {
+                        this.setState(() {
+                          _commentaireLivraison = value;
+                        });
+                      },
+                      keyboardType: TextInputType.text,
+                      minLines: 3,
+                      maxLines: 10,
+                      controller: _commentaireController,
+                      decoration: InputDecoration(
+                        labelText: "Commentaire sur livraison",
+                        errorText: null,
+                        labelStyle:
+                            TextStyle(color: Theme.of(context).accentColor),
+                        contentPadding: EdgeInsets.all(12),
+                        hintText: 'Commentaire sur livraison',
+                        hintStyle: TextStyle(
+                            color: Theme.of(context).focusColor.withOpacity(0.7)),
+                        suffixIcon: Icon(Icons.comment,
+                            color: Theme.of(context).accentColor),
+                        border: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Theme.of(context)
+                                    .focusColor
+                                    .withOpacity(0.2))),
+                        focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Theme.of(context)
+                                    .focusColor
+                                    .withOpacity(0.5))),
+                        enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Theme.of(context)
+                                    .focusColor
+                                    .withOpacity(0.2))),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 20, right: 10),
+                    child: ListTile(
+                      contentPadding: EdgeInsets.symmetric(vertical: 0),
+                      leading: Icon(
+                        Icons.add,
+                        color: Theme.of(context).hintColor,
+                      ),
+                      title: Text(
+                        'Information de réception',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context).textTheme.display1,
+                      ),
+                      subtitle: Text(
+                        'Entrez vos informations de réception',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context).textTheme.caption,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: TextField(
+                      autofocus: false,
+                      onChanged: (value) {
+                        this.setState(() {
+                          _addressValue = value;
+                        });
+                      },
+                      keyboardType: TextInputType.streetAddress,
+                      controller: _addressController,
+                      decoration: InputDecoration(
+                        labelText: "Adresse",
+                        errorText: null,
+                        labelStyle:
+                            TextStyle(color: Theme.of(context).accentColor),
+                        contentPadding: EdgeInsets.all(12),
+                        hintText: 'Votre adresse (optionnel)',
+                        hintStyle: TextStyle(
+                            color: Theme.of(context).focusColor.withOpacity(0.7)),
+                        suffixIcon: Icon(Icons.home,
+                            color: Theme.of(context).accentColor),
+                        border: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Theme.of(context)
+                                    .focusColor
+                                    .withOpacity(0.2))),
+                        focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Theme.of(context)
+                                    .focusColor
+                                    .withOpacity(0.5))),
+                        enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Theme.of(context)
+                                    .focusColor
+                                    .withOpacity(0.2))),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: TextField(
+                      autofocus: false,
+
+                      onChanged: (value) {
+                        this.setState(() {
+                          _phoneNumberValue = value;
+                        });
+                      },
+                      keyboardType: TextInputType.phone,
+                      controller: _phoneNumberController,
+                      decoration: InputDecoration(
+                        labelText: "Mobile N° de reception",
+                        errorText: null,
+                        labelStyle:
+                            TextStyle(color: Theme.of(context).accentColor),
+                        contentPadding: EdgeInsets.all(12),
+                        hintText: '0123456789',
+                        hintStyle: TextStyle(
+                            color: Theme.of(context).focusColor.withOpacity(0.7)),
+                        suffixIcon: Icon(Icons.phone,
+                            color: Theme.of(context).accentColor),
+                        border: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Theme.of(context)
+                                    .focusColor
+                                    .withOpacity(0.2))),
+                        focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Theme.of(context)
+                                    .focusColor
+                                    .withOpacity(0.5))),
+                        enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Theme.of(context)
+                                    .focusColor
+                                    .withOpacity(0.2))),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 20, right: 10),
+                    child: ListTile(
+                      contentPadding: EdgeInsets.symmetric(vertical: 0),
+                      leading: Icon(
+                        Icons.money,
+                        color: Theme.of(context).hintColor,
+                      ),
+                      title: Text(
+                        'Payement',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context).textTheme.display1,
+                      ),
+                      subtitle: Text(
+                        'confirmez votre commande après vérification des informations',
+                        maxLines: 3,
+                        overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context).textTheme.caption,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: ListTile(
+                        contentPadding: EdgeInsets.symmetric(vertical: 0),
+                        leading: Icon(
+                          Icons.shopping_cart,
+                          color: Theme.of(context).hintColor,
+                        ),
+                        title: Text(
+                          'Totale de Commande',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: Theme.of(context).textTheme.display1,
+                        ),
+                        trailing: BlocBuilder<CartBloc, CartState>(
+                          builder: (context, state) => Text(
+                            (state is LoadedCartState)
+                                ? state.currentCartPrice.toInt().toString() + "DA"
+                                : "...",
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                            style: Theme.of(context).textTheme.display3,
                           ),
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: BlocBuilder<CartBloc, CartState>(
-                        builder: (context, cartState) => Text(
-                          (cartState is LoadedCartState)
-                              ? getFullPrice(cartState, state)
-                              : "Loading cart",
-                          style: Theme.of(context).textTheme.display1.merge(
-                              TextStyle(color: Theme.of(context).primaryColor)),
+                  ),
+                  Container(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: ListTile(
+                        contentPadding: EdgeInsets.symmetric(vertical: 0),
+                        leading: Icon(
+                          Icons.delivery_dining,
+                          color: Theme.of(context).hintColor,
+                        ),
+                        title: Text(
+                          'Frais de livraison',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: Theme.of(context).textTheme.display1,
+                        ),
+                        trailing: Text(
+                          (state.delivery.delivery_fee).toInt().toString() + "DA",
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                          style: Theme.of(context).textTheme.display2,
                         ),
                       ),
-                    )
-                  ],
-                ),
-                SizedBox(height: 20),
-              ],
-            ));
+                    ),
+                  ),
+                  Container(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: ListTile(
+                        contentPadding: EdgeInsets.symmetric(vertical: 0),
+                        leading: Icon(
+                          Icons.payments_outlined,
+                          color: Theme.of(context).hintColor,
+                        ),
+                        title: Text(
+                          'Remise',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: Theme.of(context).textTheme.display1,
+                        ),
+                        trailing: Text(
+                          "-" +
+                              (state.delivery.discount).toInt().toString() +
+                              "DA",
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                          style: Theme.of(context)
+                              .textTheme
+                              .display3
+                              .copyWith(color: Colors.green),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: ListTile(
+                        contentPadding: EdgeInsets.symmetric(vertical: 0),
+                        leading: Icon(
+                          Icons.account_circle_outlined,
+                          color: Theme.of(context).hintColor,
+                        ),
+                        title: Text(
+                          'Client',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: Theme.of(context).textTheme.display1,
+                        ),
+                        trailing: BlocBuilder<AuthenticationBloc,AuthenticationState>(
+                          builder:(context,state)=> Text(
+                            getUserName(state),
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                            style: Theme.of(context).textTheme.display1,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  Stack(
+                    fit: StackFit.loose,
+                    alignment: AlignmentDirectional.centerEnd,
+                    children: <Widget>[
+                      SizedBox(
+                        width: 320,
+                        child: FlatButton(
+                          onPressed:  () async {
+                            final state = BlocProvider.of<DeliveryCubit>(context)
+                                .state as LoadedDeliveryState;
+                            final date = state.deliveryTime.dateTime;
+
+                            if (date.hour > endhour || date.hour < startHour) {
+                              return Scaffold.of(context).showSnackBar(SnackBar(
+                                  backgroundColor: Theme.of(context).accentColor,
+                                  content: Text(
+                                      "Heure de livraison doit être entre ${startHour.toString()}:00 et ${endhour.toString()}:00")));
+                            }
+                            bool isGuest =  BlocProvider.of<AuthenticationBloc>(context).isGuest();
+                            if(!isGuest){
+                              print("is guest");
+                              final payload = ConfirmDeliveryPayload(
+                                  useGpsPosition: useMyGeoLocalisationPosition,
+                                  contactPhoneNumber: _phoneNumberValue,
+                                  address: _addressValue,
+                                  deliveryComment: _commentaireLivraison);
+                              BlocProvider.of<DeliveryCubit>(context)
+                                  .confirmDelivery(payload: payload);
+                            }
+                            else
+                              {
+                                loginUser(context);
+
+                              }
+
+                          },
+                          padding: EdgeInsets.symmetric(vertical: 14),
+                          color: Theme.of(context).accentColor,
+                          shape: StadiumBorder(),
+                          child: Container(
+                            width: double.infinity,
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            child: Text(
+                              'Confirmer',
+                              textAlign: TextAlign.start,
+                              style: TextStyle(
+                                  color: Theme.of(context).primaryColor),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: BlocBuilder<CartBloc, CartState>(
+                          builder: (context, cartState) => Text(
+                            (cartState is LoadedCartState)
+                                ? getFullPrice(cartState, state)
+                                : "Loading cart",
+                            style: Theme.of(context).textTheme.display1.merge(
+                                TextStyle(color: Theme.of(context).primaryColor)),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                  SizedBox(height: 20),
+                ],
+              )),
+        );
       }
       return Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -770,13 +788,11 @@ class _CheckoutWidgetState extends State<CheckoutWidget> {
   }
 
   Future<void> loginUser(BuildContext context) async {
-      await Navigator.of(context).push( MaterialPageRoute(builder: (_)=>LoginFromGuestWidget(
+      return await Navigator.of(context).push( MaterialPageRoute(builder: (_)=>LoginFromGuestWidget(
       onLogin: (context,result){
-        print("user logged in");
         Navigator.pop(context,result);
       },
       onCancel: (context,result){
-        print("cancel loggin");
         Navigator.pop(context,result);
       },
     )));

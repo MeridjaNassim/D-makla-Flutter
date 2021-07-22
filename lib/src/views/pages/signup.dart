@@ -99,7 +99,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                         );
                       }
                       return Positioned(
-                          top: config.App(context).appHeight(29.5) - 80,
+                          top: config.App(context).appHeight(5),
                           child: SignUpForm());
                     },
                   ),

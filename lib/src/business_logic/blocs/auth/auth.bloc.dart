@@ -35,7 +35,7 @@ class AuthenticationBloc
     yield AuthenticationLoading();
     try {
       User currentUser = await _authenticationService.getCurrentUser();
-
+      print(currentUser);
       ////print(currentUser);
       if (currentUser != null) {
         if(currentUser.fullName.startsWith(defaultGuestPrefix)){

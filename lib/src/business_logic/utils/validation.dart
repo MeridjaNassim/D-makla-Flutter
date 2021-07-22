@@ -56,10 +56,23 @@ SignUpWithPhoneNumberValidation validateSignupWithPhone({String phoneNumber,Stri
   String phoneNumberError;
   String passwordError;
   String fullNameError;
-  if (phoneNumber.isEmpty) phoneNumberError = 'phone number must not be empty';
+  if (phoneNumber.isEmpty)
+    phoneNumberError = 'phone number must not be empty';
+  else {
+    bool valideAlgerianMobile = validateMobile(phoneNumber);
+    if(!valideAlgerianMobile)
+      phoneNumberError = 'phone number must be Algerian(+213)';
+  }
   if (password.isEmpty) passwordError = 'password must not be empty';
   if (fullName.isEmpty) fullNameError = 'full name must not be empty';
 
   return SignUpWithPhoneNumberValidation(
       phoneNumberError: phoneNumberError, passwordError: passwordError,fullNameError: fullNameError);
+}
+
+bool validateMobile(String value) {
+  String pattern = r'^(?:[+0]213)?[0-9]{8,12}$';
+  RegExp regExp = new RegExp(pattern);
+
+  return regExp.hasMatch(value);
 }

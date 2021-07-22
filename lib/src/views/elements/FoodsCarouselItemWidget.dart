@@ -59,7 +59,7 @@ class FoodsCarouselItemWidget extends StatelessWidget {
                     borderRadius: BorderRadius.all(Radius.circular(100)), color: Theme.of(context).accentColor),
                 alignment: AlignmentDirectional.topEnd,
                 child: Text(
-                  menu.pricings.getPriceOfVariant(menu.variants.getVariantByIndex(0)).toString()+ "DA",
+                  menu.pricings.getPriceOfVariant(menu.variants.getVariantByIndex(0)).toInt().toString()+ "DA",
                   style: Theme.of(context).textTheme.body2.merge(TextStyle(color: Theme.of(context).primaryColor)),
                 ),
               ),

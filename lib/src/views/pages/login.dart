@@ -192,12 +192,16 @@ class _LoginFormState extends State<LoginForm> {
                 Navigator.of(context).pushNamed('/SignUp');
               },
               textColor: Theme.of(context).hintColor,
-              child: Text('Vous n\'avez pas encore un compte?'),
+              child: Text('Vous n\'avez pas encore un compte? s\'inscrire.',textAlign: TextAlign.center,),
             ),
             FlatButton(
               onPressed: _dispatchLoginAsGuest,
               textColor: Theme.of(context).accentColor,
-              child: Text('Où connecter vous comme invité'),
+              child: Row( children: [
+                Icon(Icons.account_circle_outlined,size: 20,color: Theme.of(context).accentColor,),
+                SizedBox(width: 10),
+                Text('Ou connecter vous comme invité')
+              ],),
             ),
           ],
         ),
@@ -308,7 +312,7 @@ class LoginWidget extends StatelessWidget {
                       );
                     }
                     return Positioned(
-                        top: config.App(context).appHeight(37) - 50,
+                        top: config.App(context).appHeight(20),
                         child: LoginForm());
                   }),
                 ],
@@ -407,7 +411,7 @@ class LoginFromGuestWidget extends StatelessWidget {
                       );
                     }
                     return Positioned(
-                        top: config.App(context).appHeight(37) - 50,
+                        top: config.App(context).appHeight(20),
                         child: LoginFormModal(onCancel: (){
                           this.onCancel(context,null);
                         },));
@@ -651,14 +655,14 @@ class _LoginFormModalState extends State<LoginFormModal> {
                   textColor: Theme
                       .of(context)
                       .hintColor,
-                  child: Text('Vous n\'avez pas encore un compte?'),
+                  child: Text('Vous n\'avez pas encore un compte? S\'inscrire',textAlign: TextAlign.center,),
                 ),
                 FlatButton(
                   onPressed: _cancel,
                   textColor: Theme
                       .of(context)
                       .accentColor,
-                  child: Text('Cancel'),
+                  child: Text('Annuler'),
                 ),
               ],
             ),

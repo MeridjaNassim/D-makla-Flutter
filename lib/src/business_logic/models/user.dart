@@ -79,7 +79,7 @@ class GuestUser extends User {
     return GuestUser(shortid.generate(), defaultGuestPrefix, defaultWilaya);
   }
   factory GuestUser.fromUser(User user) {
-    return GuestUser(user.id, user.fullName, user.wilaya.code);
+    return GuestUser(user.id, defaultGuestPrefix, user.wilaya.code);
   }
 
   GuestUser(String id, String namePrefix, String wilayaCode)

@@ -615,7 +615,7 @@ class OrderWidget extends StatelessWidget {
                                 width: 5,
                               ),
                               Text(
-                                order.getUnitPrice().toString() + " DA",
+                                order.getUnitPrice().toInt().toString() + " DA",
                                 style: Theme.of(context)
                                     .textTheme
                                     .subhead
@@ -631,7 +631,7 @@ class OrderWidget extends StatelessWidget {
                                 style: Theme.of(context).textTheme.body2,
                               ),
                               Text(
-                                order.getFullPrice().toString() + " DA",
+                                order.getFullPrice().toInt().toString() + " DA",
                                 overflow: TextOverflow.ellipsis,
                                 style: Theme.of(context)
                                     .textTheme
