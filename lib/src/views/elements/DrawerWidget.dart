@@ -157,7 +157,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                   applicationVersion: "0.9.0 - beta",
                   applicationName: "D-makla",
                   applicationLegalese:
-                      "Service de livraison de nourritures par Sirius Net, contactez le développeur a : ha_meridja@esi.dz",
+                      "Service de livraison de nourritures par Sirius Net, contactez le développeur a : amine.fe@gmail.com",
                   applicationIcon: Container(
                     height: 100,
                     width: 100,

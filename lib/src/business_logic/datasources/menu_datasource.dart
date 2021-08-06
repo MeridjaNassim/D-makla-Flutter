@@ -62,8 +62,8 @@ class RemoteMenuDataSourceImpl extends MenuDataSource {
 
   @override
   Future<List<Menu>> getAllMenusOfCategoryOfRestaurant(
-      String restaurant_id, String category_id) async {
-    final formData = {"rest_id": restaurant_id, "category_id": category_id};
+      String restaurantId, String categoryId) async {
+    final formData = {"rest_id": restaurantId, "category_id": categoryId};
     final response =
         await http.post(this.all_menus_restaurant_endpoint, body: formData);
     if (response.body.isNotEmpty) {
