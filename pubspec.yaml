@@ -11,7 +11,7 @@ description: Flutter application version of D-makla
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 1.0.0+1
+version: 1.0.0+2
 
 environment:
   sdk: ">=2.1.0 <3.0.0"
@@ -47,6 +47,8 @@ dependencies:
   optimized_cached_image: ^1.0.0
   #env 
   flutter_dotenv: ^2.1.0
+  #utils
+  shortid: ^0.1.1
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -65,31 +67,9 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - .api_endpoints
-    - img/food1.jpg
     - img/food2.jpg
     - img/food3.jpg
-    - img/food4.jpg
     - img/food5.jpg
-    - img/food0.jpg
-    - img/user1.jpg
-    - img/user2.jpg
-    - img/user3.jpg
-    - img/user0.jpg
-    - img/visa.png
-    - img/paypal.png
-    - img/apple_pay.png
-    - img/brazil.png
-    - img/canada.png
-    - img/china.png
-    - img/france.png
-    - img/germany.png
-    - img/italy.png
-    - img/netherlands.png
-    - img/spain.png
-    - img/united-arab-emirates.png
-    - img/united-states-of-america.png
-    - img/marker.png
-    - img/placeholder_food.png
     - img/dmakla-logo.png
 
   # An image asset can refer to one or more resolution-specific "variants", see

@@ -46,7 +46,7 @@ class OrdersCubit extends Cubit<OrdersState> {
         super(InitialOrdersState());
 
   Future<void> loadOrders() async {
-    print("loading orders");
+    //print("loading orders");
     emit(LoadingOrdersState());
     AuthenticationAuthenticated authState;
 
@@ -63,10 +63,10 @@ class OrdersCubit extends Cubit<OrdersState> {
     /// perform the loading of the state.
     try {
       List<ConfirmedOrder> orders = await _loadOrders(authState.user);
-      print(orders);
+      //print(orders);
       emit(LoadedOrdersState(orders));
     } catch (e) {
-      print(e);
+      //print(e);
       emit(ErrorOrdersState(e.message.toString()));
     }
   }

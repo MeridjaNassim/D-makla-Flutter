@@ -140,7 +140,7 @@ class OrderItemWidget extends StatelessWidget {
                   ],
                 ),
                 trailing: Text(
-                  menuData.price.toString()+"DA",
+                  menuData.price.toInt().toString()+"DA",
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
                   style: Theme.of(context).textTheme.display2,
@@ -208,7 +208,7 @@ class OrderItemWidget extends StatelessWidget {
                 style: Theme.of(context).textTheme.display1,
               ),
               trailing:  Text(
-                order.orderPrice.toString()+"DA",
+                order.orderPrice.toInt().toString()+"DA",
                 overflow: TextOverflow.ellipsis,
                 style: Theme.of(context).textTheme.display1.copyWith(color: Theme.of(context).accentColor),
               ),
@@ -222,7 +222,7 @@ class OrderItemWidget extends StatelessWidget {
                 style: Theme.of(context).textTheme.display1,
               ),
               trailing:  Text(
-                order.deliveryPrice.toString()+"DA",
+                order.deliveryPrice.toInt().toString()+"DA",
                 overflow: TextOverflow.ellipsis,
                 style: Theme.of(context).textTheme.display1,
               ),
@@ -236,7 +236,7 @@ class OrderItemWidget extends StatelessWidget {
                 style: Theme.of(context).textTheme.display1,
               ),
               trailing:  Text(
-                "-"+(order.discount ?? 0).toString()+"DA",
+                "-"+(order.discount ?? 0.0).toInt().toString()+"DA",
                 overflow: TextOverflow.ellipsis,
                 style: Theme.of(context).textTheme.subhead.copyWith(color : Colors.green),
               ),
@@ -250,7 +250,7 @@ class OrderItemWidget extends StatelessWidget {
                 style: Theme.of(context).textTheme.display2,
               ),
               trailing:  Text(
-                order.totalPrice.toString()+"DA",
+                order.totalPrice.toInt().toString()+"DA",
                 overflow: TextOverflow.ellipsis,
                 style: Theme.of(context).textTheme.display3,
               ),

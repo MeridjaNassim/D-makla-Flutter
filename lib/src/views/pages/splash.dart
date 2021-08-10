@@ -24,7 +24,7 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   Future<void> start() async {
-    print("starting app");
+    //print("starting app");
     bool canUse = await tryUseApplication();
     if (!canUse) {
       _showNoInternetDialog();
@@ -55,12 +55,12 @@ class _SplashScreenState extends State<SplashScreen> {
     return BlocConsumer<AuthenticationBloc, AuthenticationState>(
       listener: (context, state) {
         if (state is AuthenticationAuthenticated) {
-          print("auth from splash");
+          //print("auth from splash");
           return Navigator.of(context)
               .pushReplacementNamed("/Pages", arguments: 2);
         }
         if (state is AuthenticationNotAuthenticated) {
-          print("no auth splash go to login");
+          //print("no auth splash go to login");
           return Navigator.of(context).pushReplacementNamed("/Login");
         }
       },

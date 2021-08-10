@@ -4,6 +4,11 @@ abstract class LoginEvent extends Equatable{
 
 }
 
+class LoginAsGuestEvent extends LoginEvent{
+  @override
+  List<Object> get props => null;
+
+}
 class StartLoginEvent extends LoginEvent{
   final String phoneNumber;
   final String password;

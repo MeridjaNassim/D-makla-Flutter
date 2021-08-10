@@ -31,8 +31,7 @@ class _PagesTestWidgetState extends State<PagesTestWidget> {
 
   initState() {
     super.initState();
-    final tabIndex =
-        BlocProvider.of<TabNavigationCubit>(context).state.tabIndex;
+    final tabIndex = HOME_TAB_INDEX;
     _selectTab(tabIndex);
     currentTitle = "Accueil";
     currentPage = HomeWidget();
@@ -83,6 +82,7 @@ class _PagesTestWidgetState extends State<PagesTestWidget> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
+        iconTheme: IconThemeData(color: Theme.of(context).accentColor),
         centerTitle: true,
         title: Text(
           this.currentTitle,

@@ -54,7 +54,7 @@ class _DetailsWidgetState extends State<DetailsWidget> {
                   expandedHeight: 300,
                   elevation: 0,
                   iconTheme:
-                      IconThemeData(color: Theme.of(context).primaryColor),
+                      IconThemeData(color: Theme.of(context).accentColor),
                   flexibleSpace: FlexibleSpaceBar(
                     collapseMode: CollapseMode.parallax,
                     background: BlocBuilder<RestaurantCubit, RestaurantState>(

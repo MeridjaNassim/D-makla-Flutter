@@ -119,13 +119,13 @@ class _DmaklaAppState extends State<DmaklaApp> {
     listener = DataConnectionChecker().onStatusChange.listen((status) async {
       switch (status) {
         case DataConnectionStatus.connected:
-          print("connected");
+          ////print("connected");
           setState(() {
             isConnected = true;
           });
           break;
         case DataConnectionStatus.disconnected:
-          print("disconnected");
+          ////print("disconnected");
           setState(() {
             isConnected = false;
           });

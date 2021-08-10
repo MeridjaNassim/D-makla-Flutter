@@ -1,3 +1,4 @@
+import 'package:dmakla/src/views/pages/privacy.dart';
 import 'package:flutter/material.dart';
 import 'package:dmakla/src/models/route_argument.dart';
 import 'package:dmakla/src/views/pages/cart.dart';
@@ -39,6 +40,9 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => CartWidget());
       case '/Checkout':
         return MaterialPageRoute(builder: (_) => CheckoutWidget());
+      case '/Privacy':
+        return MaterialPageRoute(
+            builder: (_) => ConfidentialityPage(arguments: args));
       case '/Delivery':
         return MaterialPageRoute(
             builder: (_) => DeliveryScreen(

@@ -110,7 +110,7 @@ class OrdersWidget extends StatelessWidget {
   }
 
   Future<void> _refreshOrders(BuildContext context) {
-    print("refreshing orders");
+    //print("refreshing orders");
     return BlocProvider.of<OrdersCubit>(context).loadOrders();
   }
 }

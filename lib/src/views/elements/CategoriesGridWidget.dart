@@ -26,12 +26,11 @@ class CategoriesGridWidget extends StatelessWidget {
       return LoadingIndicator(loadingText: "loading categories");
     }
     if (state is StoreLoadedState) {
-      final categories= state.store.categories;
+      final categories = state.store.categories;
       return GridView.builder(
         physics: ScrollPhysics(),
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2
-        ),
+        gridDelegate:
+            SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
         itemCount: categories.length,
         shrinkWrap: true,
         itemBuilder: (context, index) {
@@ -58,9 +57,9 @@ class CategoriesGridWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<StoreCubit, StoreState>(
         listener: (context, state) {
-          print(state);
+          //print(state);
           if (state is StoreLoadedState) {
-            print(state.store.categories);
+            //print(state.store.categories);
           }
         },
         builder: (context, state) => Container(

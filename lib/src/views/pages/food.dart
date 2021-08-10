@@ -157,10 +157,10 @@ class _FoodWidgetState extends State<FoodWidget> {
             itemBuilder: (context, index) {
               final topping = toppings.getToppingByIndex(index);
               final isSelected = state.selectedToppings.contains(topping);
-              print("is selected " +
-                  topping.toString() +
-                  ": " +
-                  isSelected.toString());
+              //print("is selected " +
+              // topping.toString() +
+              // ": " +
+              // isSelected.toString());
               return ExtraItemWidget(
                 topping: topping,
                 isSelected: isSelected,
@@ -615,7 +615,7 @@ class OrderWidget extends StatelessWidget {
                                 width: 5,
                               ),
                               Text(
-                                order.getUnitPrice().toString() + " DA",
+                                order.getUnitPrice().toInt().toString() + " DA",
                                 style: Theme.of(context)
                                     .textTheme
                                     .subhead
@@ -631,7 +631,7 @@ class OrderWidget extends StatelessWidget {
                                 style: Theme.of(context).textTheme.body2,
                               ),
                               Text(
-                                order.getFullPrice().toString() + " DA",
+                                order.getFullPrice().toInt().toString() + " DA",
                                 overflow: TextOverflow.ellipsis,
                                 style: Theme.of(context)
                                     .textTheme

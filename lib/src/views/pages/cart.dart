@@ -114,7 +114,7 @@ class _CartWidgetState extends State<CartWidget> {
                   Scaffold.of(context).showSnackBar(SnackBar(
                       backgroundColor: Theme.of(context).accentColor,
                       content: Text(
-                          "Order ${order.menu.name + " " + order.variant.name} deleted",
+                          "Order ${order.menu.name + " " + order.variant.name} supprimé",
                           textAlign: TextAlign.start,
                           style: TextStyle(
                               color: Theme.of(context).primaryColor))));
@@ -131,10 +131,10 @@ class _CartWidgetState extends State<CartWidget> {
   Widget _buildCartScreen() {
     return BlocConsumer<CartBloc, CartState>(
       listener: (context, state) {
-        print(state.name);
+        //print(state.name);
         if (state is LoadedCartState) {
-          print(state.cart);
-          print("price : " + state.currentCartPrice.toString());
+          //print(state.cart);
+          //print("price : " + state.currentCartPrice.toString());
         }
       },
       builder: (context, state) {

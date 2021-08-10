@@ -107,7 +107,7 @@ class DeliveryCubit extends Cubit<DeliveryState> {
     final authState = _authenticationBloc.state as AuthenticationAuthenticated;
     final cartState = _cartBloc.state as LoadedCartState;
     final userWilaya = authState.user.wilaya;
-    print(userWilaya);
+    //print(userWilaya);
     final communesData =
         await _deliveryRepository.getDeliveryLocationDataOfWilaya(userWilaya) ??
             [];
@@ -116,7 +116,7 @@ class DeliveryCubit extends Cubit<DeliveryState> {
     if (communes.isNotEmpty) {
       final firstCommune = communes.first;
       final zones = firstCommune.zones;
-      print(zones);
+      //print(zones);
       final firstZone = zones.first;
       final deliveryTime = DeliveryTime.getNextClosestDeliveryTime();
       final price = await _deliveryRepository.getDeliveryPrice(
@@ -135,7 +135,7 @@ class DeliveryCubit extends Cubit<DeliveryState> {
 
   void setSelectedCommune(Commune commune) async {
     final state = this.state as LoadedDeliveryState;
-    print(commune);
+    //print(commune);
     final firstZone = commune.zones[0];
     final authState = _authenticationBloc.state as AuthenticationAuthenticated;
     final cartState = _cartBloc.state as LoadedCartState;
@@ -153,7 +153,7 @@ class DeliveryCubit extends Cubit<DeliveryState> {
 
   void setDeliveryZone(DeliveryZone zone) async {
     final state = this.state as LoadedDeliveryState;
-    print(zone);
+    //print(zone);
     final authState = _authenticationBloc.state as AuthenticationAuthenticated;
     final cartState = _cartBloc.state as LoadedCartState;
     final delivery = await _deliveryRepository.getDeliveryPrice(
@@ -172,7 +172,7 @@ class DeliveryCubit extends Cubit<DeliveryState> {
     final state = this.state as LoadedDeliveryState;
     final authState = _authenticationBloc.state as AuthenticationAuthenticated;
     final cartState = _cartBloc.state as LoadedCartState;
-    print(time);
+    //print(time);
     final delivery = await _deliveryRepository.getDeliveryPrice(
         DeliveryLocation(
             wilaya: authState.user.wilaya, zone: state.selectedZone),
@@ -191,7 +191,7 @@ class DeliveryCubit extends Cubit<DeliveryState> {
     if (payload.useGpsPosition) {
       try {
         position = await geoLocalisationService.getCurrentPosition();
-        print("position:" + position.toString());
+        //print("position:" + position.toString());
       } catch (e) {
         emit(RejectedDeliveryState(
             "Permission de localisation désactivé, veuillez la réactiver"));
@@ -200,7 +200,7 @@ class DeliveryCubit extends Cubit<DeliveryState> {
     }
     final authState = _authenticationBloc.state;
     if (authState is AuthenticationAuthenticated) {
-      print("confirming delivery");
+      //print("confirming delivery");
 
       final cart = (this._cartBloc.state as LoadedCartState).cart;
       final state = this.state as LoadedDeliveryState;
@@ -214,9 +214,9 @@ class DeliveryCubit extends Cubit<DeliveryState> {
             additionalInfo: AdditionalDataPayload.fromConfirmDeliveryPayload(
                 payload: payload, position: position));
         emit(ApprovedDeliveryState(confirmation));
-        print("hello");
+        //print("hello");
       } catch (e) {
-        print(e);
+        //print(e);
         emit(RejectedDeliveryState(e));
       }
     }

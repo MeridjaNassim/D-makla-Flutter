@@ -29,7 +29,7 @@ class _ExtraItemWidgetState extends State<ExtraItemWidget>
 
   @override
   void initState() {
-    print("hello init state");
+    //print("hello init state");
     super.initState();
     checked = widget.isSelected;
     animationController =
@@ -74,7 +74,7 @@ class _ExtraItemWidgetState extends State<ExtraItemWidget>
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        print('Extra added: ' + widget.topping.toString());
+        //print('Extra added: ' + widget.topping.toString());
         BlocProvider.of<OrderCubit>(context).toggleTopping(widget.topping);
         if (checked) {
           animationController.reverse();

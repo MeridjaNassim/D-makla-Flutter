@@ -43,11 +43,11 @@ class MockOrderRepository extends OrderRepository {
   Future<OrderConfirmation> createNewOrder(
       User user, Cart cart, DeliveryLocation location, DeliveryTime time,
       {AdditionalDataPayload additionalInfo}) async {
-    print("Ordering ... ");
-    print("User : " + user.toString());
-    print("Cart : " + cart.toString());
-    print("Location : " + location.toString());
-    print("Time : " + time.toString());
+    //print("Ordering ... ");
+    //print("User : " + user.toString());
+    //print("Cart : " + cart.toString());
+    //print("Location : " + location.toString());
+    //print("Time : " + time.toString());
     return null;
   }
 

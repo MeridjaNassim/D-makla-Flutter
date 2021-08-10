@@ -37,20 +37,20 @@ class DeliveryRepositoryImpl extends DeliveryRepository {
       DeliveryLocation location, DeliveryTime time, Cart cart) async {
     List<MenuPriceParam> menus = cart.orderList
         .items()
-        .map<MenuPriceParam>(
-            (order) => MenuPriceParam.fromOrder(order))
+        .map<MenuPriceParam>((order) => MenuPriceParam.fromOrder(order))
         .toList();
     try {
-      final data = await  this.remoteDeliveryDataSource.getDeliveryPrice(DeliveryPriceParams(
-          zoneId: location.zone.id, timestamps: time.dateTime, menus: menus));
+      final data = await this.remoteDeliveryDataSource.getDeliveryPrice(
+          DeliveryPriceParams(
+              zoneId: location.zone.id,
+              timestamps: time.dateTime,
+              menus: menus));
       return data;
+    } catch (e) {
+      //print("exception ");
+      //print(e);
+      return DeliveryDataResult(delivery_fee: -1, order_fee: -1, discount: -1);
     }
-    catch (e) {
-      print("exception ");
-      print(e);
-       return DeliveryDataResult(delivery_fee: -1,order_fee: -1,discount: -1);
-    }
-
   }
 
   @override
